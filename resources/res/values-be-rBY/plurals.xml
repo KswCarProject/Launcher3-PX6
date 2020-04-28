@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="badged_app_label">
+        <item quantity="one">%1$s: ёсць %2$d апавяшчэнне</item>
+        <item quantity="few">%1$s: ёсць %2$d апавяшчэнні</item>
+        <item quantity="many">%1$s: ёсць %2$d апавяшчэнняў</item>
+        <item quantity="other">%1$s: ёсць %2$d апавяшчэння</item>
+    </plurals>
+</resources>

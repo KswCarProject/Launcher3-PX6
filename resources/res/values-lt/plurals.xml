@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="badged_app_label">
+        <item quantity="one">„%1$s“, yra %2$d pranešimas</item>
+        <item quantity="few">„%1$s“, yra %2$d pranešimai</item>
+        <item quantity="many">„%1$s“, yra %2$d pranešimo</item>
+        <item quantity="other">„%1$s“, yra %2$d pranešimų</item>
+    </plurals>
+</resources>

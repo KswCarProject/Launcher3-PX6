@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/MRlIconFocusBk" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:id="@+id/MRlIcon" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerHorizontal="true">
+        <ImageView android:id="@+id/MIvIcon" android:layout_width="@dimen/all_apps_item_width" android:layout_height="@dimen/all_apps_item_height" android:layout_marginTop="30dp" android:scaleType="fitXY" android:layout_centerHorizontal="true"/>
+        <ImageView android:id="@+id/MIvTopIcon" android:layout_width="@dimen/all_apps_item_width" android:layout_height="@dimen/all_apps_item_height" android:layout_marginTop="30dp" android:scaleType="fitXY" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <TextView android:textSize="@dimen/all_apps_item_text_size" android:textColor="#fff" android:gravity="center_horizontal" android:id="@+id/MTvName" android:padding="3dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/all_apps_item_text_margin_top" android:maxLines="2" android:layout_centerHorizontal="true"/>
+</RelativeLayout>

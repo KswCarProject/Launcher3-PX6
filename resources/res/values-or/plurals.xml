@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="badged_app_label">
+        <item quantity="one">%1$s, ରେ %2$d ବିଜ୍ଞପ୍ତି ଅଛି</item>
+        <item quantity="other">%1$s, ରେ %2$d ବିଜ୍ଞପ୍ତିଗୁଡ଼ିକ ଅଛି</item>
+    </plurals>
+</resources>

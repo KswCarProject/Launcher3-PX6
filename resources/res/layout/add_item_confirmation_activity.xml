@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ScrollView android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:paddingLeft="24dp" android:paddingTop="4dp" android:paddingRight="24dp" android:paddingBottom="20dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/add_item_request_drag_hint"/>
+            <FrameLayout android:theme="@style/WidgetContainerTheme" android:background="?android:attr/colorPrimaryDark" android:layout_width="match_parent" android:layout_height="wrap_content">
+                <com.android.launcher3.dragndrop.LivePreviewWidgetCell android:gravity="center_horizontal" android:layout_gravity="center_horizontal" android:orientation="vertical" android:id="@+id/widget_cell" android:background="?android:attr/colorPrimaryDark" android:focusable="true" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1">
+                    <include layout="@layout/widget_cell_content"/>
+                </com.android.launcher3.dragndrop.LivePreviewWidgetCell>
+            </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout android:gravity="end" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="12dp" android:paddingEnd="12dp" style="?android:attr/buttonBarStyle">
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@android:string/cancel" android:onClick="onCancelClick" style="?android:attr/buttonBarButtonStyle"/>
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/place_automatically" android:onClick="onPlaceAutomaticallyClick" style="?android:attr/buttonBarButtonStyle"/>
+    </LinearLayout>
+</LinearLayout>

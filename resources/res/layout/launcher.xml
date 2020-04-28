@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.launcher3.LauncherRootView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/launcher" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent">
+    <fragment android:name="com.android.launcher3.fragment.MainFragment" android:id="@+id/MainFragment" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="0px"/>
+    <FrameLayout android:id="@+id/AppsFrameLayout" android:layout_width="match_parent" android:layout_height="match_parent"/>
+    <com.android.launcher3.dragndrop.DragLayer android:id="@+id/drag_layer" android:visibility="gone" android:clipChildren="false" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent" android:importantForAccessibility="no">
+        <com.android.launcher3.Workspace android:theme="@style/HomeScreenElementTheme" android:layout_gravity="center" android:id="@+id/workspace" android:layout_width="match_parent" android:layout_height="match_parent" app:pageIndicator="@+id/page_indicator"/>
+        <include android:id="@+id/overview_panel" android:visibility="gone" layout="@layout/overview_panel"/>
+        <com.android.launcher3.pageindicators.WorkspacePageIndicator android:theme="@style/HomeScreenElementTheme" android:layout_gravity="bottom|center_vertical|center_horizontal|center" android:id="@+id/page_indicator" android:layout_width="match_parent" android:layout_height="@dimen/vertical_drag_handle_size"/>
+        <include android:id="@+id/drop_target_bar" layout="@layout/drop_target_bar"/>
+        <include android:id="@+id/scrim_view" layout="@layout/scrim_view"/>
+        <include android:id="@+id/apps_view" android:visibility="invisible" android:layout_width="match_parent" android:layout_height="match_parent" layout="@layout/all_apps"/>
+        <include android:id="@+id/hotseat" android:layout_width="match_parent" android:layout_height="match_parent" layout="@layout/hotseat"/>
+    </com.android.launcher3.dragndrop.DragLayer>
+</com.android.launcher3.LauncherRootView>

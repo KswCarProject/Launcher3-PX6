@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/widgets_scroll_container" android:background="?android:attr/colorPrimaryDark" android:scrollbars="none" android:layout_width="match_parent" android:layout_height="wrap_content">
+    <LinearLayout android:orientation="horizontal" android:id="@+id/widgets_cell_list" android:layout_width="wrap_content" android:layout_height="wrap_content" android:showDividers="none" android:paddingStart="0dp" android:paddingEnd="0dp"/>
+</HorizontalScrollView>

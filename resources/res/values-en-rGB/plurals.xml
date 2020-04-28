@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="badged_app_label">
+        <item quantity="one">%1$s, has %2$d notification</item>
+        <item quantity="other">%1$s, has %2$d notifications</item>
+    </plurals>
+</resources>

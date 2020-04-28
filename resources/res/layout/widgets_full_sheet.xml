@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.launcher3.widget.WidgetsFullSheet xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:theme="?attr/widgetsTheme" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.android.launcher3.views.TopRoundedCornerView android:id="@+id/container" android:background="?android:attr/colorPrimary" android:layout_width="match_parent" android:layout_height="match_parent" android:elevation="4dp">
+        <com.android.launcher3.widget.WidgetsRecyclerView android:id="@+id/widgets_list_view" android:clipToPadding="false" android:layout_width="match_parent" android:layout_height="match_parent"/>
+        <TextView android:id="@+id/fast_scroller_popup" android:layout_alignParentTop="true" android:layout_marginEnd="@dimen/fastscroll_popup_margin" android:layout_alignParentEnd="true" style="@style/FastScrollerPopup"/>
+        <com.android.launcher3.views.RecyclerViewFastScroller android:id="@+id/fast_scroller" android:layout_width="@dimen/fastscroll_width" android:layout_height="match_parent" android:layout_alignParentTop="true" android:layout_marginEnd="@dimen/fastscroll_end_margin" android:layout_alignParentEnd="true"/>
+    </com.android.launcher3.views.TopRoundedCornerView>
+</com.android.launcher3.widget.WidgetsFullSheet>

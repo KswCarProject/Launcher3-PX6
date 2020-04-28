@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.Theme.AppCompat">
+    </style>
+    <style name="Base.Theme.AppCompat.Light">
+    </style>
+    <style name="Base.V26.Theme.AppCompat">
+        <item name="colorError">?unknown_attr_ref: 1010543</item>
+    </style>
+    <style name="Base.V26.Theme.AppCompat.Light">
+        <item name="colorError">?unknown_attr_ref: 1010543</item>
+    </style>
+    <style name="Base.V26.Widget.AppCompat.Toolbar">
+        <item name="android:touchscreenBlocksFocus">true</item>
+        <item name="?0x1010540">true</item>
+    </style>
+    <style name="Base.Widget.AppCompat.Toolbar">
+    </style>
+    <style name="BaseIcon">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_gravity">left|center_horizontal|clip_horizontal</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:shadowRadius">@null</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="?0x1010562">false</item>
+    </style>
+    <style name="WidgetContainerTheme">
+        <item name="android:colorEdgeEffect">?android:attr/textColorSecondary</item>
+    </style>
+    <style name="WidgetContainerTheme.Dark">
+        <item name="android:colorPrimaryDark">#616161</item>
+        <item name="android:colorEdgeEffect">?android:attr/textColorSecondary</item>
+    </style>
+</resources>

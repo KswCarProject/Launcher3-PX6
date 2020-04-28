@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:background="@drawable/kesaiwei_1024x600_audi_back" android:layout_width="1024px" android:layout_height="600px" android:layout_marginLeft="0px" android:layout_marginTop="0px"/>
+    <FrameLayout android:layout_width="990px" android:layout_height="600px">
+        <ImageView android:background="@drawable/kesaiwei_1024x600_audio_3d_yuanpan" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="-40px" android:scaleY="1"/>
+        <ImageView android:id="@+id/iv_guang" android:background="@drawable/kesaiwei_1280x480_audio_3d_guang_aux" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="85px" android:layout_marginTop="135px" android:scaleX="1.8" android:scaleY="1.5"/>
+        <com.android.launcher3.views.LoopRotarySwitchView android:gravity="center" android:id="@+id/MLoopRotarySwitchView" android:layout_width="990px" android:layout_height="600px" android:layout_marginLeft="-20px" android:layout_marginTop="-20px" app:direction_lrsv="1" app:orientation="vertical">
+            <RelativeLayout android:id="@+id/rl_BtMusic" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/iv_BtMusic" android:background="@drawable/kesaiwei_1280x480_audio_3d_btmusic_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView android:textSize="32sp" android:textColor="#fff" android:id="@+id/tv_BtMusic" android:paddingLeft="6px" android:paddingTop="3px" android:paddingRight="6px" android:paddingBottom="3px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="-20px" android:layout_marginTop="18px" android:text="@string/lb_btmusic" android:layout_toRightOf="@+id/iv_BtMusic"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/rl_navi" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/iv_daohang" android:background="@drawable/kesaiwei_1280x480_audio_3d_daohang_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView android:textSize="32sp" android:textColor="#fff" android:id="@+id/tv_daohang" android:paddingLeft="6px" android:paddingTop="3px" android:paddingRight="6px" android:paddingBottom="3px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18px" android:text="@string/lb_navi_q5_ksw" android:layout_toRightOf="@+id/iv_daohang"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/rl_bt" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/iv_lanya" android:background="@drawable/kesaiwei_1280x480_audio_3d_lanya_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView android:textSize="32sp" android:textColor="#fff" android:id="@+id/tv_lanya" android:paddingLeft="6px" android:paddingTop="3px" android:paddingRight="6px" android:paddingBottom="3px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="-20px" android:layout_marginTop="18px" android:text="@string/lb_bt_q5_ksw" android:layout_toRightOf="@+id/iv_lanya"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/rl_dvr" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/iv_luluyi" android:background="@drawable/kesaiwei_1280x480_audio_3d_luluyi_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView android:textSize="32sp" android:textColor="#fff" android:id="@+id/tv_luluyi" android:paddingLeft="6px" android:paddingTop="3px" android:paddingRight="6px" android:paddingBottom="3px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18px" android:text="DVR" android:layout_toRightOf="@+id/iv_luluyi"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/rl_settings" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/iv_shezhi" android:background="@drawable/kesaiwei_1280x480_audio_3d_shezhi_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView android:textSize="32sp" android:textColor="#fff" android:id="@+id/tv_shezhi" android:paddingLeft="6px" android:paddingTop="3px" android:paddingRight="6px" android:paddingBottom="3px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="-10px" android:layout_marginTop="18px" android:text="@string/lb_settings" android:layout_toRightOf="@+id/iv_shezhi"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/rl_video" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/iv_shipin" android:background="@drawable/kesaiwei_1280x480_audio_3d_shipin_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView android:textSize="32sp" android:textColor="#fff" android:id="@+id/tv_shipin" android:paddingLeft="6px" android:paddingTop="3px" android:paddingRight="6px" android:paddingBottom="3px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="-10px" android:layout_marginTop="18px" android:text="@string/lb_video" android:layout_toRightOf="@+id/iv_shipin"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/rl_shoujihulian" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/iv_shoujihulian" android:background="@drawable/kesaiwei_1280x480_audio_3d_shoujihulian_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView android:textSize="32sp" android:textColor="#fff" android:id="@+id/tv_shoujihulian" android:paddingLeft="6px" android:paddingTop="3px" android:paddingRight="6px" android:paddingBottom="3px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="-25px" android:layout_marginTop="18px" android:text="@string/lb_shoujihulian_q5_ksw" android:layout_toRightOf="@+id/iv_shoujihulian"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/rl_browser" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/iv_browser" android:background="@drawable/kesaiwei_1280x480_audio_3d_browser_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView android:textSize="32sp" android:textColor="#fff" android:id="@+id/tv_browser" android:paddingLeft="6px" android:paddingTop="3px" android:paddingRight="6px" android:paddingBottom="3px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18px" android:text="@string/lb_Browser" android:layout_toRightOf="@+id/iv_browser"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/rl_music" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/iv_yinyue" android:background="@drawable/kesaiwei_1280x480_audio_3d_yinyue_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView android:textSize="32sp" android:textColor="#fff" android:id="@+id/tv_yinyue" android:paddingLeft="6px" android:paddingTop="3px" android:paddingRight="6px" android:paddingBottom="3px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18px" android:text="@string/lb_music" android:layout_toRightOf="@+id/iv_yinyue"/>
+            </RelativeLayout>
+            <RelativeLayout android:id="@+id/rl_yuanche" android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <ImageView android:id="@+id/iv_yuanche" android:background="@drawable/kesaiwei_1280x480_audio_3d_yuanche_selector_2" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                <TextView android:textSize="32sp" android:textColor="#fff" android:id="@+id/tv_yuanche" android:paddingLeft="6px" android:paddingTop="3px" android:paddingRight="6px" android:paddingBottom="3px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="18px" android:text="@string/lb_yuanche_q5_ksw" android:layout_toRightOf="@+id/iv_yuanche"/>
+            </RelativeLayout>
+        </com.android.launcher3.views.LoopRotarySwitchView>
+        <ImageView android:id="@+id/ksw_A4L_audi_che" android:background="@drawable/kesaiwei_1024x600_a4l_left_che_01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="85px" android:layout_marginTop="125px"/>
+    </FrameLayout>
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:background="@drawable/kesaiwei_1024x600_audi_xiadi" android:layout_width="1024px" android:layout_height="62px" android:layout_marginLeft="0px" android:layout_marginTop="538px"/>
+        <Button android:id="@+id/btnLeftApps" android:background="@drawable/kesaiwei_1024x600_btn_audi_app" android:layout_width="200px" android:layout_height="60px" android:layout_marginLeft="0px" android:layout_marginTop="537px"/>
+        <TextView android:textSize="24px" android:textColor="#ffecf4ff" android:gravity="center" android:id="@+id/TvCurDataTime" android:layout_width="150px" android:layout_height="wrap_content" android:layout_marginLeft="400px" android:layout_marginTop="548px"/>
+        <ImageView android:id="@+id/IvBtStatus" android:background="@drawable/kesaiwei_1024x600_audi_bt_connect_n" android:layout_width="28px" android:layout_height="38px" android:layout_marginLeft="508px" android:layout_marginTop="548px"/>
+        <Button android:id="@+id/btnOffScreen" android:background="@drawable/kesaiwei_1024x600_audi_btn_guanpin" android:layout_width="200px" android:layout_height="60px" android:layout_marginLeft="832px" android:layout_marginTop="537px"/>
+    </RelativeLayout>
+</RelativeLayout>

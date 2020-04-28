@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="badged_app_label">
+        <item quantity="one">May %2$d notification ang %1$s</item>
+        <item quantity="other">May %2$d na notification ang %1$s</item>
+    </plurals>
+</resources>

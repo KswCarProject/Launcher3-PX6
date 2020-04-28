@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="badged_app_label">
+        <item quantity="one">%2$d jakinarazpen dauka %1$s aplikazioak</item>
+        <item quantity="other">%2$d jakinarazpen dauzka %1$s aplikazioak</item>
+    </plurals>
+</resources>

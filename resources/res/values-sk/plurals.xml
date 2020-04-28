@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="badged_app_label">
+        <item quantity="one">Aplikácia %1$s má %2$d upozornenie</item>
+        <item quantity="few">Aplikácia %1$s má %2$d upozornenia</item>
+        <item quantity="many">Aplikácia %1$s má %2$d upozornenia</item>
+        <item quantity="other">Aplikácia %1$s má %2$d upozornení</item>
+    </plurals>
+</resources>

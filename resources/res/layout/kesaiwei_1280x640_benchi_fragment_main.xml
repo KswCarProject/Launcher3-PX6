@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:background="@drawable/kesaiwei_1280x640_benchi_bk" android:layout_width="1280px" android:layout_height="640px"/>
+    <ImageView android:background="@drawable/kesaiwei_1280x640_benchi_guang" android:layout_width="474px" android:layout_height="282px" android:layout_marginLeft="410px" android:layout_marginTop="272px"/>
+    <com.android.launcher3.views.CoverFlowView android:id="@+id/MCoverFlowView" android:paddingLeft="50px" android:paddingTop="0px" android:paddingRight="50px" android:paddingBottom="0px" android:layout_width="1280px" android:layout_height="300px" android:layout_marginLeft="0px" android:layout_marginTop="164px" android:layout_alignParentStart="false" android:layout_alignParentEnd="false" app:coverflowGravity="2" app:coverflowLayoutMode="0" app:reflectionGap="20px" app:reflectionHeight="0%" app:visibleImage="5"/>
+</RelativeLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.launcher3.widget.WidgetsBottomSheet xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:theme="?attr/widgetsTheme" android:layout_gravity="bottom" android:orientation="vertical" android:background="@drawable/top_round_rect_primary" android:paddingTop="28dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:elevation="@dimen/deep_shortcuts_elevation">
+    <TextView android:textSize="24sp" android:textColor="?android:attr/textColorPrimary" android:gravity="center_horizontal" android:id="@+id/title" android:layout_width="match_parent" android:layout_height="wrap_content" style="@style/TextTitle"/>
+    <TextView android:textSize="14sp" android:textColor="?android:attr/textColorTertiary" android:gravity="center_horizontal" android:paddingTop="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/long_press_widget_to_add" android:fontFamily="sans-serif"/>
+    <include android:id="@+id/widgets" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="45dp" android:layout_marginBottom="40dp" layout="@layout/widgets_scroll_container"/>
+</com.android.launcher3.widget.WidgetsBottomSheet>
