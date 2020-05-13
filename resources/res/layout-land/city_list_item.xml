@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:id="@+id/LytLstItemRoot" android:background="@null" android:layout_width="match_parent" android:layout_height="64px">
+    <TextView android:textSize="30px" android:textColor="#ffffffff" android:ellipsize="end" android:gravity="left|center_vertical|center_horizontal|center" android:id="@+id/TvCityName" android:layout_width="match_parent" android:layout_height="78px" android:layout_marginLeft="20px" android:singleLine="true"/>
+</RelativeLayout>

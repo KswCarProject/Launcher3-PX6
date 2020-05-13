@@ -33,7 +33,7 @@ public final class AsyncLayoutInflater {
     LayoutInflater mInflater;
 
     public interface OnInflateFinishedListener {
-        void onInflateFinished(@NonNull View view, @LayoutRes int i, @Nullable ViewGroup viewGroup);
+        void onInflateFinished(View view, int i, ViewGroup viewGroup);
     }
 
     public AsyncLayoutInflater(@NonNull Context context) {
@@ -44,16 +44,15 @@ public final class AsyncLayoutInflater {
 
     @UiThread
     public void inflate(@LayoutRes int resid, @Nullable ViewGroup parent, @NonNull OnInflateFinishedListener callback) {
-        if (callback != null) {
-            InflateRequest request = this.mInflateThread.obtainRequest();
-            request.inflater = this;
-            request.resid = resid;
-            request.parent = parent;
-            request.callback = callback;
-            this.mInflateThread.enqueue(request);
-            return;
+        if (callback == null) {
+            throw new NullPointerException("callback argument may not be null!");
         }
-        throw new NullPointerException("callback argument may not be null!");
+        InflateRequest request = this.mInflateThread.obtainRequest();
+        request.inflater = this;
+        request.resid = resid;
+        request.parent = parent;
+        request.callback = callback;
+        this.mInflateThread.enqueue(request);
     }
 
     private static class InflateRequest {
@@ -113,23 +112,19 @@ public final class AsyncLayoutInflater {
             return sInstance;
         }
 
-        public void runInner() {
-            try {
-                InflateRequest request = this.mQueue.take();
-                try {
-                    request.view = request.inflater.mInflater.inflate(request.resid, request.parent, false);
-                } catch (RuntimeException ex) {
-                    Log.w(AsyncLayoutInflater.TAG, "Failed to inflate resource in the background! Retrying on the UI thread", ex);
-                }
-                Message.obtain(request.inflater.mHandler, 0, request).sendToTarget();
-            } catch (InterruptedException ex2) {
-                Log.w(AsyncLayoutInflater.TAG, ex2);
-            }
-        }
-
         public void run() {
             while (true) {
-                runInner();
+                try {
+                    InflateRequest request = this.mQueue.take();
+                    try {
+                        request.view = request.inflater.mInflater.inflate(request.resid, request.parent, false);
+                    } catch (RuntimeException ex) {
+                        Log.w(AsyncLayoutInflater.TAG, "Failed to inflate resource in the background! Retrying on the UI thread", ex);
+                    }
+                    Message.obtain(request.inflater.mHandler, 0, request).sendToTarget();
+                } catch (InterruptedException ex2) {
+                    Log.w(AsyncLayoutInflater.TAG, ex2);
+                }
             }
         }
 

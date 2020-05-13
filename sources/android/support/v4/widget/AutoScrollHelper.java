@@ -2,7 +2,6 @@ package android.support.v4.widget;
 
 import android.content.res.Resources;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -11,6 +10,7 @@ import android.view.ViewConfiguration;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
+import org.apache.http.HttpStatus;
 
 public abstract class AutoScrollHelper implements View.OnTouchListener {
     private static final int DEFAULT_ACTIVATION_DELAY = ViewConfiguration.getTapTimeout();
@@ -54,20 +54,20 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
 
     public abstract void scrollTargetBy(int i, int i2);
 
-    public AutoScrollHelper(@NonNull View target) {
+    public AutoScrollHelper(View target) {
         this.mTarget = target;
         DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        int maxVelocity = (int) ((metrics.density * 1575.0f) + 0.5f);
-        int minVelocity = (int) ((metrics.density * 315.0f) + 0.5f);
+        int maxVelocity = (int) ((1575.0f * metrics.density) + 0.5f);
+        int minVelocity = (int) ((315.0f * metrics.density) + 0.5f);
         setMaximumVelocity((float) maxVelocity, (float) maxVelocity);
         setMinimumVelocity((float) minVelocity, (float) minVelocity);
         setEdgeType(1);
         setMaximumEdges(Float.MAX_VALUE, Float.MAX_VALUE);
-        setRelativeEdges(0.2f, 0.2f);
-        setRelativeVelocity(1.0f, 1.0f);
+        setRelativeEdges(DEFAULT_RELATIVE_EDGE, DEFAULT_RELATIVE_EDGE);
+        setRelativeVelocity(DEFAULT_RELATIVE_VELOCITY, DEFAULT_RELATIVE_VELOCITY);
         setActivationDelay(DEFAULT_ACTIVATION_DELAY);
-        setRampUpDuration(500);
-        setRampDownDuration(500);
+        setRampUpDuration(HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        setRampDownDuration(HttpStatus.SC_INTERNAL_SERVER_ERROR);
     }
 
     public AutoScrollHelper setEnabled(boolean enabled) {
@@ -91,66 +91,58 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
         return this.mExclusive;
     }
 
-    @NonNull
     public AutoScrollHelper setMaximumVelocity(float horizontalMax, float verticalMax) {
         this.mMaximumVelocity[0] = horizontalMax / 1000.0f;
         this.mMaximumVelocity[1] = verticalMax / 1000.0f;
         return this;
     }
 
-    @NonNull
     public AutoScrollHelper setMinimumVelocity(float horizontalMin, float verticalMin) {
         this.mMinimumVelocity[0] = horizontalMin / 1000.0f;
         this.mMinimumVelocity[1] = verticalMin / 1000.0f;
         return this;
     }
 
-    @NonNull
     public AutoScrollHelper setRelativeVelocity(float horizontal, float vertical) {
         this.mRelativeVelocity[0] = horizontal / 1000.0f;
         this.mRelativeVelocity[1] = vertical / 1000.0f;
         return this;
     }
 
-    @NonNull
     public AutoScrollHelper setEdgeType(int type) {
         this.mEdgeType = type;
         return this;
     }
 
-    @NonNull
     public AutoScrollHelper setRelativeEdges(float horizontal, float vertical) {
         this.mRelativeEdges[0] = horizontal;
         this.mRelativeEdges[1] = vertical;
         return this;
     }
 
-    @NonNull
     public AutoScrollHelper setMaximumEdges(float horizontalMax, float verticalMax) {
         this.mMaximumEdges[0] = horizontalMax;
         this.mMaximumEdges[1] = verticalMax;
         return this;
     }
 
-    @NonNull
     public AutoScrollHelper setActivationDelay(int delayMillis) {
         this.mActivationDelay = delayMillis;
         return this;
     }
 
-    @NonNull
     public AutoScrollHelper setRampUpDuration(int durationMillis) {
         this.mScroller.setRampUpDuration(durationMillis);
         return this;
     }
 
-    @NonNull
     public AutoScrollHelper setRampDownDuration(int durationMillis) {
         this.mScroller.setRampDownDuration(durationMillis);
         return this;
     }
 
     public boolean onTouch(View v, MotionEvent event) {
+        boolean z = true;
         if (!this.mEnabled) {
             return false;
         }
@@ -171,9 +163,9 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
             startAnimating();
         }
         if (!this.mExclusive || !this.mAnimating) {
-            return false;
+            z = false;
         }
-        return true;
+        return z;
     }
 
     /* access modifiers changed from: package-private */
@@ -232,7 +224,7 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
         } else {
             interpolated = this.mEdgeInterpolator.getInterpolation(value);
         }
-        return constrain(interpolated, -1.0f, 1.0f);
+        return constrain(interpolated, -1.0f, (float) DEFAULT_RELATIVE_VELOCITY);
     }
 
     private float constrainEdgeValue(float current, float leading) {
@@ -242,23 +234,24 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
         switch (this.mEdgeType) {
             case 0:
             case 1:
-                if (current < leading) {
-                    if (current >= 0.0f) {
-                        return 1.0f - (current / leading);
-                    }
-                    if (!this.mAnimating || this.mEdgeType != 1) {
-                        return 0.0f;
-                    }
-                    return 1.0f;
+                if (current >= leading) {
+                    return 0.0f;
                 }
-                break;
+                if (current >= 0.0f) {
+                    return DEFAULT_RELATIVE_VELOCITY - (current / leading);
+                }
+                if (!this.mAnimating || this.mEdgeType != 1) {
+                    return 0.0f;
+                }
+                return DEFAULT_RELATIVE_VELOCITY;
             case 2:
                 if (current < 0.0f) {
                     return current / (-leading);
                 }
-                break;
+                return 0.0f;
+            default:
+                return 0.0f;
         }
-        return 0.0f;
     }
 
     static int constrain(int value, int min, int max) {
@@ -364,9 +357,10 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
                 return 0.0f;
             }
             if (this.mStopTime < 0 || currentTime < this.mStopTime) {
-                return AutoScrollHelper.constrain(((float) (currentTime - this.mStartTime)) / ((float) this.mRampUpDuration), 0.0f, 1.0f) * 0.5f;
+                return AutoScrollHelper.constrain(((float) (currentTime - this.mStartTime)) / ((float) this.mRampUpDuration), 0.0f, (float) AutoScrollHelper.DEFAULT_RELATIVE_VELOCITY) * 0.5f;
             }
-            return (1.0f - this.mStopValue) + (this.mStopValue * AutoScrollHelper.constrain(((float) (currentTime - this.mStopTime)) / ((float) this.mEffectiveRampDown), 0.0f, 1.0f));
+            long elapsedSinceEnd = currentTime - this.mStopTime;
+            return (AutoScrollHelper.constrain(((float) elapsedSinceEnd) / ((float) this.mEffectiveRampDown), 0.0f, (float) AutoScrollHelper.DEFAULT_RELATIVE_VELOCITY) * this.mStopValue) + (AutoScrollHelper.DEFAULT_RELATIVE_VELOCITY - this.mStopValue);
         }
 
         private float interpolateValue(float value) {
@@ -374,16 +368,15 @@ public abstract class AutoScrollHelper implements View.OnTouchListener {
         }
 
         public void computeScrollDelta() {
-            if (this.mDeltaTime != 0) {
-                long currentTime = AnimationUtils.currentAnimationTimeMillis();
-                float scale = interpolateValue(getValueAt(currentTime));
-                long elapsedSinceDelta = currentTime - this.mDeltaTime;
-                this.mDeltaTime = currentTime;
-                this.mDeltaX = (int) (((float) elapsedSinceDelta) * scale * this.mTargetVelocityX);
-                this.mDeltaY = (int) (((float) elapsedSinceDelta) * scale * this.mTargetVelocityY);
-                return;
+            if (this.mDeltaTime == 0) {
+                throw new RuntimeException("Cannot compute scroll delta before calling start()");
             }
-            throw new RuntimeException("Cannot compute scroll delta before calling start()");
+            long currentTime = AnimationUtils.currentAnimationTimeMillis();
+            float scale = interpolateValue(getValueAt(currentTime));
+            long elapsedSinceDelta = currentTime - this.mDeltaTime;
+            this.mDeltaTime = currentTime;
+            this.mDeltaX = (int) (((float) elapsedSinceDelta) * scale * this.mTargetVelocityX);
+            this.mDeltaY = (int) (((float) elapsedSinceDelta) * scale * this.mTargetVelocityY);
         }
 
         public void setTargetVelocity(float x, float y) {

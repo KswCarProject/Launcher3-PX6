@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:id="@+id/ShowScreen2" android:background="#171b1e" android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="528px" android:layout_marginTop="60px">
+        <ImageView android:id="@+id/VwHourH" android:layout_width="42px" android:layout_height="62px" android:src="@drawable/chwy_0"/>
+        <ImageView android:id="@+id/VwHourL" android:layout_width="42px" android:layout_height="62px" android:src="@drawable/chwy_0" android:layout_toRightOf="@+id/VwHourH"/>
+        <ImageView android:id="@+id/VwtmPoint" android:layout_width="22px" android:layout_height="62px" android:src="@drawable/chwy_dian" android:layout_toRightOf="@+id/VwHourL"/>
+        <ImageView android:id="@+id/VwMinH" android:layout_width="42px" android:layout_height="62px" android:src="@drawable/chwy_4" android:layout_toRightOf="@+id/VwtmPoint"/>
+        <ImageView android:id="@+id/VwMinL" android:layout_width="42px" android:layout_height="62px" android:src="@drawable/chwy_0" android:layout_toRightOf="@+id/VwMinH"/>
+        <TextView android:textSize="16px" android:textColor="#c1c1c1" android:id="@+id/TwCurDataTimeAMPM" android:layout_width="80px" android:layout_height="40px" android:text="AM" android:layout_toRightOf="@+id/VwMinL"/>
+        <TextView android:textSize="18px" android:textColor="#c1c1c1" android:id="@+id/TwCurDataTimeYMD" android:layout_width="wrap_content" android:layout_height="40px" android:layout_marginLeft="18px" android:layout_marginTop="5px" android:text="2017-05-26" android:layout_below="@+id/VwHourL"/>
+        <TextView android:textSize="18px" android:textColor="#c1c1c1" android:id="@+id/TwCurDataTimeWeek" android:layout_width="80px" android:layout_height="40px" android:layout_marginLeft="28px" android:layout_marginTop="5px" android:text="星期四" android:layout_toRightOf="@+id/TwCurDataTimeYMD" android:layout_below="@+id/VwHourL"/>
+    </RelativeLayout>
+    <RelativeLayout android:gravity="center" android:visibility="visible" android:layout_width="394px" android:layout_height="wrap_content" android:layout_marginLeft="433px" android:layout_marginTop="155px">
+        <RelativeLayout android:gravity="center" android:layout_width="197px" android:layout_height="wrap_content">
+            <TextView android:textSize="16px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lb_Residual_oil"/>
+            <TextView android:textSize="16px" android:id="@+id/tv_youliang" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="125px" android:text=""/>
+        </RelativeLayout>
+        <RelativeLayout android:gravity="center" android:layout_width="197px" android:layout_height="wrap_content" android:layout_marginLeft="195px">
+            <TextView android:textSize="16px" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/lb_Extension_mileage"/>
+            <TextView android:textSize="16px" android:id="@+id/tv_xushilicheng" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="135px" android:text=""/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <com.szchoiceway.index.view.MyQAnalogClock android:layout_width="420px" android:layout_height="419px" android:layout_marginLeft="51px" android:layout_marginTop="15px"/>
+    <com.szchoiceway.index.view.MyQAnalogClock2 android:layout_width="420px" android:layout_height="419px" android:layout_marginLeft="849px" android:layout_marginTop="15px"/>
+    <ImageView android:layout_width="1041px" android:layout_height="48px" android:layout_marginTop="366px" android:src="@drawable/chwy_zhongxiankuang" android:layout_centerHorizontal="true"/>
+    <CheckBox android:id="@+id/cb_anquandai" android:background="@drawable/chwy_1280x480_checkbox_anquandai" android:visibility="visible" android:clickable="false" android:layout_width="36px" android:layout_height="36px" android:layout_marginLeft="275px" android:layout_marginTop="372px" android:button="@null"/>
+    <CheckBox android:id="@+id/cb_shousha" android:background="@drawable/chwy_1280x480_checkbox_shousha" android:visibility="visible" android:clickable="false" android:layout_width="36px" android:layout_height="36px" android:layout_marginLeft="327px" android:layout_marginTop="372px" android:button="@null"/>
+    <ImageView android:layout_width="1280px" android:layout_height="66px" android:layout_marginLeft="0px" android:layout_marginTop="414px" android:src="@drawable/chwy_xiadi"/>
+    <android.support.v4.view.ViewPager android:id="@+id/MyViewPager" android:layout_width="1280px" android:layout_height="66px" android:layout_marginLeft="0px" android:layout_marginTop="414px"/>
+    <RelativeLayout android:id="@+id/rl_apps" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:layout_width="94px" android:layout_height="66px" android:layout_marginLeft="594px" android:layout_marginTop="414px" android:src="@drawable/chwy_yingyongdi"/>
+        <Button android:id="@+id/apps" android:background="@drawable/chwy_1280x480_btn_yingyong" android:layout_width="78px" android:layout_height="66px" android:layout_marginLeft="602px" android:layout_marginTop="414px"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/rl_daohangdi" android:visibility="gone" android:layout_width="990px" android:layout_height="wrap_content" android:layout_marginTop="87px" android:layout_centerHorizontal="true">
+        <ImageView android:background="@drawable/chwy_daohangdi" android:layout_width="990px" android:layout_height="290px" android:layout_centerHorizontal="true"/>
+        <ImageView android:id="@+id/Amapauto_Icon" android:background="@drawable/chwy_zhixing" android:layout_width="126px" android:layout_height="148px" android:layout_marginTop="121px" android:layout_centerHorizontal="true"/>
+        <TextView android:textSize="24sp" android:textColor="#fff" android:id="@+id/TvSegRemainDisInfor" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="285px" android:text="前进一路  直行100米" android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/rl_yinyuedi" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:layout_width="510px" android:layout_height="149px" android:layout_marginLeft="386px" android:layout_marginTop="218px" android:src="@drawable/chwy_yinyuedi"/>
+        <ImageView android:id="@+id/iv_music_icon" android:background="@drawable/chwy_yinyuexianshi" android:layout_width="140px" android:layout_height="150px" android:layout_marginLeft="471px" android:layout_marginTop="196px" android:scaleX="0.9" android:scaleY="0.9"/>
+        <RelativeLayout android:gravity="center" android:layout_width="140px" android:layout_height="wrap_content" android:layout_marginLeft="646px">
+            <TextView android:textSize="24sp" android:textColor="#fff" android:ellipsize="marquee" android:gravity="center_horizontal" android:id="@+id/tv_MusicTitleInfor" android:focusable="true" android:focusableInTouchMode="true" android:fadingEdge="horizontal" android:layout_width="140px" android:layout_height="wrap_content" android:layout_marginTop="200px" android:text="空口言" android:singleLine="true" android:marqueeRepeatLimit="marquee_forever"/>
+            <TextView android:textSize="16sp" android:textColor="#fff" android:gravity="center_horizontal" android:id="@+id/tv_MusicArtistInfor" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="239px" android:text="孙燕姿" android:singleLine="true"/>
+        </RelativeLayout>
+        <Button android:id="@+id/btnMusicPrev" android:background="@drawable/chwy_1280x480_btn_shangyiqu" android:layout_width="50px" android:layout_height="50px" android:layout_marginLeft="623px" android:layout_marginTop="284px"/>
+        <Button android:id="@+id/btMusicPlayPause" android:background="@drawable/chwy_1280x480_btn_zantingbofang" android:layout_width="50px" android:layout_height="50px" android:layout_marginLeft="692px" android:layout_marginTop="284px"/>
+        <Button android:id="@+id/btnMusicNext" android:background="@drawable/chwy_1280x480_btn_xiayiqu" android:layout_width="50px" android:layout_height="50px" android:layout_marginLeft="756px" android:layout_marginTop="284px"/>
+    </RelativeLayout>
+    <RelativeLayout android:id="@+id/rl_shouyindi" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:layout_width="510px" android:layout_height="149px" android:layout_marginLeft="386px" android:layout_marginTop="218px" android:src="@drawable/chwy_shouyindi"/>
+        <ImageView android:background="@drawable/chwy_fmxianshi" android:layout_width="140px" android:layout_height="150px" android:layout_marginLeft="460px" android:layout_marginTop="196px"/>
+        <ImageView android:layout_width="218px" android:layout_height="48px" android:layout_marginLeft="600px" android:layout_marginTop="228px" android:src="@drawable/chwy_kedu"/>
+        <SeekBar android:id="@+id/CurFreqSeekBar" android:layout_width="210px" android:layout_height="48px" android:layout_marginLeft="604px" android:layout_marginTop="228px" android:max="100" android:progress="0" android:secondaryProgress="0" android:progressDrawable="@null" android:thumb="@drawable/chwy_keduzhizhen"/>
+        <Button android:id="@+id/BtnRadioPrev" android:background="@drawable/chwy_1280x480_btn_shouyinshang" android:layout_width="50px" android:layout_height="50px" android:layout_marginLeft="611px" android:layout_marginTop="278px"/>
+        <TextView android:textSize="18sp" android:textColor="#fff" android:gravity="center_horizontal" android:id="@+id/tv_RadioCurFreq" android:layout_width="140px" android:layout_height="wrap_content" android:layout_marginLeft="640px" android:layout_marginTop="286px" android:text="87.50FM" android:singleLine="true"/>
+        <Button android:id="@+id/BtnRadioNext" android:background="@drawable/chwy_1280x480_btn_shouyinxia" android:layout_width="50px" android:layout_height="50px" android:layout_marginLeft="762px" android:layout_marginTop="278px"/>
+    </RelativeLayout>
+</RelativeLayout>

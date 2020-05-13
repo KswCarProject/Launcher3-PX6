@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.os.Parcel;
 import android.service.media.MediaBrowserService;
 import android.support.annotation.RequiresApi;
-import android.support.v4.media.session.MediaSessionCompat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +19,9 @@ class MediaBrowserServiceCompatApi21 {
         BrowserRoot onGetRoot(String str, int i, Bundle bundle);
 
         void onLoadChildren(String str, ResultWrapper<List<Parcel>> resultWrapper);
+    }
+
+    MediaBrowserServiceCompatApi21() {
     }
 
     public static Object createService(Context context, ServiceCompatProxy serviceProxy) {
@@ -100,8 +102,7 @@ class MediaBrowserServiceCompatApi21 {
         }
 
         public MediaBrowserService.BrowserRoot onGetRoot(String clientPackageName, int clientUid, Bundle rootHints) {
-            MediaSessionCompat.ensureClassLoader(rootHints);
-            BrowserRoot browserRoot = this.mServiceProxy.onGetRoot(clientPackageName, clientUid, rootHints == null ? null : new Bundle(rootHints));
+            BrowserRoot browserRoot = this.mServiceProxy.onGetRoot(clientPackageName, clientUid, rootHints);
             if (browserRoot == null) {
                 return null;
             }
@@ -111,8 +112,5 @@ class MediaBrowserServiceCompatApi21 {
         public void onLoadChildren(String parentId, MediaBrowserService.Result<List<MediaBrowser.MediaItem>> result) {
             this.mServiceProxy.onLoadChildren(parentId, new ResultWrapper(result));
         }
-    }
-
-    private MediaBrowserServiceCompatApi21() {
     }
 }

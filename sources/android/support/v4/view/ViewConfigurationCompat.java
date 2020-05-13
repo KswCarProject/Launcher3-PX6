@@ -1,25 +1,49 @@
 package android.support.v4.view;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.ViewConfiguration;
-import java.lang.reflect.Method;
 
 public final class ViewConfigurationCompat {
-    private static final String TAG = "ViewConfigCompat";
-    private static Method sGetScaledScrollFactorMethod;
+    static final ViewConfigurationVersionImpl IMPL;
+
+    interface ViewConfigurationVersionImpl {
+        boolean hasPermanentMenuKey(ViewConfiguration viewConfiguration);
+    }
+
+    static class BaseViewConfigurationVersionImpl implements ViewConfigurationVersionImpl {
+        BaseViewConfigurationVersionImpl() {
+        }
+
+        public boolean hasPermanentMenuKey(ViewConfiguration config) {
+            return true;
+        }
+    }
+
+    static class HoneycombViewConfigurationVersionImpl extends BaseViewConfigurationVersionImpl {
+        HoneycombViewConfigurationVersionImpl() {
+        }
+
+        public boolean hasPermanentMenuKey(ViewConfiguration config) {
+            return false;
+        }
+    }
+
+    static class IcsViewConfigurationVersionImpl extends HoneycombViewConfigurationVersionImpl {
+        IcsViewConfigurationVersionImpl() {
+        }
+
+        public boolean hasPermanentMenuKey(ViewConfiguration config) {
+            return ViewConfigurationCompatICS.hasPermanentMenuKey(config);
+        }
+    }
 
     static {
-        if (Build.VERSION.SDK_INT == 25) {
-            try {
-                sGetScaledScrollFactorMethod = ViewConfiguration.class.getDeclaredMethod("getScaledScrollFactor", new Class[0]);
-            } catch (Exception e) {
-                Log.i(TAG, "Could not find method getScaledScrollFactor() on ViewConfiguration");
-            }
+        if (Build.VERSION.SDK_INT >= 14) {
+            IMPL = new IcsViewConfigurationVersionImpl();
+        } else if (Build.VERSION.SDK_INT >= 11) {
+            IMPL = new HoneycombViewConfigurationVersionImpl();
+        } else {
+            IMPL = new BaseViewConfigurationVersionImpl();
         }
     }
 
@@ -28,54 +52,8 @@ public final class ViewConfigurationCompat {
         return config.getScaledPagingTouchSlop();
     }
 
-    @Deprecated
     public static boolean hasPermanentMenuKey(ViewConfiguration config) {
-        return config.hasPermanentMenuKey();
-    }
-
-    public static float getScaledHorizontalScrollFactor(@NonNull ViewConfiguration config, @NonNull Context context) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            return config.getScaledHorizontalScrollFactor();
-        }
-        return getLegacyScrollFactor(config, context);
-    }
-
-    public static float getScaledVerticalScrollFactor(@NonNull ViewConfiguration config, @NonNull Context context) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            return config.getScaledVerticalScrollFactor();
-        }
-        return getLegacyScrollFactor(config, context);
-    }
-
-    private static float getLegacyScrollFactor(ViewConfiguration config, Context context) {
-        if (Build.VERSION.SDK_INT >= 25 && sGetScaledScrollFactorMethod != null) {
-            try {
-                return (float) ((Integer) sGetScaledScrollFactorMethod.invoke(config, new Object[0])).intValue();
-            } catch (Exception e) {
-                Log.i(TAG, "Could not find method getScaledScrollFactor() on ViewConfiguration");
-            }
-        }
-        TypedValue outValue = new TypedValue();
-        if (context.getTheme().resolveAttribute(16842829, outValue, true)) {
-            return outValue.getDimension(context.getResources().getDisplayMetrics());
-        }
-        return 0.0f;
-    }
-
-    public static int getScaledHoverSlop(ViewConfiguration config) {
-        if (Build.VERSION.SDK_INT >= 28) {
-            return config.getScaledHoverSlop();
-        }
-        return config.getScaledTouchSlop() / 2;
-    }
-
-    public static boolean shouldShowMenuShortcutsWhenKeyboardPresent(ViewConfiguration config, @NonNull Context context) {
-        if (Build.VERSION.SDK_INT >= 28) {
-            return config.shouldShowMenuShortcutsWhenKeyboardPresent();
-        }
-        Resources res = context.getResources();
-        int platformResId = res.getIdentifier("config_showMenuShortcutsWhenKeyboardPresent", "bool", "android");
-        return platformResId != 0 && res.getBoolean(platformResId);
+        return IMPL.hasPermanentMenuKey(config);
     }
 
     private ViewConfigurationCompat() {

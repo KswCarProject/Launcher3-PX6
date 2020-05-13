@@ -1,15 +1,12 @@
 package android.support.v4.math;
 
 public class MathUtils {
-    private MathUtils() {
-    }
-
-    public static float clamp(float value, float min, float max) {
-        if (value < min) {
-            return min;
+    public static float clamp(float value, int min, int max) {
+        if (value < ((float) min)) {
+            return (float) min;
         }
-        if (value > max) {
-            return max;
+        if (value > ((float) max)) {
+            return (float) max;
         }
         return value;
     }

@@ -8,9 +8,9 @@ public final class ActivityManagerCompat {
     private ActivityManagerCompat() {
     }
 
-    public static boolean isLowRamDevice(@NonNull ActivityManager activityManager) {
+    public static boolean isLowRamDevice(@NonNull ActivityManager am) {
         if (Build.VERSION.SDK_INT >= 19) {
-            return activityManager.isLowRamDevice();
+            return ActivityManagerCompatKitKat.isLowRamDevice(am);
         }
         return false;
     }

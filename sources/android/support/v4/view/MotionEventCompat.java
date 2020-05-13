@@ -83,7 +83,6 @@ public final class MotionEventCompat {
     public static final int AXIS_RY = 13;
     @Deprecated
     public static final int AXIS_RZ = 14;
-    public static final int AXIS_SCROLL = 26;
     @Deprecated
     public static final int AXIS_SIZE = 3;
     @Deprecated

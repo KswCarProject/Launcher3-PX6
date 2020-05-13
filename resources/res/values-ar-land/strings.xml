@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lb_OriginaCarSys">السيارة الأصلية</string>
+    <string name="lb_music">موسيقى</string>
+    <string name="lb_navi">التنقل</string>
+    <string name="lb_set_q5_ksw">الإعدادات</string>
+    <string name="lb_settings">الإعدادات</string>
+    <string name="lb_video">فيديو</string>
+    <string name="lb_video_q5_ksw">فيديو</string>
+    <string name="lb_yuanche">السيارة الأصلية</string>
+    <string name="lb_yuanche_q5_ksw">السيارة الأصلية</string>
+    <string name="lbl_timer">تاريخ</string>
+</resources>

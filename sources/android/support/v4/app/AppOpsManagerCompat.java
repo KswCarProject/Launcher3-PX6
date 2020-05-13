@@ -1,53 +1,69 @@
 package android.support.v4.app;
 
-import android.app.AppOpsManager;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 public final class AppOpsManagerCompat {
+    private static final AppOpsManagerImpl IMPL;
     public static final int MODE_ALLOWED = 0;
     public static final int MODE_DEFAULT = 3;
-    public static final int MODE_ERRORED = 2;
     public static final int MODE_IGNORED = 1;
+
+    private static class AppOpsManagerImpl {
+        AppOpsManagerImpl() {
+        }
+
+        public String permissionToOp(String permission) {
+            return null;
+        }
+
+        public int noteOp(Context context, String op, int uid, String packageName) {
+            return 1;
+        }
+
+        public int noteProxyOp(Context context, String op, String proxiedPackageName) {
+            return 1;
+        }
+    }
+
+    private static class AppOpsManager23 extends AppOpsManagerImpl {
+        AppOpsManager23() {
+        }
+
+        public String permissionToOp(String permission) {
+            return AppOpsManagerCompat23.permissionToOp(permission);
+        }
+
+        public int noteOp(Context context, String op, int uid, String packageName) {
+            return AppOpsManagerCompat23.noteOp(context, op, uid, packageName);
+        }
+
+        public int noteProxyOp(Context context, String op, String proxiedPackageName) {
+            return AppOpsManagerCompat23.noteProxyOp(context, op, proxiedPackageName);
+        }
+    }
+
+    static {
+        if (Build.VERSION.SDK_INT >= 23) {
+            IMPL = new AppOpsManager23();
+        } else {
+            IMPL = new AppOpsManagerImpl();
+        }
+    }
 
     private AppOpsManagerCompat() {
     }
 
-    @Nullable
     public static String permissionToOp(@NonNull String permission) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            return AppOpsManager.permissionToOp(permission);
-        }
-        return null;
+        return IMPL.permissionToOp(permission);
     }
 
     public static int noteOp(@NonNull Context context, @NonNull String op, int uid, @NonNull String packageName) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            return ((AppOpsManager) context.getSystemService("appops")).noteOp(op, uid, packageName);
-        }
-        return 1;
-    }
-
-    public static int noteOpNoThrow(@NonNull Context context, @NonNull String op, int uid, @NonNull String packageName) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            return ((AppOpsManager) context.getSystemService("appops")).noteOpNoThrow(op, uid, packageName);
-        }
-        return 1;
+        return IMPL.noteOp(context, op, uid, packageName);
     }
 
     public static int noteProxyOp(@NonNull Context context, @NonNull String op, @NonNull String proxiedPackageName) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            return ((AppOpsManager) context.getSystemService(AppOpsManager.class)).noteProxyOp(op, proxiedPackageName);
-        }
-        return 1;
-    }
-
-    public static int noteProxyOpNoThrow(@NonNull Context context, @NonNull String op, @NonNull String proxiedPackageName) {
-        if (Build.VERSION.SDK_INT >= 23) {
-            return ((AppOpsManager) context.getSystemService(AppOpsManager.class)).noteProxyOpNoThrow(op, proxiedPackageName);
-        }
-        return 1;
+        return IMPL.noteProxyOp(context, op, proxiedPackageName);
     }
 }

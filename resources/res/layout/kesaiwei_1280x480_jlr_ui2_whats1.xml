@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <Button android:id="@+id/navi" android:background="@drawable/kesaiwei_1280x480_jlr_ui2_btn_navi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="0px" android:layout_marginTop="0px"/>
+    <TextView android:textSize="26px" android:textColor="#ffffffff" android:gravity="center" android:layout_width="150px" android:layout_height="80px" android:layout_marginLeft="100px" android:layout_marginTop="185px" android:text="@string/lb_navi"/>
+    <Button android:id="@+id/video" android:background="@drawable/kesaiwei_1280x480_jlr_ui2_btn_video" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="262px" android:layout_marginTop="0px"/>
+    <TextView android:textSize="26px" android:textColor="#ffffffff" android:gravity="center" android:layout_width="150px" android:layout_height="80px" android:layout_marginLeft="362px" android:layout_marginTop="185px" android:text="@string/lb_video"/>
+    <Button android:id="@+id/music" android:background="@drawable/kesaiwei_1280x480_jlr_ui2_btn_music" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="524px" android:layout_marginTop="0px"/>
+    <TextView android:textSize="26px" android:textColor="#ffffffff" android:gravity="center" android:layout_width="150px" android:layout_height="80px" android:layout_marginLeft="624px" android:layout_marginTop="185px" android:text="@string/lb_music"/>
+    <Button android:id="@+id/OriginaCar" android:background="@drawable/kesaiwei_1280x480_jlr_ui2_btn_ori" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="786px" android:layout_marginTop="0px"/>
+    <TextView android:textSize="26px" android:textColor="#ffffffff" android:gravity="center" android:layout_width="150px" android:layout_height="80px" android:layout_marginLeft="886px" android:layout_marginTop="185px" android:text="@string/lb_yuanche"/>
+</RelativeLayout>

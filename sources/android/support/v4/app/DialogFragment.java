@@ -60,14 +60,6 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
         return this.mBackStackId;
     }
 
-    public void showNow(FragmentManager manager, String tag) {
-        this.mDismissed = false;
-        this.mShownByMe = true;
-        FragmentTransaction ft = manager.beginTransaction();
-        ft.add((Fragment) this, tag);
-        ft.commitNow();
-    }
-
     public void dismiss() {
         dismissInternal(false);
     }
@@ -83,6 +75,7 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
             this.mShownByMe = false;
             if (this.mDialog != null) {
                 this.mDialog.dismiss();
+                this.mDialog = null;
             }
             this.mViewDestroyed = true;
             if (this.mBackStackId >= 0) {
@@ -154,10 +147,10 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
         }
     }
 
-    @NonNull
-    public LayoutInflater onGetLayoutInflater(@Nullable Bundle savedInstanceState) {
+    @RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
+    public LayoutInflater getLayoutInflater(Bundle savedInstanceState) {
         if (!this.mShowsDialog) {
-            return super.onGetLayoutInflater(savedInstanceState);
+            return super.getLayoutInflater(savedInstanceState);
         }
         this.mDialog = onCreateDialog(savedInstanceState);
         if (this.mDialog == null) {
@@ -183,7 +176,7 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
     }
 
     @NonNull
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new Dialog(getActivity(), getTheme());
     }
 
@@ -196,17 +189,16 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
         }
     }
 
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         Bundle dialogState;
         super.onActivityCreated(savedInstanceState);
         if (this.mShowsDialog) {
             View view = getView();
             if (view != null) {
-                if (view.getParent() == null) {
-                    this.mDialog.setContentView(view);
-                } else {
+                if (view.getParent() != null) {
                     throw new IllegalStateException("DialogFragment can not be attached to a container view");
                 }
+                this.mDialog.setContentView(view);
             }
             Activity activity = getActivity();
             if (activity != null) {
@@ -229,7 +221,7 @@ public class DialogFragment extends Fragment implements DialogInterface.OnCancel
         }
     }
 
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         Bundle dialogState;
         super.onSaveInstanceState(outState);
         if (!(this.mDialog == null || (dialogState = this.mDialog.onSaveInstanceState()) == null)) {

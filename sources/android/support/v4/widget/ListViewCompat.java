@@ -18,29 +18,6 @@ public final class ListViewCompat {
         }
     }
 
-    public static boolean canScrollList(@NonNull ListView listView, int direction) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            return listView.canScrollList(direction);
-        }
-        int childCount = listView.getChildCount();
-        if (childCount == 0) {
-            return false;
-        }
-        int firstPosition = listView.getFirstVisiblePosition();
-        if (direction > 0) {
-            int lastBottom = listView.getChildAt(childCount - 1).getBottom();
-            if (firstPosition + childCount < listView.getCount() || lastBottom > listView.getHeight() - listView.getListPaddingBottom()) {
-                return true;
-            }
-            return false;
-        }
-        int firstTop = listView.getChildAt(0).getTop();
-        if (firstPosition > 0 || firstTop < listView.getListPaddingTop()) {
-            return true;
-        }
-        return false;
-    }
-
     private ListViewCompat() {
     }
 }

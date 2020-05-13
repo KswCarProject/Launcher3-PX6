@@ -9,18 +9,16 @@ public final class MimeTypeFilter {
     }
 
     private static boolean mimeTypeAgainstFilter(@NonNull String[] mimeTypeParts, @NonNull String[] filterParts) {
-        if (filterParts.length != 2) {
-            throw new IllegalArgumentException("Ill-formatted MIME type filter. Must be type/subtype.");
-        } else if (filterParts[0].isEmpty() || filterParts[1].isEmpty()) {
-            throw new IllegalArgumentException("Ill-formatted MIME type filter. Type or subtype empty.");
-        } else if (mimeTypeParts.length != 2) {
-            return false;
-        } else {
-            if ("*".equals(filterParts[0]) || filterParts[0].equals(mimeTypeParts[0])) {
-                return "*".equals(filterParts[1]) || filterParts[1].equals(mimeTypeParts[1]);
-            }
+        if (mimeTypeParts.length != 2 || filterParts.length != 2) {
             return false;
         }
+        if (!"*".equals(filterParts[0]) && !filterParts[0].equals(mimeTypeParts[0])) {
+            return false;
+        }
+        if ("*".equals(filterParts[1]) || filterParts[1].equals(mimeTypeParts[1])) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean matches(@Nullable String mimeType, @NonNull String filter) {
@@ -30,7 +28,6 @@ public final class MimeTypeFilter {
         return mimeTypeAgainstFilter(mimeType.split("/"), filter.split("/"));
     }
 
-    @Nullable
     public static String matches(@Nullable String mimeType, @NonNull String[] filters) {
         if (mimeType == null) {
             return null;
@@ -44,7 +41,6 @@ public final class MimeTypeFilter {
         return null;
     }
 
-    @Nullable
     public static String matches(@Nullable String[] mimeTypes, @NonNull String filter) {
         if (mimeTypes == null) {
             return null;
@@ -58,7 +54,6 @@ public final class MimeTypeFilter {
         return null;
     }
 
-    @NonNull
     public static String[] matchesMany(@Nullable String[] mimeTypes, @NonNull String filter) {
         if (mimeTypes == null) {
             return new String[0];

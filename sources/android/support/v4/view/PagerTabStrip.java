@@ -8,8 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -42,11 +40,11 @@ public class PagerTabStrip extends PagerTitleStrip {
     private final Rect mTempRect;
     private int mTouchSlop;
 
-    public PagerTabStrip(@NonNull Context context) {
+    public PagerTabStrip(Context context) {
         this(context, (AttributeSet) null);
     }
 
-    public PagerTabStrip(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public PagerTabStrip(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mTabPaint = new Paint();
         this.mTempRect = new Rect();
@@ -188,8 +186,9 @@ public class PagerTabStrip extends PagerTitleStrip {
         int bottom = height;
         int left = this.mCurrText.getLeft() - this.mTabPadding;
         int right = this.mCurrText.getRight() + this.mTabPadding;
+        int top = bottom - this.mIndicatorHeight;
         this.mTabPaint.setColor((this.mTabAlpha << 24) | (this.mIndicatorColor & ViewCompat.MEASURED_SIZE_MASK));
-        canvas.drawRect((float) left, (float) (bottom - this.mIndicatorHeight), (float) right, (float) bottom, this.mTabPaint);
+        canvas.drawRect((float) left, (float) top, (float) right, (float) bottom, this.mTabPaint);
         if (this.mDrawFullUnderline) {
             this.mTabPaint.setColor(-16777216 | (this.mIndicatorColor & ViewCompat.MEASURED_SIZE_MASK));
             canvas.drawRect((float) getPaddingLeft(), (float) (height - this.mFullUnderlineHeight), (float) (getWidth() - getPaddingRight()), (float) height, this.mTabPaint);

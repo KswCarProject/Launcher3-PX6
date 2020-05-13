@@ -12,6 +12,9 @@ class MediaSessionCompatApi23 {
         void onPlayFromUri(Uri uri, Bundle bundle);
     }
 
+    MediaSessionCompatApi23() {
+    }
+
     public static Object createCallback(Callback callback) {
         return new CallbackProxy(callback);
     }
@@ -22,11 +25,7 @@ class MediaSessionCompatApi23 {
         }
 
         public void onPlayFromUri(Uri uri, Bundle extras) {
-            MediaSessionCompat.ensureClassLoader(extras);
             ((Callback) this.mCallback).onPlayFromUri(uri, extras);
         }
-    }
-
-    private MediaSessionCompatApi23() {
     }
 }

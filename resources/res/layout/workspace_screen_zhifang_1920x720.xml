@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:id="@+id/ShowScreen2" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:background="@drawable/zhifang_1920x720_xiadi" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10px" android:layout_marginTop="591px"/>
+    <android.support.v4.view.ViewPager android:layout_gravity="center" android:id="@+id/kaidilake_viewpaper" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <RelativeLayout android:id="@+id/excelltime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="100px" android:layout_marginTop="600px">
+        <ImageView android:id="@+id/VwHourH" android:layout_width="44px" android:layout_height="64px" android:src="@drawable/zf_1"/>
+        <ImageView android:id="@+id/VwHourL" android:layout_width="44px" android:layout_height="64px" android:src="@drawable/zf_2" android:layout_toRightOf="@+id/VwHourH"/>
+        <ImageView android:id="@+id/VwtmPoint" android:background="@drawable/zf_maohao" android:layout_width="44px" android:layout_height="64px" android:layout_toRightOf="@+id/VwHourL"/>
+        <ImageView android:id="@+id/VwMinH" android:layout_width="44px" android:layout_height="64px" android:src="@drawable/zf_5" android:layout_toRightOf="@+id/VwtmPoint"/>
+        <ImageView android:id="@+id/VwMinL" android:layout_width="44px" android:layout_height="64px" android:src="@drawable/zf_7" android:layout_toRightOf="@+id/VwMinH"/>
+        <TextView android:textSize="28px" android:textColor="#bfbfbf" android:gravity="left|center_vertical|center_horizontal|center" android:id="@+id/TwCurDataTimeYMD" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10px" android:text="" android:layout_toRightOf="@+id/VwMinL" android:layout_alignBottom="@+id/VwMinL"/>
+    </RelativeLayout>
+</RelativeLayout>

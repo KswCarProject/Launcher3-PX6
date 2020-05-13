@@ -38,6 +38,9 @@ class MediaControllerCompatApi21 {
         void onSessionEvent(String str, Bundle bundle);
     }
 
+    MediaControllerCompatApi21() {
+    }
+
     public static Object fromToken(Context context, Object sessionToken) {
         return new MediaController(context, (MediaSession.Token) sessionToken);
     }
@@ -83,7 +86,7 @@ class MediaControllerCompatApi21 {
         if (queue == null) {
             return null;
         }
-        return new ArrayList<>(queue);
+        return new ArrayList(queue);
     }
 
     public static CharSequence getQueueTitle(Object controllerObj) {
@@ -182,9 +185,6 @@ class MediaControllerCompatApi21 {
         public static void sendCustomAction(Object controlsObj, String action, Bundle args) {
             ((MediaController.TransportControls) controlsObj).sendCustomAction(action, args);
         }
-
-        private TransportControls() {
-        }
     }
 
     public static class PlaybackInfo {
@@ -224,11 +224,6 @@ class MediaControllerCompatApi21 {
                 return 6;
             }
             switch (aa.getUsage()) {
-                case 1:
-                case 11:
-                case 12:
-                case 14:
-                    return 3;
                 case 2:
                     return 0;
                 case 3:
@@ -249,9 +244,6 @@ class MediaControllerCompatApi21 {
                     return 3;
             }
         }
-
-        private PlaybackInfo() {
-        }
     }
 
     static class CallbackProxy<T extends Callback> extends MediaController.Callback {
@@ -266,7 +258,6 @@ class MediaControllerCompatApi21 {
         }
 
         public void onSessionEvent(String event, Bundle extras) {
-            MediaSessionCompat.ensureClassLoader(extras);
             this.mCallback.onSessionEvent(event, extras);
         }
 
@@ -287,15 +278,11 @@ class MediaControllerCompatApi21 {
         }
 
         public void onExtrasChanged(Bundle extras) {
-            MediaSessionCompat.ensureClassLoader(extras);
             this.mCallback.onExtrasChanged(extras);
         }
 
         public void onAudioInfoChanged(MediaController.PlaybackInfo info) {
             this.mCallback.onAudioInfoChanged(info.getPlaybackType(), PlaybackInfo.getLegacyAudioStream(info), info.getVolumeControl(), info.getMaxVolume(), info.getCurrentVolume());
         }
-    }
-
-    private MediaControllerCompatApi21() {
     }
 }

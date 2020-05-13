@@ -1,9 +1,7 @@
 package android.support.v4.app;
 
 import android.support.annotation.AnimRes;
-import android.support.annotation.AnimatorRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
@@ -18,23 +16,17 @@ public abstract class FragmentTransaction {
     public static final int TRANSIT_NONE = 0;
     public static final int TRANSIT_UNSET = -1;
 
-    @NonNull
-    public abstract FragmentTransaction add(@IdRes int i, @NonNull Fragment fragment);
+    public abstract FragmentTransaction add(@IdRes int i, Fragment fragment);
 
-    @NonNull
-    public abstract FragmentTransaction add(@IdRes int i, @NonNull Fragment fragment, @Nullable String str);
+    public abstract FragmentTransaction add(@IdRes int i, Fragment fragment, @Nullable String str);
 
-    @NonNull
-    public abstract FragmentTransaction add(@NonNull Fragment fragment, @Nullable String str);
+    public abstract FragmentTransaction add(Fragment fragment, String str);
 
-    @NonNull
-    public abstract FragmentTransaction addSharedElement(@NonNull View view, @NonNull String str);
+    public abstract FragmentTransaction addSharedElement(View view, String str);
 
-    @NonNull
     public abstract FragmentTransaction addToBackStack(@Nullable String str);
 
-    @NonNull
-    public abstract FragmentTransaction attach(@NonNull Fragment fragment);
+    public abstract FragmentTransaction attach(Fragment fragment);
 
     public abstract int commit();
 
@@ -44,64 +36,43 @@ public abstract class FragmentTransaction {
 
     public abstract void commitNowAllowingStateLoss();
 
-    @NonNull
-    public abstract FragmentTransaction detach(@NonNull Fragment fragment);
+    public abstract FragmentTransaction detach(Fragment fragment);
 
-    @NonNull
     public abstract FragmentTransaction disallowAddToBackStack();
 
-    @NonNull
-    public abstract FragmentTransaction hide(@NonNull Fragment fragment);
+    public abstract FragmentTransaction hide(Fragment fragment);
 
     public abstract boolean isAddToBackStackAllowed();
 
     public abstract boolean isEmpty();
 
-    @NonNull
-    public abstract FragmentTransaction remove(@NonNull Fragment fragment);
+    public abstract FragmentTransaction postOnCommit(Runnable runnable);
 
-    @NonNull
-    public abstract FragmentTransaction replace(@IdRes int i, @NonNull Fragment fragment);
+    public abstract FragmentTransaction remove(Fragment fragment);
 
-    @NonNull
-    public abstract FragmentTransaction replace(@IdRes int i, @NonNull Fragment fragment, @Nullable String str);
+    public abstract FragmentTransaction replace(@IdRes int i, Fragment fragment);
 
-    @NonNull
-    public abstract FragmentTransaction runOnCommit(@NonNull Runnable runnable);
+    public abstract FragmentTransaction replace(@IdRes int i, Fragment fragment, @Nullable String str);
 
-    @Deprecated
     public abstract FragmentTransaction setAllowOptimization(boolean z);
 
-    @NonNull
     public abstract FragmentTransaction setBreadCrumbShortTitle(@StringRes int i);
 
-    @NonNull
-    public abstract FragmentTransaction setBreadCrumbShortTitle(@Nullable CharSequence charSequence);
+    public abstract FragmentTransaction setBreadCrumbShortTitle(CharSequence charSequence);
 
-    @NonNull
     public abstract FragmentTransaction setBreadCrumbTitle(@StringRes int i);
 
-    @NonNull
-    public abstract FragmentTransaction setBreadCrumbTitle(@Nullable CharSequence charSequence);
+    public abstract FragmentTransaction setBreadCrumbTitle(CharSequence charSequence);
 
-    @NonNull
-    public abstract FragmentTransaction setCustomAnimations(@AnimRes @AnimatorRes int i, @AnimRes @AnimatorRes int i2);
+    public abstract FragmentTransaction setCustomAnimations(@AnimRes int i, @AnimRes int i2);
 
-    @NonNull
-    public abstract FragmentTransaction setCustomAnimations(@AnimRes @AnimatorRes int i, @AnimRes @AnimatorRes int i2, @AnimRes @AnimatorRes int i3, @AnimRes @AnimatorRes int i4);
+    public abstract FragmentTransaction setCustomAnimations(@AnimRes int i, @AnimRes int i2, @AnimRes int i3, @AnimRes int i4);
 
-    @NonNull
-    public abstract FragmentTransaction setPrimaryNavigationFragment(@Nullable Fragment fragment);
+    public abstract FragmentTransaction setPrimaryNavigationFragment(Fragment fragment);
 
-    @NonNull
-    public abstract FragmentTransaction setReorderingAllowed(boolean z);
-
-    @NonNull
     public abstract FragmentTransaction setTransition(int i);
 
-    @NonNull
     public abstract FragmentTransaction setTransitionStyle(@StyleRes int i);
 
-    @NonNull
-    public abstract FragmentTransaction show(@NonNull Fragment fragment);
+    public abstract FragmentTransaction show(Fragment fragment);
 }

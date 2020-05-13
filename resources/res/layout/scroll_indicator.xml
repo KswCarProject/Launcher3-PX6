@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:visibility="gone" android:src="@drawable/hotseat_scrubber_holo" android:scaleType="fitXY" android:alpha="0"/>

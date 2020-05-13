@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.szchoiceway.index.FolderIcon xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:orientation="vertical" android:background="@drawable/focusable_view_bg" android:focusable="true" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:layout_gravity="center_horizontal" android:id="@+id/preview_background" android:layout_width="@dimen/folder_preview_size" android:layout_height="@dimen/folder_preview_size" android:src="@drawable/portal_ring_inner_holo"/>
+    <com.szchoiceway.index.BubbleTextView android:id="@+id/folder_icon_name" style="@style/WorkspaceIcon.Portrait.Folder"/>
+</com.szchoiceway.index.FolderIcon>

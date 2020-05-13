@@ -15,15 +15,11 @@ import android.os.Handler;
 import android.os.Parcelable;
 import android.os.ResultReceiver;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @RequiresApi(21)
 class MediaSessionCompatApi21 {
-    static final String TAG = "MediaSessionCompatApi21";
 
     interface Callback {
         void onCommand(String str, Bundle bundle, ResultReceiver resultReceiver);
@@ -48,8 +44,6 @@ class MediaSessionCompatApi21 {
 
         void onSetRating(Object obj);
 
-        void onSetRating(Object obj, Bundle bundle);
-
         void onSkipToNext();
 
         void onSkipToPrevious();
@@ -57,6 +51,9 @@ class MediaSessionCompatApi21 {
         void onSkipToQueueItem(long j);
 
         void onStop();
+    }
+
+    MediaSessionCompatApi21() {
     }
 
     public static Object createSession(Context context, String tag) {
@@ -141,9 +138,8 @@ class MediaSessionCompatApi21 {
             return;
         }
         ArrayList<MediaSession.QueueItem> queue = new ArrayList<>();
-        Iterator<Object> it = queueObjs.iterator();
-        while (it.hasNext()) {
-            queue.add((MediaSession.QueueItem) it.next());
+        for (Object itemObj : queueObjs) {
+            queue.add(itemObj);
         }
         ((MediaSession) sessionObj).setQueue(queue);
     }
@@ -156,22 +152,6 @@ class MediaSessionCompatApi21 {
         ((MediaSession) sessionObj).setExtras(extras);
     }
 
-    public static boolean hasCallback(Object sessionObj) {
-        try {
-            Field callbackField = sessionObj.getClass().getDeclaredField("mCallback");
-            if (callbackField != null) {
-                callbackField.setAccessible(true);
-                if (callbackField.get(sessionObj) != null) {
-                    return true;
-                }
-                return false;
-            }
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            Log.w(TAG, "Failed to get mCallback object.");
-        }
-        return false;
-    }
-
     static class CallbackProxy<T extends Callback> extends MediaSession.Callback {
         protected final T mCallback;
 
@@ -180,7 +160,6 @@ class MediaSessionCompatApi21 {
         }
 
         public void onCommand(String command, Bundle args, ResultReceiver cb) {
-            MediaSessionCompat.ensureClassLoader(args);
             this.mCallback.onCommand(command, args, cb);
         }
 
@@ -193,12 +172,10 @@ class MediaSessionCompatApi21 {
         }
 
         public void onPlayFromMediaId(String mediaId, Bundle extras) {
-            MediaSessionCompat.ensureClassLoader(extras);
             this.mCallback.onPlayFromMediaId(mediaId, extras);
         }
 
         public void onPlayFromSearch(String search, Bundle extras) {
-            MediaSessionCompat.ensureClassLoader(extras);
             this.mCallback.onPlayFromSearch(search, extras);
         }
 
@@ -239,12 +216,14 @@ class MediaSessionCompatApi21 {
         }
 
         public void onCustomAction(String action, Bundle extras) {
-            MediaSessionCompat.ensureClassLoader(extras);
             this.mCallback.onCustomAction(action, extras);
         }
     }
 
     static class QueueItem {
+        QueueItem() {
+        }
+
         public static Object createItem(Object mediaDescription, long id) {
             return new MediaSession.QueueItem((MediaDescription) mediaDescription, id);
         }
@@ -256,11 +235,5 @@ class MediaSessionCompatApi21 {
         public static long getQueueId(Object queueItem) {
             return ((MediaSession.QueueItem) queueItem).getQueueId();
         }
-
-        private QueueItem() {
-        }
-    }
-
-    private MediaSessionCompatApi21() {
     }
 }

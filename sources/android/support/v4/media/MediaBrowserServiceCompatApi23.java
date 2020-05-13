@@ -14,6 +14,9 @@ class MediaBrowserServiceCompatApi23 {
         void onLoadItem(String str, MediaBrowserServiceCompatApi21.ResultWrapper<Parcel> resultWrapper);
     }
 
+    MediaBrowserServiceCompatApi23() {
+    }
+
     public static Object createService(Context context, ServiceCompatProxy serviceProxy) {
         return new MediaBrowserServiceAdaptor(context, serviceProxy);
     }
@@ -26,8 +29,5 @@ class MediaBrowserServiceCompatApi23 {
         public void onLoadItem(String itemId, MediaBrowserService.Result<MediaBrowser.MediaItem> result) {
             ((ServiceCompatProxy) this.mServiceProxy).onLoadItem(itemId, new MediaBrowserServiceCompatApi21.ResultWrapper(result));
         }
-    }
-
-    private MediaBrowserServiceCompatApi23() {
     }
 }

@@ -34,12 +34,11 @@ class CircleImageView extends ImageView {
             circle = new ShapeDrawable(new OvalShape());
             ViewCompat.setElevation(this, 4.0f * density);
         } else {
-            ShapeDrawable circle2 = new ShapeDrawable(new OvalShadow(this.mShadowRadius));
-            setLayerType(1, circle2.getPaint());
-            circle2.getPaint().setShadowLayer((float) this.mShadowRadius, (float) shadowXOffset, (float) shadowYOffset, KEY_SHADOW_COLOR);
+            circle = new ShapeDrawable(new OvalShadow(this.mShadowRadius));
+            setLayerType(1, circle.getPaint());
+            circle.getPaint().setShadowLayer((float) this.mShadowRadius, (float) shadowXOffset, (float) shadowYOffset, KEY_SHADOW_COLOR);
             int padding = this.mShadowRadius;
             setPadding(padding, padding, padding, padding);
-            circle = circle2;
         }
         circle.getPaint().setColor(color);
         ViewCompat.setBackground(this, circle);

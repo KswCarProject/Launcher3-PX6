@@ -5,9 +5,12 @@ import java.util.Locale;
 
 public final class BidiFormatter {
     private static final int DEFAULT_FLAGS = 2;
-    static final BidiFormatter DEFAULT_LTR_INSTANCE = new BidiFormatter(false, 2, DEFAULT_TEXT_DIRECTION_HEURISTIC);
-    static final BidiFormatter DEFAULT_RTL_INSTANCE = new BidiFormatter(true, 2, DEFAULT_TEXT_DIRECTION_HEURISTIC);
-    static final TextDirectionHeuristicCompat DEFAULT_TEXT_DIRECTION_HEURISTIC = TextDirectionHeuristicsCompat.FIRSTSTRONG_LTR;
+    /* access modifiers changed from: private */
+    public static final BidiFormatter DEFAULT_LTR_INSTANCE = new BidiFormatter(false, 2, DEFAULT_TEXT_DIRECTION_HEURISTIC);
+    /* access modifiers changed from: private */
+    public static final BidiFormatter DEFAULT_RTL_INSTANCE = new BidiFormatter(true, 2, DEFAULT_TEXT_DIRECTION_HEURISTIC);
+    /* access modifiers changed from: private */
+    public static TextDirectionHeuristicCompat DEFAULT_TEXT_DIRECTION_HEURISTIC = TextDirectionHeuristicsCompat.FIRSTSTRONG_LTR;
     private static final int DIR_LTR = -1;
     private static final int DIR_RTL = 1;
     private static final int DIR_UNKNOWN = 0;
@@ -85,7 +88,7 @@ public final class BidiFormatter {
         return new Builder(locale).build();
     }
 
-    BidiFormatter(boolean isRtlContext, int flags, TextDirectionHeuristicCompat heuristic) {
+    private BidiFormatter(boolean isRtlContext, int flags, TextDirectionHeuristicCompat heuristic) {
         this.mIsRtlContext = isRtlContext;
         this.mFlags = flags;
         this.mDefaultTextDirectionHeuristicCompat = heuristic;
@@ -104,13 +107,10 @@ public final class BidiFormatter {
         if (!this.mIsRtlContext && (isRtl || getExitDir(str) == 1)) {
             return LRM_STRING;
         }
-        if (!this.mIsRtlContext) {
-            return EMPTY_STRING;
+        if (!this.mIsRtlContext || (isRtl && getExitDir(str) != -1)) {
+            return "";
         }
-        if (!isRtl || getExitDir(str) == -1) {
-            return RLM_STRING;
-        }
-        return EMPTY_STRING;
+        return RLM_STRING;
     }
 
     private String markBefore(CharSequence str, TextDirectionHeuristicCompat heuristic) {
@@ -118,13 +118,10 @@ public final class BidiFormatter {
         if (!this.mIsRtlContext && (isRtl || getEntryDir(str) == 1)) {
             return LRM_STRING;
         }
-        if (!this.mIsRtlContext) {
-            return EMPTY_STRING;
+        if (!this.mIsRtlContext || (isRtl && getEntryDir(str) != -1)) {
+            return "";
         }
-        if (!isRtl || getEntryDir(str) == -1) {
-            return RLM_STRING;
-        }
-        return EMPTY_STRING;
+        return RLM_STRING;
     }
 
     public boolean isRtl(String str) {
@@ -143,6 +140,7 @@ public final class BidiFormatter {
     }
 
     public CharSequence unicodeWrap(CharSequence str, TextDirectionHeuristicCompat heuristic, boolean isolate) {
+        TextDirectionHeuristicCompat textDirectionHeuristicCompat;
         if (str == null) {
             return null;
         }
@@ -158,9 +156,15 @@ public final class BidiFormatter {
         } else {
             result.append(str);
         }
-        if (isolate) {
-            result.append(markAfter(str, isRtl ? TextDirectionHeuristicsCompat.RTL : TextDirectionHeuristicsCompat.LTR));
+        if (!isolate) {
+            return result;
         }
+        if (isRtl) {
+            textDirectionHeuristicCompat = TextDirectionHeuristicsCompat.RTL;
+        } else {
+            textDirectionHeuristicCompat = TextDirectionHeuristicsCompat.LTR;
+        }
+        result.append(markAfter(str, textDirectionHeuristicCompat));
         return result;
     }
 
@@ -188,7 +192,8 @@ public final class BidiFormatter {
         return unicodeWrap(str, this.mDefaultTextDirectionHeuristicCompat, true);
     }
 
-    static boolean isRtlLocale(Locale locale) {
+    /* access modifiers changed from: private */
+    public static boolean isRtlLocale(Locale locale) {
         return TextUtilsCompat.getLayoutDirectionFromLocale(locale) == 1;
     }
 
@@ -224,49 +229,45 @@ public final class BidiFormatter {
         /* access modifiers changed from: package-private */
         public int getEntryDir() {
             this.charIndex = 0;
-            int embeddingLevelDir = 0;
             int embeddingLevel = 0;
+            int embeddingLevelDir = 0;
             int firstNonEmptyEmbeddingLevel = 0;
             while (this.charIndex < this.length && firstNonEmptyEmbeddingLevel == 0) {
-                byte dirTypeForward = dirTypeForward();
-                if (dirTypeForward != 9) {
-                    switch (dirTypeForward) {
-                        case 0:
-                            if (embeddingLevel != 0) {
-                                firstNonEmptyEmbeddingLevel = embeddingLevel;
-                                break;
-                            } else {
-                                return -1;
-                            }
-                        case 1:
-                        case 2:
-                            if (embeddingLevel != 0) {
-                                firstNonEmptyEmbeddingLevel = embeddingLevel;
-                                break;
-                            } else {
-                                return 1;
-                            }
-                        default:
-                            switch (dirTypeForward) {
-                                case 14:
-                                case 15:
-                                    embeddingLevel++;
-                                    embeddingLevelDir = -1;
-                                    break;
-                                case 16:
-                                case 17:
-                                    embeddingLevel++;
-                                    embeddingLevelDir = 1;
-                                    break;
-                                case 18:
-                                    embeddingLevel--;
-                                    embeddingLevelDir = 0;
-                                    break;
-                                default:
-                                    firstNonEmptyEmbeddingLevel = embeddingLevel;
-                                    break;
-                            }
-                    }
+                switch (dirTypeForward()) {
+                    case 0:
+                        if (embeddingLevel != 0) {
+                            firstNonEmptyEmbeddingLevel = embeddingLevel;
+                            break;
+                        } else {
+                            return -1;
+                        }
+                    case 1:
+                    case 2:
+                        if (embeddingLevel != 0) {
+                            firstNonEmptyEmbeddingLevel = embeddingLevel;
+                            break;
+                        } else {
+                            return 1;
+                        }
+                    case 9:
+                        break;
+                    case 14:
+                    case 15:
+                        embeddingLevel++;
+                        embeddingLevelDir = -1;
+                        break;
+                    case 16:
+                    case 17:
+                        embeddingLevel++;
+                        embeddingLevelDir = 1;
+                        break;
+                    case 18:
+                        embeddingLevel--;
+                        embeddingLevelDir = 0;
+                        break;
+                    default:
+                        firstNonEmptyEmbeddingLevel = embeddingLevel;
+                        break;
                 }
             }
             if (firstNonEmptyEmbeddingLevel == 0) {
@@ -307,62 +308,58 @@ public final class BidiFormatter {
             int embeddingLevel = 0;
             int lastNonEmptyEmbeddingLevel = 0;
             while (this.charIndex > 0) {
-                byte dirTypeBackward = dirTypeBackward();
-                if (dirTypeBackward != 9) {
-                    switch (dirTypeBackward) {
-                        case 0:
-                            if (embeddingLevel != 0) {
-                                if (lastNonEmptyEmbeddingLevel != 0) {
-                                    break;
-                                } else {
-                                    lastNonEmptyEmbeddingLevel = embeddingLevel;
-                                    break;
-                                }
+                switch (dirTypeBackward()) {
+                    case 0:
+                        if (embeddingLevel != 0) {
+                            if (lastNonEmptyEmbeddingLevel != 0) {
+                                break;
                             } else {
-                                return -1;
+                                lastNonEmptyEmbeddingLevel = embeddingLevel;
+                                break;
                             }
-                        case 1:
-                        case 2:
-                            if (embeddingLevel != 0) {
-                                if (lastNonEmptyEmbeddingLevel != 0) {
-                                    break;
-                                } else {
-                                    lastNonEmptyEmbeddingLevel = embeddingLevel;
-                                    break;
-                                }
+                        } else {
+                            return -1;
+                        }
+                    case 1:
+                    case 2:
+                        if (embeddingLevel != 0) {
+                            if (lastNonEmptyEmbeddingLevel != 0) {
+                                break;
                             } else {
-                                return 1;
+                                lastNonEmptyEmbeddingLevel = embeddingLevel;
+                                break;
                             }
-                        default:
-                            switch (dirTypeBackward) {
-                                case 14:
-                                case 15:
-                                    if (lastNonEmptyEmbeddingLevel != embeddingLevel) {
-                                        embeddingLevel--;
-                                        break;
-                                    } else {
-                                        return -1;
-                                    }
-                                case 16:
-                                case 17:
-                                    if (lastNonEmptyEmbeddingLevel != embeddingLevel) {
-                                        embeddingLevel--;
-                                        break;
-                                    } else {
-                                        return 1;
-                                    }
-                                case 18:
-                                    embeddingLevel++;
-                                    break;
-                                default:
-                                    if (lastNonEmptyEmbeddingLevel != 0) {
-                                        break;
-                                    } else {
-                                        lastNonEmptyEmbeddingLevel = embeddingLevel;
-                                        break;
-                                    }
-                            }
-                    }
+                        } else {
+                            return 1;
+                        }
+                    case 9:
+                        break;
+                    case 14:
+                    case 15:
+                        if (lastNonEmptyEmbeddingLevel != embeddingLevel) {
+                            embeddingLevel--;
+                            break;
+                        } else {
+                            return -1;
+                        }
+                    case 16:
+                    case 17:
+                        if (lastNonEmptyEmbeddingLevel != embeddingLevel) {
+                            embeddingLevel--;
+                            break;
+                        } else {
+                            return 1;
+                        }
+                    case 18:
+                        embeddingLevel++;
+                        break;
+                    default:
+                        if (lastNonEmptyEmbeddingLevel != 0) {
+                            break;
+                        } else {
+                            lastNonEmptyEmbeddingLevel = embeddingLevel;
+                            break;
+                        }
                 }
             }
             return 0;
@@ -381,9 +378,9 @@ public final class BidiFormatter {
                 return Character.getDirectionality(codePoint);
             }
             this.charIndex++;
-            byte dirType = getCachedDirectionality(this.lastChar);
+            byte cachedDirectionality = getCachedDirectionality(this.lastChar);
             if (!this.isHtml) {
-                return dirType;
+                return cachedDirectionality;
             }
             if (this.lastChar == '<') {
                 return skipTagForward();
@@ -391,7 +388,7 @@ public final class BidiFormatter {
             if (this.lastChar == '&') {
                 return skipEntityForward();
             }
-            return dirType;
+            return cachedDirectionality;
         }
 
         /* access modifiers changed from: package-private */
@@ -403,9 +400,9 @@ public final class BidiFormatter {
                 return Character.getDirectionality(codePoint);
             }
             this.charIndex--;
-            byte dirType = getCachedDirectionality(this.lastChar);
+            byte cachedDirectionality = getCachedDirectionality(this.lastChar);
             if (!this.isHtml) {
-                return dirType;
+                return cachedDirectionality;
             }
             if (this.lastChar == '>') {
                 return skipTagBackward();
@@ -413,7 +410,7 @@ public final class BidiFormatter {
             if (this.lastChar == ';') {
                 return skipEntityBackward();
             }
-            return dirType;
+            return cachedDirectionality;
         }
 
         private byte skipTagForward() {

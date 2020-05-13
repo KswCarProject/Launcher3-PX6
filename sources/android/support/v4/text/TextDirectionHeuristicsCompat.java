@@ -33,21 +33,16 @@ public final class TextDirectionHeuristicsCompat {
     static int isRtlTextOrFormat(int directionality) {
         switch (directionality) {
             case 0:
+            case 14:
+            case 15:
                 return 1;
             case 1:
             case 2:
+            case 16:
+            case 17:
                 return 0;
             default:
-                switch (directionality) {
-                    case 14:
-                    case 15:
-                        return 1;
-                    case 16:
-                    case 17:
-                        return 0;
-                    default:
-                        return 2;
-                }
+                return 2;
         }
     }
 
@@ -57,7 +52,7 @@ public final class TextDirectionHeuristicsCompat {
         /* access modifiers changed from: protected */
         public abstract boolean defaultIsRtl();
 
-        TextDirectionHeuristicImpl(TextDirectionAlgorithm algorithm) {
+        public TextDirectionHeuristicImpl(TextDirectionAlgorithm algorithm) {
             this.mAlgorithm = algorithm;
         }
 
@@ -102,7 +97,7 @@ public final class TextDirectionHeuristicsCompat {
     }
 
     private static class FirstStrong implements TextDirectionAlgorithm {
-        static final FirstStrong INSTANCE = new FirstStrong();
+        public static final FirstStrong INSTANCE = new FirstStrong();
 
         public int checkRtl(CharSequence cs, int start, int count) {
             int result = 2;
@@ -118,8 +113,8 @@ public final class TextDirectionHeuristicsCompat {
     }
 
     private static class AnyStrong implements TextDirectionAlgorithm {
-        static final AnyStrong INSTANCE_LTR = new AnyStrong(false);
-        static final AnyStrong INSTANCE_RTL = new AnyStrong(true);
+        public static final AnyStrong INSTANCE_LTR = new AnyStrong(false);
+        public static final AnyStrong INSTANCE_RTL = new AnyStrong(true);
         private final boolean mLookForRtl;
 
         public int checkRtl(CharSequence cs, int start, int count) {
@@ -143,10 +138,13 @@ public final class TextDirectionHeuristicsCompat {
                         }
                 }
             }
-            if (haveUnlookedFor) {
-                return this.mLookForRtl ? 1 : 0;
+            if (!haveUnlookedFor) {
+                return 2;
             }
-            return 2;
+            if (!this.mLookForRtl) {
+                return 0;
+            }
+            return 1;
         }
 
         private AnyStrong(boolean lookForRtl) {
@@ -155,15 +153,18 @@ public final class TextDirectionHeuristicsCompat {
     }
 
     private static class TextDirectionHeuristicLocale extends TextDirectionHeuristicImpl {
-        static final TextDirectionHeuristicLocale INSTANCE = new TextDirectionHeuristicLocale();
+        public static final TextDirectionHeuristicLocale INSTANCE = new TextDirectionHeuristicLocale();
 
-        TextDirectionHeuristicLocale() {
+        public TextDirectionHeuristicLocale() {
             super((TextDirectionAlgorithm) null);
         }
 
         /* access modifiers changed from: protected */
         public boolean defaultIsRtl() {
-            return TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == 1;
+            if (TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == 1) {
+                return true;
+            }
+            return false;
         }
     }
 

@@ -60,73 +60,71 @@ public interface IWeatherService extends IInterface {
         }
 
         public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
-            if (code != 1598968902) {
-                switch (code) {
-                    case 1:
-                        data.enforceInterface(DESCRIPTOR);
-                        String _result = getCityCode();
-                        reply.writeNoException();
-                        reply.writeString(_result);
-                        return true;
-                    case 2:
-                        data.enforceInterface(DESCRIPTOR);
-                        String _result2 = getCityName();
-                        reply.writeNoException();
-                        reply.writeString(_result2);
-                        return true;
-                    case 3:
-                        data.enforceInterface(DESCRIPTOR);
-                        String _result3 = getCurWeather();
-                        reply.writeNoException();
-                        reply.writeString(_result3);
-                        return true;
-                    case 4:
-                        data.enforceInterface(DESCRIPTOR);
-                        String _result4 = getDayWeather();
-                        reply.writeNoException();
-                        reply.writeString(_result4);
-                        return true;
-                    case 5:
-                        data.enforceInterface(DESCRIPTOR);
-                        String _result5 = getUpdateData();
-                        reply.writeNoException();
-                        reply.writeString(_result5);
-                        return true;
-                    case 6:
-                        data.enforceInterface(DESCRIPTOR);
-                        String _result6 = getUpdateTimer();
-                        reply.writeNoException();
-                        reply.writeString(_result6);
-                        return true;
-                    case 7:
-                        data.enforceInterface(DESCRIPTOR);
-                        String _result7 = getWeatherIconStr();
-                        reply.writeNoException();
-                        reply.writeString(_result7);
-                        return true;
-                    case 8:
-                        data.enforceInterface(DESCRIPTOR);
-                        String _result8 = getWeatherInfor();
-                        reply.writeNoException();
-                        reply.writeString(_result8);
-                        return true;
-                    case 9:
-                        data.enforceInterface(DESCRIPTOR);
-                        String _result9 = getCurWeatherInfor();
-                        reply.writeNoException();
-                        reply.writeString(_result9);
-                        return true;
-                    case 10:
-                        data.enforceInterface(DESCRIPTOR);
-                        updateWeather();
-                        reply.writeNoException();
-                        return true;
-                    default:
-                        return super.onTransact(code, data, reply, flags);
-                }
-            } else {
-                reply.writeString(DESCRIPTOR);
-                return true;
+            switch (code) {
+                case 1:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result = getCityCode();
+                    reply.writeNoException();
+                    reply.writeString(_result);
+                    return true;
+                case 2:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result2 = getCityName();
+                    reply.writeNoException();
+                    reply.writeString(_result2);
+                    return true;
+                case 3:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result3 = getCurWeather();
+                    reply.writeNoException();
+                    reply.writeString(_result3);
+                    return true;
+                case 4:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result4 = getDayWeather();
+                    reply.writeNoException();
+                    reply.writeString(_result4);
+                    return true;
+                case 5:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result5 = getUpdateData();
+                    reply.writeNoException();
+                    reply.writeString(_result5);
+                    return true;
+                case 6:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result6 = getUpdateTimer();
+                    reply.writeNoException();
+                    reply.writeString(_result6);
+                    return true;
+                case 7:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result7 = getWeatherIconStr();
+                    reply.writeNoException();
+                    reply.writeString(_result7);
+                    return true;
+                case 8:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result8 = getWeatherInfor();
+                    reply.writeNoException();
+                    reply.writeString(_result8);
+                    return true;
+                case 9:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result9 = getCurWeatherInfor();
+                    reply.writeNoException();
+                    reply.writeString(_result9);
+                    return true;
+                case 10:
+                    data.enforceInterface(DESCRIPTOR);
+                    updateWeather();
+                    reply.writeNoException();
+                    return true;
+                case 1598968902:
+                    reply.writeString(DESCRIPTOR);
+                    return true;
+                default:
+                    return super.onTransact(code, data, reply, flags);
             }
         }
 

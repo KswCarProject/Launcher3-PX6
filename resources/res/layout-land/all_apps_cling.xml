@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.szchoiceway.index.Cling xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent" launcher:drawIdentifier="all_apps_landscape">
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="40dp" android:layout_marginStart="40dp">
+        <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView android:id="@+id/all_apps_cling_title" android:text="@string/all_apps_cling_title" style="@style/ClingTitleText"/>
+            <TextView android:id="@+id/all_apps_cling_add_item" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/all_apps_cling_add_item" style="@style/ClingText"/>
+        </LinearLayout>
+    </FrameLayout>
+    <Button android:layout_gravity="bottom|right|center_vertical|center_horizontal|center|end" android:id="@+id/cling_dismiss" android:layout_marginBottom="15dp" android:onClick="dismissAllAppsCling" android:layout_marginEnd="10dp" style="@style/ClingButton"/>
+</com.szchoiceway.index.Cling>

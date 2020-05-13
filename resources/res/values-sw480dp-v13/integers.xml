@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="folder_max_count_x">7</integer>
+    <integer name="folder_max_count_y">2</integer>
+    <integer name="cell_count_x">6</integer>
+    <integer name="cell_count_y">2</integer>
+    <integer name="config_cameraDistance">14000</integer>
+    <integer name="config_flingToDeleteMinVelocity">-1000</integer>
+    <integer name="folder_max_num_items">14</integer>
+    <integer name="hotseat_all_apps_index">2</integer>
+    <integer name="hotseat_cell_count">5</integer>
+    <integer name="hotseat_item_scale_percentage">100</integer>
+</resources>

@@ -2,16 +2,36 @@ package android.support.v4.view.accessibility;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
+import android.support.v4.view.accessibility.AccessibilityManagerCompatIcs;
+import android.support.v4.view.accessibility.AccessibilityManagerCompatKitKat;
 import android.view.accessibility.AccessibilityManager;
+import java.util.Collections;
 import java.util.List;
 
 public final class AccessibilityManagerCompat {
+    private static final AccessibilityManagerVersionImpl IMPL;
 
-    @Deprecated
+    interface AccessibilityManagerVersionImpl {
+        boolean addAccessibilityStateChangeListener(AccessibilityManager accessibilityManager, AccessibilityStateChangeListener accessibilityStateChangeListener);
+
+        boolean addTouchExplorationStateChangeListener(AccessibilityManager accessibilityManager, TouchExplorationStateChangeListener touchExplorationStateChangeListener);
+
+        List<AccessibilityServiceInfo> getEnabledAccessibilityServiceList(AccessibilityManager accessibilityManager, int i);
+
+        List<AccessibilityServiceInfo> getInstalledAccessibilityServiceList(AccessibilityManager accessibilityManager);
+
+        boolean isTouchExplorationEnabled(AccessibilityManager accessibilityManager);
+
+        AccessibilityManagerCompatIcs.AccessibilityStateChangeListenerWrapper newAccessibilityStateChangeListener(AccessibilityStateChangeListener accessibilityStateChangeListener);
+
+        AccessibilityManagerCompatKitKat.TouchExplorationStateChangeListenerWrapper newTouchExplorationStateChangeListener(TouchExplorationStateChangeListener touchExplorationStateChangeListener);
+
+        boolean removeAccessibilityStateChangeListener(AccessibilityManager accessibilityManager, AccessibilityStateChangeListener accessibilityStateChangeListener);
+
+        boolean removeTouchExplorationStateChangeListener(AccessibilityManager accessibilityManager, TouchExplorationStateChangeListener touchExplorationStateChangeListener);
+    }
+
     public interface AccessibilityStateChangeListener {
-        @Deprecated
         void onAccessibilityStateChanged(boolean z);
     }
 
@@ -23,102 +43,137 @@ public final class AccessibilityManagerCompat {
         void onTouchExplorationStateChanged(boolean z);
     }
 
-    @Deprecated
+    static class AccessibilityManagerStubImpl implements AccessibilityManagerVersionImpl {
+        AccessibilityManagerStubImpl() {
+        }
+
+        public AccessibilityManagerCompatIcs.AccessibilityStateChangeListenerWrapper newAccessibilityStateChangeListener(AccessibilityStateChangeListener listener) {
+            return null;
+        }
+
+        public boolean addAccessibilityStateChangeListener(AccessibilityManager manager, AccessibilityStateChangeListener listener) {
+            return false;
+        }
+
+        public boolean removeAccessibilityStateChangeListener(AccessibilityManager manager, AccessibilityStateChangeListener listener) {
+            return false;
+        }
+
+        public List<AccessibilityServiceInfo> getEnabledAccessibilityServiceList(AccessibilityManager manager, int feedbackTypeFlags) {
+            return Collections.emptyList();
+        }
+
+        public List<AccessibilityServiceInfo> getInstalledAccessibilityServiceList(AccessibilityManager manager) {
+            return Collections.emptyList();
+        }
+
+        public boolean isTouchExplorationEnabled(AccessibilityManager manager) {
+            return false;
+        }
+
+        public AccessibilityManagerCompatKitKat.TouchExplorationStateChangeListenerWrapper newTouchExplorationStateChangeListener(TouchExplorationStateChangeListener listener) {
+            return null;
+        }
+
+        public boolean addTouchExplorationStateChangeListener(AccessibilityManager manager, TouchExplorationStateChangeListener listener) {
+            return false;
+        }
+
+        public boolean removeTouchExplorationStateChangeListener(AccessibilityManager manager, TouchExplorationStateChangeListener listener) {
+            return false;
+        }
+    }
+
+    static class AccessibilityManagerIcsImpl extends AccessibilityManagerStubImpl {
+        AccessibilityManagerIcsImpl() {
+        }
+
+        public AccessibilityManagerCompatIcs.AccessibilityStateChangeListenerWrapper newAccessibilityStateChangeListener(final AccessibilityStateChangeListener listener) {
+            return new AccessibilityManagerCompatIcs.AccessibilityStateChangeListenerWrapper(listener, new AccessibilityManagerCompatIcs.AccessibilityStateChangeListenerBridge() {
+                public void onAccessibilityStateChanged(boolean enabled) {
+                    listener.onAccessibilityStateChanged(enabled);
+                }
+            });
+        }
+
+        public boolean addAccessibilityStateChangeListener(AccessibilityManager manager, AccessibilityStateChangeListener listener) {
+            return AccessibilityManagerCompatIcs.addAccessibilityStateChangeListener(manager, newAccessibilityStateChangeListener(listener));
+        }
+
+        public boolean removeAccessibilityStateChangeListener(AccessibilityManager manager, AccessibilityStateChangeListener listener) {
+            return AccessibilityManagerCompatIcs.removeAccessibilityStateChangeListener(manager, newAccessibilityStateChangeListener(listener));
+        }
+
+        public List<AccessibilityServiceInfo> getEnabledAccessibilityServiceList(AccessibilityManager manager, int feedbackTypeFlags) {
+            return AccessibilityManagerCompatIcs.getEnabledAccessibilityServiceList(manager, feedbackTypeFlags);
+        }
+
+        public List<AccessibilityServiceInfo> getInstalledAccessibilityServiceList(AccessibilityManager manager) {
+            return AccessibilityManagerCompatIcs.getInstalledAccessibilityServiceList(manager);
+        }
+
+        public boolean isTouchExplorationEnabled(AccessibilityManager manager) {
+            return AccessibilityManagerCompatIcs.isTouchExplorationEnabled(manager);
+        }
+    }
+
+    static class AccessibilityManagerKitKatImpl extends AccessibilityManagerIcsImpl {
+        AccessibilityManagerKitKatImpl() {
+        }
+
+        public AccessibilityManagerCompatKitKat.TouchExplorationStateChangeListenerWrapper newTouchExplorationStateChangeListener(final TouchExplorationStateChangeListener listener) {
+            return new AccessibilityManagerCompatKitKat.TouchExplorationStateChangeListenerWrapper(listener, new AccessibilityManagerCompatKitKat.TouchExplorationStateChangeListenerBridge() {
+                public void onTouchExplorationStateChanged(boolean enabled) {
+                    listener.onTouchExplorationStateChanged(enabled);
+                }
+            });
+        }
+
+        public boolean addTouchExplorationStateChangeListener(AccessibilityManager manager, TouchExplorationStateChangeListener listener) {
+            return AccessibilityManagerCompatKitKat.addTouchExplorationStateChangeListener(manager, newTouchExplorationStateChangeListener(listener));
+        }
+
+        public boolean removeTouchExplorationStateChangeListener(AccessibilityManager manager, TouchExplorationStateChangeListener listener) {
+            return AccessibilityManagerCompatKitKat.removeTouchExplorationStateChangeListener(manager, newTouchExplorationStateChangeListener(listener));
+        }
+    }
+
+    static {
+        if (Build.VERSION.SDK_INT >= 19) {
+            IMPL = new AccessibilityManagerKitKatImpl();
+        } else if (Build.VERSION.SDK_INT >= 14) {
+            IMPL = new AccessibilityManagerIcsImpl();
+        } else {
+            IMPL = new AccessibilityManagerStubImpl();
+        }
+    }
+
     public static boolean addAccessibilityStateChangeListener(AccessibilityManager manager, AccessibilityStateChangeListener listener) {
-        if (listener == null) {
-            return false;
-        }
-        return manager.addAccessibilityStateChangeListener(new AccessibilityStateChangeListenerWrapper(listener));
+        return IMPL.addAccessibilityStateChangeListener(manager, listener);
     }
 
-    @Deprecated
     public static boolean removeAccessibilityStateChangeListener(AccessibilityManager manager, AccessibilityStateChangeListener listener) {
-        if (listener == null) {
-            return false;
-        }
-        return manager.removeAccessibilityStateChangeListener(new AccessibilityStateChangeListenerWrapper(listener));
+        return IMPL.removeAccessibilityStateChangeListener(manager, listener);
     }
 
-    private static class AccessibilityStateChangeListenerWrapper implements AccessibilityManager.AccessibilityStateChangeListener {
-        AccessibilityStateChangeListener mListener;
-
-        AccessibilityStateChangeListenerWrapper(@NonNull AccessibilityStateChangeListener listener) {
-            this.mListener = listener;
-        }
-
-        public int hashCode() {
-            return this.mListener.hashCode();
-        }
-
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            return this.mListener.equals(((AccessibilityStateChangeListenerWrapper) o).mListener);
-        }
-
-        public void onAccessibilityStateChanged(boolean enabled) {
-            this.mListener.onAccessibilityStateChanged(enabled);
-        }
-    }
-
-    @Deprecated
     public static List<AccessibilityServiceInfo> getInstalledAccessibilityServiceList(AccessibilityManager manager) {
-        return manager.getInstalledAccessibilityServiceList();
+        return IMPL.getInstalledAccessibilityServiceList(manager);
     }
 
-    @Deprecated
     public static List<AccessibilityServiceInfo> getEnabledAccessibilityServiceList(AccessibilityManager manager, int feedbackTypeFlags) {
-        return manager.getEnabledAccessibilityServiceList(feedbackTypeFlags);
+        return IMPL.getEnabledAccessibilityServiceList(manager, feedbackTypeFlags);
     }
 
-    @Deprecated
     public static boolean isTouchExplorationEnabled(AccessibilityManager manager) {
-        return manager.isTouchExplorationEnabled();
+        return IMPL.isTouchExplorationEnabled(manager);
     }
 
     public static boolean addTouchExplorationStateChangeListener(AccessibilityManager manager, TouchExplorationStateChangeListener listener) {
-        if (Build.VERSION.SDK_INT < 19 || listener == null) {
-            return false;
-        }
-        return manager.addTouchExplorationStateChangeListener(new TouchExplorationStateChangeListenerWrapper(listener));
+        return IMPL.addTouchExplorationStateChangeListener(manager, listener);
     }
 
     public static boolean removeTouchExplorationStateChangeListener(AccessibilityManager manager, TouchExplorationStateChangeListener listener) {
-        if (Build.VERSION.SDK_INT < 19 || listener == null) {
-            return false;
-        }
-        return manager.removeTouchExplorationStateChangeListener(new TouchExplorationStateChangeListenerWrapper(listener));
-    }
-
-    @RequiresApi(19)
-    private static class TouchExplorationStateChangeListenerWrapper implements AccessibilityManager.TouchExplorationStateChangeListener {
-        final TouchExplorationStateChangeListener mListener;
-
-        TouchExplorationStateChangeListenerWrapper(@NonNull TouchExplorationStateChangeListener listener) {
-            this.mListener = listener;
-        }
-
-        public int hashCode() {
-            return this.mListener.hashCode();
-        }
-
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            return this.mListener.equals(((TouchExplorationStateChangeListenerWrapper) o).mListener);
-        }
-
-        public void onTouchExplorationStateChanged(boolean enabled) {
-            this.mListener.onTouchExplorationStateChanged(enabled);
-        }
+        return IMPL.removeTouchExplorationStateChangeListener(manager, listener);
     }
 
     private AccessibilityManagerCompat() {

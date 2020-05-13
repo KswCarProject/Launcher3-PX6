@@ -39,7 +39,8 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
             return new Thread(r, "ModernAsyncTask #" + this.mCount.getAndIncrement());
         }
     };
-    final AtomicBoolean mCancelled = new AtomicBoolean();
+    /* access modifiers changed from: private */
+    public final AtomicBoolean mCancelled = new AtomicBoolean();
     private final FutureTask<Result> mFuture = new FutureTask<Result>(this.mWorker) {
         /* access modifiers changed from: protected */
         public void done() {
@@ -57,7 +58,8 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
         }
     };
     private volatile Status mStatus = Status.PENDING;
-    final AtomicBoolean mTaskInvoked = new AtomicBoolean();
+    /* access modifiers changed from: private */
+    public final AtomicBoolean mTaskInvoked = new AtomicBoolean();
     private final WorkerRunnable<Params, Result> mWorker = new WorkerRunnable<Params, Result>() {
         public Result call() throws Exception {
             ModernAsyncTask.this.mTaskInvoked.set(true);
@@ -98,9 +100,6 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
     @RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
     public static void setDefaultExecutor(Executor exec) {
         sDefaultExecutor = exec;
-    }
-
-    ModernAsyncTask() {
     }
 
     /* access modifiers changed from: package-private */
@@ -169,16 +168,13 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
                     throw new IllegalStateException("Cannot execute task: the task is already running.");
                 case FINISHED:
                     throw new IllegalStateException("Cannot execute task: the task has already been executed (a task can be executed only once)");
-                default:
-                    throw new IllegalStateException("We should never reach this state");
             }
-        } else {
-            this.mStatus = Status.RUNNING;
-            onPreExecute();
-            this.mWorker.mParams = params;
-            exec.execute(this.mFuture);
-            return this;
         }
+        this.mStatus = Status.RUNNING;
+        onPreExecute();
+        this.mWorker.mParams = params;
+        exec.execute(this.mFuture);
+        return this;
     }
 
     public static void execute(Runnable runnable) {
@@ -203,7 +199,7 @@ abstract class ModernAsyncTask<Params, Progress, Result> {
     }
 
     private static class InternalHandler extends Handler {
-        InternalHandler() {
+        public InternalHandler() {
             super(Looper.getMainLooper());
         }
 

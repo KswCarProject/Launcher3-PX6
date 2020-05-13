@@ -1,10 +1,7 @@
 package android.support.v4.text.util;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
 import android.support.v4.util.PatternsCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -25,33 +22,33 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.http.protocol.HTTP;
 
 public final class LinkifyCompat {
     private static final Comparator<LinkSpec> COMPARATOR = new Comparator<LinkSpec>() {
-        public int compare(LinkSpec a, LinkSpec b) {
+        public final int compare(LinkSpec a, LinkSpec b) {
             if (a.start < b.start) {
                 return -1;
             }
-            if (a.start > b.start || a.end < b.end) {
+            if (a.start > b.start) {
                 return 1;
             }
-            if (a.end > b.end) {
-                return -1;
+            if (a.end < b.end) {
+                return 1;
             }
-            return 0;
+            if (a.end <= b.end) {
+                return 0;
+            }
+            return -1;
         }
     };
     private static final String[] EMPTY_STRING = new String[0];
 
-    @RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
     @Retention(RetentionPolicy.SOURCE)
     public @interface LinkifyMask {
     }
 
-    public static boolean addLinks(@NonNull Spannable text, int mask) {
-        if (shouldAddLinksFallbackToFramework()) {
-            return Linkify.addLinks(text, mask);
-        }
+    public static final boolean addLinks(@NonNull Spannable text, int mask) {
         if (mask == 0) {
             return false;
         }
@@ -60,7 +57,7 @@ public final class LinkifyCompat {
             text.removeSpan(old[i]);
         }
         if ((mask & 4) != 0) {
-            Linkify.addLinks(text, 4);
+            boolean frameworkReturn = Linkify.addLinks(text, 4);
         }
         ArrayList<LinkSpec> links = new ArrayList<>();
         if ((mask & 1) != 0) {
@@ -86,10 +83,7 @@ public final class LinkifyCompat {
         return true;
     }
 
-    public static boolean addLinks(@NonNull TextView text, int mask) {
-        if (shouldAddLinksFallbackToFramework()) {
-            return Linkify.addLinks(text, mask);
-        }
+    public static final boolean addLinks(@NonNull TextView text, int mask) {
         if (mask == 0) {
             return false;
         }
@@ -110,28 +104,15 @@ public final class LinkifyCompat {
         }
     }
 
-    public static void addLinks(@NonNull TextView text, @NonNull Pattern pattern, @Nullable String scheme) {
-        if (shouldAddLinksFallbackToFramework()) {
-            Linkify.addLinks(text, pattern, scheme);
-        } else {
-            addLinks(text, pattern, scheme, (String[]) null, (Linkify.MatchFilter) null, (Linkify.TransformFilter) null);
-        }
+    public static final void addLinks(@NonNull TextView text, @NonNull Pattern pattern, @Nullable String scheme) {
+        addLinks(text, pattern, scheme, (String[]) null, (Linkify.MatchFilter) null, (Linkify.TransformFilter) null);
     }
 
-    public static void addLinks(@NonNull TextView text, @NonNull Pattern pattern, @Nullable String scheme, @Nullable Linkify.MatchFilter matchFilter, @Nullable Linkify.TransformFilter transformFilter) {
-        if (shouldAddLinksFallbackToFramework()) {
-            Linkify.addLinks(text, pattern, scheme, matchFilter, transformFilter);
-        } else {
-            addLinks(text, pattern, scheme, (String[]) null, matchFilter, transformFilter);
-        }
+    public static final void addLinks(@NonNull TextView text, @NonNull Pattern pattern, @Nullable String scheme, @Nullable Linkify.MatchFilter matchFilter, @Nullable Linkify.TransformFilter transformFilter) {
+        addLinks(text, pattern, scheme, (String[]) null, matchFilter, transformFilter);
     }
 
-    @SuppressLint({"NewApi"})
-    public static void addLinks(@NonNull TextView text, @NonNull Pattern pattern, @Nullable String defaultScheme, @Nullable String[] schemes, @Nullable Linkify.MatchFilter matchFilter, @Nullable Linkify.TransformFilter transformFilter) {
-        if (shouldAddLinksFallbackToFramework()) {
-            Linkify.addLinks(text, pattern, defaultScheme, schemes, matchFilter, transformFilter);
-            return;
-        }
+    public static final void addLinks(@NonNull TextView text, @NonNull Pattern pattern, @Nullable String defaultScheme, @Nullable String[] schemes, @Nullable Linkify.MatchFilter matchFilter, @Nullable Linkify.TransformFilter transformFilter) {
         SpannableString spannable = SpannableString.valueOf(text.getText());
         if (addLinks((Spannable) spannable, pattern, defaultScheme, schemes, matchFilter, transformFilter)) {
             text.setText(spannable);
@@ -139,25 +120,15 @@ public final class LinkifyCompat {
         }
     }
 
-    public static boolean addLinks(@NonNull Spannable text, @NonNull Pattern pattern, @Nullable String scheme) {
-        if (shouldAddLinksFallbackToFramework()) {
-            return Linkify.addLinks(text, pattern, scheme);
-        }
+    public static final boolean addLinks(@NonNull Spannable text, @NonNull Pattern pattern, @Nullable String scheme) {
         return addLinks(text, pattern, scheme, (String[]) null, (Linkify.MatchFilter) null, (Linkify.TransformFilter) null);
     }
 
-    public static boolean addLinks(@NonNull Spannable spannable, @NonNull Pattern pattern, @Nullable String scheme, @Nullable Linkify.MatchFilter matchFilter, @Nullable Linkify.TransformFilter transformFilter) {
-        if (shouldAddLinksFallbackToFramework()) {
-            return Linkify.addLinks(spannable, pattern, scheme, matchFilter, transformFilter);
-        }
+    public static final boolean addLinks(@NonNull Spannable spannable, @NonNull Pattern pattern, @Nullable String scheme, @Nullable Linkify.MatchFilter matchFilter, @Nullable Linkify.TransformFilter transformFilter) {
         return addLinks(spannable, pattern, scheme, (String[]) null, matchFilter, transformFilter);
     }
 
-    @SuppressLint({"NewApi"})
-    public static boolean addLinks(@NonNull Spannable spannable, @NonNull Pattern pattern, @Nullable String defaultScheme, @Nullable String[] schemes, @Nullable Linkify.MatchFilter matchFilter, @Nullable Linkify.TransformFilter transformFilter) {
-        if (shouldAddLinksFallbackToFramework()) {
-            return Linkify.addLinks(spannable, pattern, defaultScheme, schemes, matchFilter, transformFilter);
-        }
+    public static final boolean addLinks(@NonNull Spannable spannable, @NonNull Pattern pattern, @Nullable String defaultScheme, @Nullable String[] schemes, @Nullable Linkify.MatchFilter matchFilter, @Nullable Linkify.TransformFilter transformFilter) {
         if (defaultScheme == null) {
             defaultScheme = "";
         }
@@ -187,10 +158,6 @@ public final class LinkifyCompat {
         return hasMatches;
     }
 
-    private static boolean shouldAddLinksFallbackToFramework() {
-        return Build.VERSION.SDK_INT >= 28;
-    }
-
     private static void addLinkMovementMethod(@NonNull TextView t) {
         MovementMethod m = t.getMovementMethod();
         if ((m == null || !(m instanceof LinkMovementMethod)) && t.getLinksClickable()) {
@@ -205,17 +172,16 @@ public final class LinkifyCompat {
         boolean hasPrefix = false;
         int i = 0;
         while (true) {
-            int i2 = i;
-            if (i2 >= prefixes.length) {
+            if (i >= prefixes.length) {
                 break;
             }
-            if (url.regionMatches(true, 0, prefixes[i2], 0, prefixes[i2].length())) {
+            if (url.regionMatches(true, 0, prefixes[i], 0, prefixes[i].length())) {
                 hasPrefix = true;
-                if (!url.regionMatches(false, 0, prefixes[i2], 0, prefixes[i2].length())) {
-                    url = prefixes[i2] + url.substring(prefixes[i2].length());
+                if (!url.regionMatches(false, 0, prefixes[i], 0, prefixes[i].length())) {
+                    url = prefixes[i] + url.substring(prefixes[i].length());
                 }
             } else {
-                i = i2 + 1;
+                i++;
             }
         }
         if (hasPrefix || prefixes.length <= 0) {
@@ -243,70 +209,57 @@ public final class LinkifyCompat {
         text.setSpan(new URLSpan(url), start, end, 33);
     }
 
-    private static void gatherMapLinks(ArrayList<LinkSpec> links, Spannable s) {
-        String address;
+    private static final void gatherMapLinks(ArrayList<LinkSpec> links, Spannable s) {
+        int start;
         String string = s.toString();
         int base = 0;
         while (true) {
             try {
-                String findAddress = findAddress(string);
-                address = findAddress;
-                if (findAddress == null) {
-                    break;
-                }
-                int start = string.indexOf(address);
-                if (start < 0) {
-                    break;
-                }
-                LinkSpec spec = new LinkSpec();
-                int end = start + address.length();
-                spec.start = base + start;
-                spec.end = base + end;
-                string = string.substring(end);
-                base += end;
-                try {
-                    String encodedAddress = URLEncoder.encode(address, "UTF-8");
-                    spec.url = "geo:0,0?q=" + encodedAddress;
-                    links.add(spec);
-                } catch (UnsupportedEncodingException e) {
+                String address = WebView.findAddress(string);
+                if (address != null && (start = string.indexOf(address)) >= 0) {
+                    LinkSpec spec = new LinkSpec();
+                    int end = start + address.length();
+                    spec.start = base + start;
+                    spec.end = base + end;
+                    string = string.substring(end);
+                    base += end;
+                    try {
+                        spec.url = "geo:0,0?q=" + URLEncoder.encode(address, HTTP.UTF_8);
+                        links.add(spec);
+                    } catch (UnsupportedEncodingException e) {
+                    }
+                } else {
+                    return;
                 }
             } catch (UnsupportedOperationException e2) {
                 return;
             }
         }
-        String str = address;
     }
 
-    private static String findAddress(String addr) {
-        if (Build.VERSION.SDK_INT >= 28) {
-            return WebView.findAddress(addr);
-        }
-        return FindAddress.findAddress(addr);
-    }
-
-    private static void pruneOverlaps(ArrayList<LinkSpec> links, Spannable text) {
-        int i = 0;
+    private static final void pruneOverlaps(ArrayList<LinkSpec> links, Spannable text) {
         URLSpan[] urlSpans = (URLSpan[]) text.getSpans(0, text.length(), URLSpan.class);
-        for (int i2 = 0; i2 < urlSpans.length; i2++) {
+        for (int i = 0; i < urlSpans.length; i++) {
             LinkSpec spec = new LinkSpec();
-            spec.frameworkAddedSpan = urlSpans[i2];
-            spec.start = text.getSpanStart(urlSpans[i2]);
-            spec.end = text.getSpanEnd(urlSpans[i2]);
+            spec.frameworkAddedSpan = urlSpans[i];
+            spec.start = text.getSpanStart(urlSpans[i]);
+            spec.end = text.getSpanEnd(urlSpans[i]);
             links.add(spec);
         }
         Collections.sort(links, COMPARATOR);
         int len = links.size();
-        while (i < len - 1) {
-            LinkSpec a = links.get(i);
-            LinkSpec b = links.get(i + 1);
+        int i2 = 0;
+        while (i2 < len - 1) {
+            LinkSpec a = links.get(i2);
+            LinkSpec b = links.get(i2 + 1);
             int remove = -1;
             if (a.start <= b.start && a.end > b.start) {
                 if (b.end <= a.end) {
-                    remove = i + 1;
+                    remove = i2 + 1;
                 } else if (a.end - a.start > b.end - b.start) {
-                    remove = i + 1;
+                    remove = i2 + 1;
                 } else if (a.end - a.start < b.end - b.start) {
-                    remove = i;
+                    remove = i2;
                 }
                 if (remove != -1) {
                     URLSpan span = links.get(remove).frameworkAddedSpan;
@@ -317,7 +270,7 @@ public final class LinkifyCompat {
                     len--;
                 }
             }
-            i++;
+            i2++;
         }
     }
 

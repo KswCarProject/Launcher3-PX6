@@ -84,7 +84,7 @@ public final class GestureDetectorCompat {
             }
         }
 
-        GestureDetectorCompatImplBase(Context context, GestureDetector.OnGestureListener listener, Handler handler) {
+        public GestureDetectorCompatImplBase(Context context, GestureDetector.OnGestureListener listener, Handler handler) {
             if (handler != null) {
                 this.mHandler = new GestureHandler(handler);
             } else {
@@ -100,7 +100,9 @@ public final class GestureDetectorCompat {
         private void init(Context context) {
             if (context == null) {
                 throw new IllegalArgumentException("Context must not be null");
-            } else if (this.mListener != null) {
+            } else if (this.mListener == null) {
+                throw new IllegalArgumentException("OnGestureListener must not be null");
+            } else {
                 this.mIsLongpressEnabled = true;
                 ViewConfiguration configuration = ViewConfiguration.get(context);
                 int touchSlop = configuration.getScaledTouchSlop();
@@ -109,8 +111,6 @@ public final class GestureDetectorCompat {
                 this.mMaximumFlingVelocity = configuration.getScaledMaximumFlingVelocity();
                 this.mTouchSlopSquare = touchSlop * touchSlop;
                 this.mDoubleTapSlopSquare = doubleTapSlop * doubleTapSlop;
-            } else {
-                throw new IllegalArgumentException("OnGestureListener must not be null");
             }
         }
 
@@ -127,46 +127,45 @@ public final class GestureDetectorCompat {
         }
 
         public boolean onTouchEvent(MotionEvent ev) {
-            int upIndex;
-            int skipIndex;
-            boolean pointerUp;
-            MotionEvent motionEvent = ev;
-            int i = ev.getAction();
+            int div;
+            int action = ev.getAction();
             if (this.mVelocityTracker == null) {
                 this.mVelocityTracker = VelocityTracker.obtain();
             }
-            this.mVelocityTracker.addMovement(motionEvent);
-            boolean pointerUp2 = (i & 255) == 6;
-            int skipIndex2 = pointerUp2 ? ev.getActionIndex() : -1;
-            int count = ev.getPointerCount();
-            float sumY = 0.0f;
+            this.mVelocityTracker.addMovement(ev);
+            boolean pointerUp = (action & 255) == 6;
+            int skipIndex = pointerUp ? ev.getActionIndex() : -1;
             float sumX = 0.0f;
-            for (int i2 = 0; i2 < count; i2++) {
-                if (skipIndex2 != i2) {
-                    sumX += motionEvent.getX(i2);
-                    sumY += motionEvent.getY(i2);
+            float sumY = 0.0f;
+            int count = ev.getPointerCount();
+            for (int i = 0; i < count; i++) {
+                if (skipIndex != i) {
+                    sumX += ev.getX(i);
+                    sumY += ev.getY(i);
                 }
             }
-            int div = pointerUp2 ? count - 1 : count;
+            if (pointerUp) {
+                div = count - 1;
+            } else {
+                div = count;
+            }
             float focusX = sumX / ((float) div);
             float focusY = sumY / ((float) div);
             boolean handled = false;
-            switch (i & 255) {
+            switch (action & 255) {
                 case 0:
-                    int action = i;
-                    boolean z = pointerUp2;
-                    int i3 = skipIndex2;
                     if (this.mDoubleTapListener != null) {
                         boolean hadTapMessage = this.mHandler.hasMessages(3);
                         if (hadTapMessage) {
                             this.mHandler.removeMessages(3);
                         }
-                        if (this.mCurrentDownEvent == null || this.mPreviousUpEvent == null || !hadTapMessage || !isConsideredDoubleTap(this.mCurrentDownEvent, this.mPreviousUpEvent, motionEvent)) {
-                            this.mHandler.sendEmptyMessageDelayed(3, (long) DOUBLE_TAP_TIMEOUT);
-                        } else {
-                            this.mIsDoubleTapping = true;
-                            handled = this.mDoubleTapListener.onDoubleTap(this.mCurrentDownEvent) | false | this.mDoubleTapListener.onDoubleTapEvent(motionEvent);
+                        if (!(this.mCurrentDownEvent == null || this.mPreviousUpEvent == null || !hadTapMessage)) {
+                            if (isConsideredDoubleTap(this.mCurrentDownEvent, this.mPreviousUpEvent, ev)) {
+                                this.mIsDoubleTapping = true;
+                                handled = false | this.mDoubleTapListener.onDoubleTap(this.mCurrentDownEvent) | this.mDoubleTapListener.onDoubleTapEvent(ev);
+                            }
                         }
+                        this.mHandler.sendEmptyMessageDelayed(3, (long) DOUBLE_TAP_TIMEOUT);
                     }
                     this.mLastFocusX = focusX;
                     this.mDownFocusX = focusX;
@@ -186,31 +185,28 @@ public final class GestureDetectorCompat {
                         this.mHandler.sendEmptyMessageAtTime(2, this.mCurrentDownEvent.getDownTime() + ((long) TAP_TIMEOUT) + ((long) LONGPRESS_TIMEOUT));
                     }
                     this.mHandler.sendEmptyMessageAtTime(1, this.mCurrentDownEvent.getDownTime() + ((long) TAP_TIMEOUT));
-                    return handled | this.mListener.onDown(motionEvent);
+                    return handled | this.mListener.onDown(ev);
                 case 1:
-                    int action2 = i;
-                    boolean z2 = pointerUp2;
-                    int i4 = skipIndex2;
                     this.mStillDown = false;
                     MotionEvent currentUpEvent = MotionEvent.obtain(ev);
                     if (this.mIsDoubleTapping) {
-                        handled = false | this.mDoubleTapListener.onDoubleTapEvent(motionEvent);
+                        handled = false | this.mDoubleTapListener.onDoubleTapEvent(ev);
                     } else if (this.mInLongPress) {
                         this.mHandler.removeMessages(3);
                         this.mInLongPress = false;
                     } else if (this.mAlwaysInTapRegion) {
-                        handled = this.mListener.onSingleTapUp(motionEvent);
+                        handled = this.mListener.onSingleTapUp(ev);
                         if (this.mDeferConfirmSingleTap && this.mDoubleTapListener != null) {
-                            this.mDoubleTapListener.onSingleTapConfirmed(motionEvent);
+                            this.mDoubleTapListener.onSingleTapConfirmed(ev);
                         }
                     } else {
                         VelocityTracker velocityTracker = this.mVelocityTracker;
-                        int pointerId = motionEvent.getPointerId(0);
+                        int pointerId = ev.getPointerId(0);
                         velocityTracker.computeCurrentVelocity(1000, (float) this.mMaximumFlingVelocity);
                         float velocityY = velocityTracker.getYVelocity(pointerId);
                         float velocityX = velocityTracker.getXVelocity(pointerId);
                         if (Math.abs(velocityY) > ((float) this.mMinimumFlingVelocity) || Math.abs(velocityX) > ((float) this.mMinimumFlingVelocity)) {
-                            handled = this.mListener.onFling(this.mCurrentDownEvent, motionEvent, velocityX, velocityY);
+                            handled = this.mListener.onFling(this.mCurrentDownEvent, ev, velocityX, velocityY);
                         }
                     }
                     if (this.mPreviousUpEvent != null) {
@@ -227,30 +223,26 @@ public final class GestureDetectorCompat {
                     this.mHandler.removeMessages(2);
                     return handled;
                 case 2:
-                    int action3 = i;
-                    boolean z3 = pointerUp2;
-                    int i5 = skipIndex2;
-                    if (this.mInLongPress != 0) {
+                    if (this.mInLongPress) {
                         return false;
                     }
                     float scrollX = this.mLastFocusX - focusX;
                     float scrollY = this.mLastFocusY - focusY;
                     if (this.mIsDoubleTapping) {
-                        return false | this.mDoubleTapListener.onDoubleTapEvent(motionEvent);
+                        return false | this.mDoubleTapListener.onDoubleTapEvent(ev);
                     }
                     if (this.mAlwaysInTapRegion) {
                         int deltaX = (int) (focusX - this.mDownFocusX);
                         int deltaY = (int) (focusY - this.mDownFocusY);
                         int distance = (deltaX * deltaX) + (deltaY * deltaY);
                         if (distance > this.mTouchSlopSquare) {
-                            boolean handled2 = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, scrollX, scrollY);
+                            handled = this.mListener.onScroll(this.mCurrentDownEvent, ev, scrollX, scrollY);
                             this.mLastFocusX = focusX;
                             this.mLastFocusY = focusY;
                             this.mAlwaysInTapRegion = false;
                             this.mHandler.removeMessages(3);
                             this.mHandler.removeMessages(1);
                             this.mHandler.removeMessages(2);
-                            handled = handled2;
                         }
                         if (distance <= this.mTouchSlopSquare) {
                             return handled;
@@ -260,21 +252,15 @@ public final class GestureDetectorCompat {
                     } else if (Math.abs(scrollX) < 1.0f && Math.abs(scrollY) < 1.0f) {
                         return false;
                     } else {
-                        boolean handled3 = this.mListener.onScroll(this.mCurrentDownEvent, motionEvent, scrollX, scrollY);
+                        boolean handled2 = this.mListener.onScroll(this.mCurrentDownEvent, ev, scrollX, scrollY);
                         this.mLastFocusX = focusX;
                         this.mLastFocusY = focusY;
-                        return handled3;
+                        return handled2;
                     }
                 case 3:
-                    int action4 = i;
-                    boolean z4 = pointerUp2;
-                    int i6 = skipIndex2;
                     cancel();
                     return false;
                 case 5:
-                    int action5 = i;
-                    boolean z5 = pointerUp2;
-                    int i7 = skipIndex2;
                     this.mLastFocusX = focusX;
                     this.mDownFocusX = focusX;
                     this.mLastFocusY = focusY;
@@ -287,45 +273,21 @@ public final class GestureDetectorCompat {
                     this.mLastFocusY = focusY;
                     this.mDownFocusY = focusY;
                     this.mVelocityTracker.computeCurrentVelocity(1000, (float) this.mMaximumFlingVelocity);
-                    int upIndex2 = ev.getActionIndex();
-                    int id1 = motionEvent.getPointerId(upIndex2);
+                    int upIndex = ev.getActionIndex();
+                    int id1 = ev.getPointerId(upIndex);
                     float x1 = this.mVelocityTracker.getXVelocity(id1);
                     float y1 = this.mVelocityTracker.getYVelocity(id1);
-                    int i8 = 0;
-                    while (true) {
-                        int action6 = i;
-                        int i9 = i8;
-                        if (i9 < count) {
-                            if (i9 == upIndex2) {
-                                pointerUp = pointerUp2;
-                                skipIndex = skipIndex2;
-                                upIndex = upIndex2;
-                            } else {
-                                pointerUp = pointerUp2;
-                                int id2 = motionEvent.getPointerId(i9);
-                                skipIndex = skipIndex2;
-                                upIndex = upIndex2;
-                                if ((this.mVelocityTracker.getXVelocity(id2) * x1) + (this.mVelocityTracker.getYVelocity(id2) * y1) < 0.0f) {
-                                    int i10 = id2;
-                                    this.mVelocityTracker.clear();
-                                    return false;
-                                }
+                    for (int i2 = 0; i2 < count; i2++) {
+                        if (i2 != upIndex) {
+                            int id2 = ev.getPointerId(i2);
+                            if ((x1 * this.mVelocityTracker.getXVelocity(id2)) + (y1 * this.mVelocityTracker.getYVelocity(id2)) < 0.0f) {
+                                this.mVelocityTracker.clear();
+                                return false;
                             }
-                            i8 = i9 + 1;
-                            i = action6;
-                            pointerUp2 = pointerUp;
-                            skipIndex2 = skipIndex;
-                            upIndex2 = upIndex;
-                        } else {
-                            int i11 = skipIndex2;
-                            int i12 = upIndex2;
-                            return false;
                         }
                     }
+                    return false;
                 default:
-                    int i13 = i;
-                    boolean z6 = pointerUp2;
-                    int i14 = skipIndex2;
                     return false;
             }
         }
@@ -383,7 +345,7 @@ public final class GestureDetectorCompat {
     static class GestureDetectorCompatImplJellybeanMr2 implements GestureDetectorCompatImpl {
         private final GestureDetector mDetector;
 
-        GestureDetectorCompatImplJellybeanMr2(Context context, GestureDetector.OnGestureListener listener, Handler handler) {
+        public GestureDetectorCompatImplJellybeanMr2(Context context, GestureDetector.OnGestureListener listener, Handler handler) {
             this.mDetector = new GestureDetector(context, listener, handler);
         }
 

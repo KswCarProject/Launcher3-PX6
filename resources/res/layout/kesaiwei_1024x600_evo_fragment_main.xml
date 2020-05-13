@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent">
-    <ImageView android:id="@+id/IvMainBk" android:background="@drawable/kesaiwei_1024x600_evo_bk" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-    <android.support.v4.view.ViewPager android:layout_gravity="center" android:id="@+id/MViewPager" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="0px" android:layout_marginTop="74px"/>
-</RelativeLayout>

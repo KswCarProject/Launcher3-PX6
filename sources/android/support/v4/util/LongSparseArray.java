@@ -1,8 +1,5 @@
 package android.support.v4.util;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 public class LongSparseArray<E> implements Cloneable {
     private static final Object DELETED = new Object();
     private boolean mGarbage;
@@ -27,28 +24,42 @@ public class LongSparseArray<E> implements Cloneable {
         this.mSize = 0;
     }
 
-    public LongSparseArray<E> clone() {
-        try {
-            LongSparseArray<E> clone = (LongSparseArray) super.clone();
-            clone.mKeys = (long[]) this.mKeys.clone();
-            clone.mValues = (Object[]) this.mValues.clone();
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError(e);
-        }
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r2v1, resolved type: java.lang.Object} */
+    /* JADX DEBUG: Multi-variable search result rejected for TypeSearchVarInfo{r0v0, resolved type: android.support.v4.util.LongSparseArray<E>} */
+    /* JADX WARNING: Multi-variable type inference failed */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public android.support.v4.util.LongSparseArray<E> clone() {
+        /*
+            r3 = this;
+            r1 = 0
+            java.lang.Object r2 = super.clone()     // Catch:{ CloneNotSupportedException -> 0x001e }
+            r0 = r2
+            android.support.v4.util.LongSparseArray r0 = (android.support.v4.util.LongSparseArray) r0     // Catch:{ CloneNotSupportedException -> 0x001e }
+            r1 = r0
+            long[] r2 = r3.mKeys     // Catch:{ CloneNotSupportedException -> 0x001e }
+            java.lang.Object r2 = r2.clone()     // Catch:{ CloneNotSupportedException -> 0x001e }
+            long[] r2 = (long[]) r2     // Catch:{ CloneNotSupportedException -> 0x001e }
+            r1.mKeys = r2     // Catch:{ CloneNotSupportedException -> 0x001e }
+            java.lang.Object[] r2 = r3.mValues     // Catch:{ CloneNotSupportedException -> 0x001e }
+            java.lang.Object r2 = r2.clone()     // Catch:{ CloneNotSupportedException -> 0x001e }
+            java.lang.Object[] r2 = (java.lang.Object[]) r2     // Catch:{ CloneNotSupportedException -> 0x001e }
+            r1.mValues = r2     // Catch:{ CloneNotSupportedException -> 0x001e }
+        L_0x001d:
+            return r1
+        L_0x001e:
+            r2 = move-exception
+            goto L_0x001d
+        */
+        throw new UnsupportedOperationException("Method not decompiled: android.support.v4.util.LongSparseArray.clone():android.support.v4.util.LongSparseArray");
     }
 
-    @Nullable
     public E get(long key) {
         return get(key, (Object) null);
     }
 
     public E get(long key, E valueIfKeyNotFound) {
         int i = ContainerHelpers.binarySearch(this.mKeys, this.mSize, key);
-        if (i < 0 || this.mValues[i] == DELETED) {
-            return valueIfKeyNotFound;
-        }
-        return this.mValues[i];
+        return (i < 0 || this.mValues[i] == DELETED) ? valueIfKeyNotFound : this.mValues[i];
     }
 
     public void delete(long key) {
@@ -72,9 +83,9 @@ public class LongSparseArray<E> implements Cloneable {
 
     private void gc() {
         int n = this.mSize;
+        int o = 0;
         long[] keys = this.mKeys;
         Object[] values = this.mValues;
-        int o = 0;
         for (int i = 0; i < n; i++) {
             Object val = values[i];
             if (val != DELETED) {
@@ -96,11 +107,11 @@ public class LongSparseArray<E> implements Cloneable {
             this.mValues[i] = value;
             return;
         }
-        int i2 = ~i;
+        int i2 = i ^ -1;
         if (i2 >= this.mSize || this.mValues[i2] != DELETED) {
             if (this.mGarbage && this.mSize >= this.mKeys.length) {
                 gc();
-                i2 = ~ContainerHelpers.binarySearch(this.mKeys, this.mSize, key);
+                i2 = ContainerHelpers.binarySearch(this.mKeys, this.mSize, key) ^ -1;
             }
             if (this.mSize >= this.mKeys.length) {
                 int n = ContainerHelpers.idealLongArraySize(this.mSize + 1);
@@ -124,22 +135,11 @@ public class LongSparseArray<E> implements Cloneable {
         this.mValues[i2] = value;
     }
 
-    public void putAll(@NonNull LongSparseArray<? extends E> other) {
-        int size = other.size();
-        for (int i = 0; i < size; i++) {
-            put(other.keyAt(i), other.valueAt(i));
-        }
-    }
-
     public int size() {
         if (this.mGarbage) {
             gc();
         }
         return this.mSize;
-    }
-
-    public boolean isEmpty() {
-        return size() == 0;
     }
 
     public long keyAt(int index) {
@@ -180,14 +180,6 @@ public class LongSparseArray<E> implements Cloneable {
             }
         }
         return -1;
-    }
-
-    public boolean containsKey(long key) {
-        return indexOfKey(key) >= 0;
-    }
-
-    public boolean containsValue(E value) {
-        return indexOfValue(value) >= 0;
     }
 
     public void clear() {

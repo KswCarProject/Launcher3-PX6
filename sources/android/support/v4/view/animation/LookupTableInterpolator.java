@@ -6,7 +6,7 @@ abstract class LookupTableInterpolator implements Interpolator {
     private final float mStepSize = (1.0f / ((float) (this.mValues.length - 1)));
     private final float[] mValues;
 
-    protected LookupTableInterpolator(float[] values) {
+    public LookupTableInterpolator(float[] values) {
         this.mValues = values;
     }
 

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="apps_customize_pageLayoutHeightGap">36dp</dimen>
+    <dimen name="apps_customize_pageLayoutPaddingLeft">24dp</dimen>
+    <dimen name="apps_customize_pageLayoutPaddingRight">24dp</dimen>
+    <dimen name="apps_customize_pageLayoutWidthGap">36dp</dimen>
+    <dimen name="button_bar_height">126dp</dimen>
+    <dimen name="button_bar_height_bottom_padding">32dp</dimen>
+    <dimen name="button_bar_height_plus_padding">126dp</dimen>
+    <dimen name="workspace_divider_padding_left">72dp</dimen>
+    <dimen name="workspace_divider_padding_right">72dp</dimen>
+    <dimen name="workspace_page_spacing">24dp</dimen>
+    <dimen name="qsb_bar_height">102dp</dimen>
+    <dimen name="qsb_padding_left">72dp</dimen>
+    <dimen name="qsb_padding_right">72dp</dimen>
+    <dimen name="hotseat_width_gap">14dp</dimen>
+    <dimen name="cling_text_block_offset_x">80dp</dimen>
+    <dimen name="cling_text_block_offset_y">160dp</dimen>
+    <dimen name="scroll_zone">40dp</dimen>
+    <dimen name="qsb_voice_proxy_padding_right">100dp</dimen>
+</resources>

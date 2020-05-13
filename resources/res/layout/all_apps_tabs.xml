@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.android.launcher3.allapps.AllAppsPagedView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_gravity="top|center_vertical|center_horizontal|center" android:id="@+id/all_apps_tabs_view_pager" android:paddingTop="@dimen/all_apps_header_top_padding" android:clipChildren="true" android:clipToPadding="false" android:descendantFocusability="afterDescendants" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginTop="@dimen/all_apps_header_tab_height" android:layout_below="@+id/search_container_all_apps" app:pageIndicator="@+id/tabs">
-    <include layout="@layout/all_apps_rv_layout"/>
-    <include layout="@layout/all_apps_rv_layout"/>
-</com.android.launcher3.allapps.AllAppsPagedView>

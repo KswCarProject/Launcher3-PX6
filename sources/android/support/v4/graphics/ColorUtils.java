@@ -5,9 +5,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.annotation.VisibleForTesting;
-import java.util.Objects;
 
 public final class ColorUtils {
     private static final int MIN_ALPHA_SEARCH_MAX_ITERATIONS = 10;
@@ -29,29 +27,6 @@ public final class ColorUtils {
         return Color.argb(a, compositeComponent(Color.red(foreground), fgAlpha, Color.red(background), bgAlpha, a), compositeComponent(Color.green(foreground), fgAlpha, Color.green(background), bgAlpha, a), compositeComponent(Color.blue(foreground), fgAlpha, Color.blue(background), bgAlpha, a));
     }
 
-    @RequiresApi(26)
-    @NonNull
-    public static Color compositeColors(@NonNull Color foreground, @NonNull Color background) {
-        if (Objects.equals(foreground.getModel(), background.getModel())) {
-            Color s = Objects.equals(background.getColorSpace(), foreground.getColorSpace()) ? foreground : foreground.convert(background.getColorSpace());
-            float[] src = s.getComponents();
-            float[] dst = background.getComponents();
-            float sa = s.alpha();
-            float da = background.alpha() * (1.0f - sa);
-            int ai = background.getComponentCount() - 1;
-            dst[ai] = sa + da;
-            if (dst[ai] > 0.0f) {
-                sa /= dst[ai];
-                da /= dst[ai];
-            }
-            for (int i = 0; i < ai; i++) {
-                dst[i] = (src[i] * sa) + (dst[i] * da);
-            }
-            return Color.valueOf(dst, background.getColorSpace());
-        }
-        throw new IllegalArgumentException("Color models must match (" + foreground.getModel() + " vs. " + background.getModel() + ")");
-    }
-
     private static int compositeAlpha(int foregroundAlpha, int backgroundAlpha) {
         return 255 - (((255 - backgroundAlpha) * (255 - foregroundAlpha)) / 255);
     }
@@ -71,25 +46,25 @@ public final class ColorUtils {
     }
 
     public static double calculateContrast(@ColorInt int foreground, @ColorInt int background) {
-        if (Color.alpha(background) == 255) {
-            if (Color.alpha(foreground) < 255) {
-                foreground = compositeColors(foreground, background);
-            }
-            double luminance1 = calculateLuminance(foreground) + 0.05d;
-            double luminance2 = calculateLuminance(background) + 0.05d;
-            return Math.max(luminance1, luminance2) / Math.min(luminance1, luminance2);
+        if (Color.alpha(background) != 255) {
+            throw new IllegalArgumentException("background can not be translucent: #" + Integer.toHexString(background));
         }
-        throw new IllegalArgumentException("background can not be translucent: #" + Integer.toHexString(background));
+        if (Color.alpha(foreground) < 255) {
+            foreground = compositeColors(foreground, background);
+        }
+        double luminance1 = calculateLuminance(foreground) + 0.05d;
+        double luminance2 = calculateLuminance(background) + 0.05d;
+        return Math.max(luminance1, luminance2) / Math.min(luminance1, luminance2);
     }
 
     public static int calculateMinimumAlpha(@ColorInt int foreground, @ColorInt int background, float minContrastRatio) {
-        int maxAlpha = 255;
         if (Color.alpha(background) != 255) {
             throw new IllegalArgumentException("background can not be translucent: #" + Integer.toHexString(background));
         } else if (calculateContrast(setAlphaComponent(foreground, 255), background) < ((double) minContrastRatio)) {
             return -1;
         } else {
             int minAlpha = 0;
+            int maxAlpha = 255;
             for (int numIterations = 0; numIterations <= 10 && maxAlpha - minAlpha > 1; numIterations++) {
                 int testAlpha = (minAlpha + maxAlpha) / 2;
                 if (calculateContrast(setAlphaComponent(foreground, testAlpha), background) < ((double) minContrastRatio)) {
@@ -143,43 +118,43 @@ public final class ColorUtils {
         float h = hsl[0];
         float s = hsl[1];
         float l = hsl[2];
-        float c = (1.0f - Math.abs((l * 2.0f) - 1.0f)) * s;
+        float c = (1.0f - Math.abs((2.0f * l) - 1.0f)) * s;
         float m = l - (0.5f * c);
-        float x = (1.0f - Math.abs(((h / 60.0f) % 2.0f) - 1.0f)) * c;
+        float x = c * (1.0f - Math.abs(((h / 60.0f) % 2.0f) - 1.0f));
         int r = 0;
         int g = 0;
         int b = 0;
         switch (((int) h) / 60) {
             case 0:
-                r = Math.round((c + m) * 255.0f);
-                g = Math.round((x + m) * 255.0f);
+                r = Math.round(255.0f * (c + m));
+                g = Math.round(255.0f * (x + m));
                 b = Math.round(255.0f * m);
                 break;
             case 1:
-                r = Math.round((x + m) * 255.0f);
-                g = Math.round((c + m) * 255.0f);
+                r = Math.round(255.0f * (x + m));
+                g = Math.round(255.0f * (c + m));
                 b = Math.round(255.0f * m);
                 break;
             case 2:
-                r = Math.round(m * 255.0f);
-                g = Math.round((c + m) * 255.0f);
-                b = Math.round((x + m) * 255.0f);
+                r = Math.round(255.0f * m);
+                g = Math.round(255.0f * (c + m));
+                b = Math.round(255.0f * (x + m));
                 break;
             case 3:
-                r = Math.round(m * 255.0f);
-                g = Math.round((x + m) * 255.0f);
-                b = Math.round((c + m) * 255.0f);
+                r = Math.round(255.0f * m);
+                g = Math.round(255.0f * (x + m));
+                b = Math.round(255.0f * (c + m));
                 break;
             case 4:
-                r = Math.round((x + m) * 255.0f);
-                g = Math.round(m * 255.0f);
-                b = Math.round((c + m) * 255.0f);
+                r = Math.round(255.0f * (x + m));
+                g = Math.round(255.0f * m);
+                b = Math.round(255.0f * (c + m));
                 break;
             case 5:
             case 6:
-                r = Math.round((c + m) * 255.0f);
-                g = Math.round(m * 255.0f);
-                b = Math.round((x + m) * 255.0f);
+                r = Math.round(255.0f * (c + m));
+                g = Math.round(255.0f * m);
+                b = Math.round(255.0f * (x + m));
                 break;
         }
         return Color.rgb(constrain(r, 0, 255), constrain(g, 0, 255), constrain(b, 0, 255));
@@ -207,44 +182,38 @@ public final class ColorUtils {
     }
 
     public static void RGBToXYZ(@IntRange(from = 0, to = 255) int r, @IntRange(from = 0, to = 255) int g, @IntRange(from = 0, to = 255) int b, @NonNull double[] outXyz) {
-        double[] dArr = outXyz;
-        if (dArr.length == 3) {
-            double sr = ((double) r) / 255.0d;
-            double sr2 = sr < 0.04045d ? sr / 12.92d : Math.pow((sr + 0.055d) / 1.055d, 2.4d);
-            double sg = ((double) g) / 255.0d;
-            double sg2 = sg < 0.04045d ? sg / 12.92d : Math.pow((sg + 0.055d) / 1.055d, 2.4d);
-            double sb = ((double) b) / 255.0d;
-            double sb2 = sb < 0.04045d ? sb / 12.92d : Math.pow((0.055d + sb) / 1.055d, 2.4d);
-            dArr[0] = ((0.4124d * sr2) + (0.3576d * sg2) + (0.1805d * sb2)) * XYZ_WHITE_REFERENCE_Y;
-            dArr[1] = ((0.2126d * sr2) + (0.7152d * sg2) + (0.0722d * sb2)) * XYZ_WHITE_REFERENCE_Y;
-            dArr[2] = ((0.0193d * sr2) + (0.1192d * sg2) + (0.9505d * sb2)) * XYZ_WHITE_REFERENCE_Y;
-            return;
+        if (outXyz.length != 3) {
+            throw new IllegalArgumentException("outXyz must have a length of 3.");
         }
-        int i = r;
-        int i2 = g;
-        int i3 = b;
-        throw new IllegalArgumentException("outXyz must have a length of 3.");
+        double sr = ((double) r) / 255.0d;
+        double sr2 = sr < 0.04045d ? sr / 12.92d : Math.pow((0.055d + sr) / 1.055d, 2.4d);
+        double sg = ((double) g) / 255.0d;
+        double sg2 = sg < 0.04045d ? sg / 12.92d : Math.pow((0.055d + sg) / 1.055d, 2.4d);
+        double sb = ((double) b) / 255.0d;
+        double sb2 = sb < 0.04045d ? sb / 12.92d : Math.pow((0.055d + sb) / 1.055d, 2.4d);
+        outXyz[0] = XYZ_WHITE_REFERENCE_Y * ((0.4124d * sr2) + (0.3576d * sg2) + (0.1805d * sb2));
+        outXyz[1] = XYZ_WHITE_REFERENCE_Y * ((0.2126d * sr2) + (0.7152d * sg2) + (0.0722d * sb2));
+        outXyz[2] = XYZ_WHITE_REFERENCE_Y * ((0.0193d * sr2) + (0.1192d * sg2) + (0.9505d * sb2));
     }
 
     public static void XYZToLAB(@FloatRange(from = 0.0d, to = 95.047d) double x, @FloatRange(from = 0.0d, to = 100.0d) double y, @FloatRange(from = 0.0d, to = 108.883d) double z, @NonNull double[] outLab) {
-        if (outLab.length == 3) {
-            double x2 = pivotXyzComponent(x / XYZ_WHITE_REFERENCE_X);
-            double y2 = pivotXyzComponent(y / XYZ_WHITE_REFERENCE_Y);
-            double z2 = pivotXyzComponent(z / XYZ_WHITE_REFERENCE_Z);
-            outLab[0] = Math.max(0.0d, (116.0d * y2) - 16.0d);
-            outLab[1] = (x2 - y2) * 500.0d;
-            outLab[2] = (y2 - z2) * 200.0d;
-            return;
+        if (outLab.length != 3) {
+            throw new IllegalArgumentException("outLab must have a length of 3.");
         }
-        throw new IllegalArgumentException("outLab must have a length of 3.");
+        double x2 = pivotXyzComponent(x / XYZ_WHITE_REFERENCE_X);
+        double y2 = pivotXyzComponent(y / XYZ_WHITE_REFERENCE_Y);
+        double z2 = pivotXyzComponent(z / XYZ_WHITE_REFERENCE_Z);
+        outLab[0] = Math.max(0.0d, (116.0d * y2) - 16.0d);
+        outLab[1] = 500.0d * (x2 - y2);
+        outLab[2] = 200.0d * (y2 - z2);
     }
 
     public static void LABToXYZ(@FloatRange(from = 0.0d, to = 100.0d) double l, @FloatRange(from = -128.0d, to = 127.0d) double a, @FloatRange(from = -128.0d, to = 127.0d) double b, @NonNull double[] outXyz) {
-        double fy = (l + 16.0d) / 116.0d;
+        double fy = (16.0d + l) / 116.0d;
         double fx = (a / 500.0d) + fy;
         double fz = fy - (b / 200.0d);
         double tmp = Math.pow(fx, 3.0d);
-        double xr = tmp > XYZ_EPSILON ? tmp : ((fx * 116.0d) - 16.0d) / XYZ_KAPPA;
+        double xr = tmp > XYZ_EPSILON ? tmp : ((116.0d * fx) - 16.0d) / XYZ_KAPPA;
         double yr = l > 7.9996247999999985d ? Math.pow(fy, 3.0d) : l / XYZ_KAPPA;
         double tmp2 = Math.pow(fz, 3.0d);
         double zr = tmp2 > XYZ_EPSILON ? tmp2 : ((116.0d * fz) - 16.0d) / XYZ_KAPPA;
@@ -258,7 +227,7 @@ public final class ColorUtils {
         double r = (((3.2406d * x) + (-1.5372d * y)) + (-0.4986d * z)) / XYZ_WHITE_REFERENCE_Y;
         double g = (((-0.9689d * x) + (1.8758d * y)) + (0.0415d * z)) / XYZ_WHITE_REFERENCE_Y;
         double b = (((0.0557d * x) + (-0.204d * y)) + (1.057d * z)) / XYZ_WHITE_REFERENCE_Y;
-        return Color.rgb(constrain((int) Math.round((r > 0.0031308d ? (Math.pow(r, 0.4166666666666667d) * 1.055d) - 0.055d : r * 12.92d) * 255.0d), 0, 255), constrain((int) Math.round((g > 0.0031308d ? (Math.pow(g, 0.4166666666666667d) * 1.055d) - 0.055d : g * 12.92d) * 255.0d), 0, 255), constrain((int) Math.round(255.0d * (b > 0.0031308d ? (Math.pow(b, 0.4166666666666667d) * 1.055d) - 0.055d : b * 12.92d)), 0, 255));
+        return Color.rgb(constrain((int) Math.round(255.0d * (r > 0.0031308d ? (1.055d * Math.pow(r, 0.4166666666666667d)) - 0.055d : r * 12.92d)), 0, 255), constrain((int) Math.round(255.0d * (g > 0.0031308d ? (1.055d * Math.pow(g, 0.4166666666666667d)) - 0.055d : g * 12.92d)), 0, 255), constrain((int) Math.round(255.0d * (b > 0.0031308d ? (1.055d * Math.pow(b, 0.4166666666666667d)) - 0.055d : b * 12.92d)), 0, 255));
     }
 
     @ColorInt
@@ -297,25 +266,23 @@ public final class ColorUtils {
     }
 
     public static void blendHSL(@NonNull float[] hsl1, @NonNull float[] hsl2, @FloatRange(from = 0.0d, to = 1.0d) float ratio, @NonNull float[] outResult) {
-        if (outResult.length == 3) {
-            float inverseRatio = 1.0f - ratio;
-            outResult[0] = circularInterpolate(hsl1[0], hsl2[0], ratio);
-            outResult[1] = (hsl1[1] * inverseRatio) + (hsl2[1] * ratio);
-            outResult[2] = (hsl1[2] * inverseRatio) + (hsl2[2] * ratio);
-            return;
+        if (outResult.length != 3) {
+            throw new IllegalArgumentException("result must have a length of 3.");
         }
-        throw new IllegalArgumentException("result must have a length of 3.");
+        float inverseRatio = 1.0f - ratio;
+        outResult[0] = circularInterpolate(hsl1[0], hsl2[0], ratio);
+        outResult[1] = (hsl1[1] * inverseRatio) + (hsl2[1] * ratio);
+        outResult[2] = (hsl1[2] * inverseRatio) + (hsl2[2] * ratio);
     }
 
     public static void blendLAB(@NonNull double[] lab1, @NonNull double[] lab2, @FloatRange(from = 0.0d, to = 1.0d) double ratio, @NonNull double[] outResult) {
-        if (outResult.length == 3) {
-            double inverseRatio = 1.0d - ratio;
-            outResult[0] = (lab1[0] * inverseRatio) + (lab2[0] * ratio);
-            outResult[1] = (lab1[1] * inverseRatio) + (lab2[1] * ratio);
-            outResult[2] = (lab1[2] * inverseRatio) + (lab2[2] * ratio);
-            return;
+        if (outResult.length != 3) {
+            throw new IllegalArgumentException("outResult must have a length of 3.");
         }
-        throw new IllegalArgumentException("outResult must have a length of 3.");
+        double inverseRatio = 1.0d - ratio;
+        outResult[0] = (lab1[0] * inverseRatio) + (lab2[0] * ratio);
+        outResult[1] = (lab1[1] * inverseRatio) + (lab2[1] * ratio);
+        outResult[2] = (lab1[2] * inverseRatio) + (lab2[2] * ratio);
     }
 
     @VisibleForTesting

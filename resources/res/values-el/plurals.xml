@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <plurals name="badged_app_label">
-        <item quantity="one">Η εφαρμογή %1$s έχει %2$d ειδοποίηση</item>
-        <item quantity="other">Η εφαρμογή %1$s έχει %2$d ειδοποιήσεις</item>
-    </plurals>
-</resources>

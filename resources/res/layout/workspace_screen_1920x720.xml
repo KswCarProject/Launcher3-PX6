@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:id="@+id/ShowScreen2" android:background="#000" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:background="@drawable/normal_1920x720_beijing" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="0px" android:layout_marginTop="0px"/>
+    <android.support.v4.view.ViewPager android:layout_gravity="center" android:id="@+id/kaidilake_viewpaper" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    <RelativeLayout android:id="@+id/excelltime" android:layout_width="match_parent" android:layout_height="match_parent" android:layout_marginLeft="70px" android:layout_marginTop="40px">
+        <TextView android:textSize="44px" android:textColor="#bfbfbf" android:gravity="left|center_vertical|center_horizontal|center" android:id="@+id/tvCurTime" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="70px" android:layout_marginLeft="50px" android:layout_marginTop="5px" android:text=""/>
+        <TextView android:textSize="24px" android:textColor="#bfbfbf" android:gravity="left|center_vertical|center_horizontal|center" android:id="@+id/TwCurDataTimeYMD" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="50px" android:layout_marginLeft="50px" android:layout_marginTop="60px" android:text=""/>
+        <ImageButton android:id="@+id/BtnSetCalendar" android:background="@null" android:visibility="visible" android:layout_width="150px" android:layout_height="80px" android:layout_marginLeft="50px" android:layout_marginTop="10px" android:onClick="onClick"/>
+        <TextView android:textSize="36px" android:textColor="#bfbfbf" android:gravity="left|center_vertical|center_horizontal|center" android:id="@+id/TwCurDataTimeWeek" android:visibility="visible" android:layout_width="wrap_content" android:layout_height="70px" android:layout_marginLeft="10px" android:layout_marginTop="5px" android:text="" android:layout_toRightOf="@+id/tvCurTime"/>
+    </RelativeLayout>
+</RelativeLayout>

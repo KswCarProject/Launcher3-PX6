@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.szchoiceway.index.PagedViewIcon xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:gravity="center_horizontal" android:id="@+id/application_icon" android:background="@null" android:focusable="true" android:layout_width="match_parent" android:layout_height="match_parent" style="@style/WorkspaceIcon.Landscape.AppsCustomize_chuanqi_cusp"/>

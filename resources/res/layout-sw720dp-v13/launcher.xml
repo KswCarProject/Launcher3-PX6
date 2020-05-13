@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:id="@+id/launcher" android:background="@drawable/workspace_bg" android:layout_width="match_parent" android:layout_height="match_parent">
+    <com.szchoiceway.index.DragLayer android:id="@+id/drag_layer" android:fitsSystemWindows="true" android:layout_width="match_parent" android:layout_height="match_parent">
+        <include android:layout_gravity="bottom|center_vertical|center_horizontal|center" android:id="@+id/dock_divider" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/button_bar_height_plus_padding" layout="@layout/workspace_divider"/>
+        <include android:layout_gravity="bottom" android:id="@+id/paged_view_indicator" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="@dimen/button_bar_height_plus_padding" layout="@layout/scroll_indicator"/>
+        <com.szchoiceway.index.Workspace android:id="@+id/workspace" android:paddingTop="@dimen/workspace_top_padding" android:paddingBottom="@dimen/workspace_bottom_padding" android:layout_width="match_parent" android:layout_height="match_parent" android:paddingStart="@dimen/workspace_left_padding" android:paddingEnd="@dimen/workspace_right_padding" xmlns:ns1="http://schemas.android.com/apk/res/com.szchoiceway.index" ns1:pageSpacing="@dimen/workspace_page_spacing" xmlns:ns2="http://schemas.android.com/apk/res/com.szchoiceway.index" ns2:scrollIndicatorPaddingLeft="@dimen/workspace_divider_padding_left" xmlns:ns3="http://schemas.android.com/apk/res/com.szchoiceway.index" ns3:scrollIndicatorPaddingRight="@dimen/workspace_divider_padding_right" xmlns:ns4="http://schemas.android.com/apk/res/com.szchoiceway.index" ns4:defaultScreen="2" xmlns:ns5="http://schemas.android.com/apk/res/com.szchoiceway.index" ns5:cellCountX="@integer/cell_count_x" xmlns:ns6="http://schemas.android.com/apk/res/com.szchoiceway.index" ns6:cellCountY="@integer/cell_count_y">
+            <include android:id="@+id/cell1" layout="@layout/workspace_screen"/>
+            <include android:id="@+id/cell2" layout="@layout/workspace_screen"/>
+            <include android:id="@+id/cell3" layout="@layout/workspace_screen"/>
+            <include android:id="@+id/cell4" layout="@layout/workspace_screen"/>
+            <include android:id="@+id/cell5" layout="@layout/workspace_screen"/>
+        </com.szchoiceway.index.Workspace>
+        <include android:layout_gravity="bottom" android:id="@+id/hotseat" android:layout_width="match_parent" android:layout_height="@dimen/button_bar_height_plus_padding" layout="@layout/hotseat"/>
+        <include android:id="@+id/qsb_bar" layout="@layout/qsb_bar"/>
+        <include android:id="@+id/workspace_cling" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" layout="@layout/workspace_cling"/>
+        <include android:id="@+id/folder_cling" android:visibility="gone" android:layout_width="match_parent" android:layout_height="match_parent" layout="@layout/folder_cling"/>
+        <com.szchoiceway.index.DrawableStateProxyView android:layout_gravity="top|right|center_vertical|center_horizontal|center|end" android:id="@+id/voice_button_proxy" android:clickable="true" android:layout_width="80dp" android:layout_height="@dimen/qsb_bar_height" android:onClick="onClickVoiceButton" android:importantForAccessibility="no" android:layout_marginEnd="@dimen/qsb_voice_proxy_padding_right" xmlns:ns7="http://schemas.android.com/apk/res/com.szchoiceway.index" ns7:sourceViewId="@+id/voice_button"/>
+        <include android:id="@+id/apps_customize_pane" android:visibility="invisible" android:layout_width="match_parent" android:layout_height="match_parent" layout="@layout/apps_customize_pane"/>
+    </com.szchoiceway.index.DragLayer>
+</FrameLayout>

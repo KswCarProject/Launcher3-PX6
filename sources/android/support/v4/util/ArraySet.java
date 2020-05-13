@@ -1,7 +1,5 @@
 package android.support.v4.util;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -16,15 +14,14 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
     private static final int[] INT = new int[0];
     private static final Object[] OBJECT = new Object[0];
     private static final String TAG = "ArraySet";
-    @Nullable
-    private static Object[] sBaseCache;
-    private static int sBaseCacheSize;
-    @Nullable
-    private static Object[] sTwiceBaseCache;
-    private static int sTwiceBaseCacheSize;
+    static Object[] sBaseCache;
+    static int sBaseCacheSize;
+    static Object[] sTwiceBaseCache;
+    static int sTwiceBaseCacheSize;
     Object[] mArray;
-    private MapCollections<E, E> mCollections;
-    private int[] mHashes;
+    MapCollections<E, E> mCollections;
+    int[] mHashes;
+    final boolean mIdentityHashCode;
     int mSize;
 
     private int indexOf(Object key, int hash) {
@@ -50,7 +47,7 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
             }
             i--;
         }
-        return ~end;
+        return end ^ -1;
     }
 
     private int indexOfNull() {
@@ -76,7 +73,7 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
             }
             i--;
         }
-        return ~end;
+        return end ^ -1;
     }
 
     private void allocArrays(int size) {
@@ -140,10 +137,15 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
     }
 
     public ArraySet() {
-        this(0);
+        this(0, false);
     }
 
     public ArraySet(int capacity) {
+        this(capacity, false);
+    }
+
+    public ArraySet(int capacity, boolean identityHashCode) {
+        this.mIdentityHashCode = identityHashCode;
         if (capacity == 0) {
             this.mHashes = INT;
             this.mArray = OBJECT;
@@ -153,14 +155,14 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         this.mSize = 0;
     }
 
-    public ArraySet(@Nullable ArraySet<E> set) {
+    public ArraySet(ArraySet<E> set) {
         this();
         if (set != null) {
             addAll(set);
         }
     }
 
-    public ArraySet(@Nullable Collection<E> set) {
+    public ArraySet(Collection<E> set) {
         this();
         if (set != null) {
             addAll(set);
@@ -189,15 +191,17 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         }
     }
 
-    public boolean contains(@Nullable Object key) {
+    public boolean contains(Object key) {
         return indexOf(key) >= 0;
     }
 
-    public int indexOf(@Nullable Object key) {
-        return key == null ? indexOfNull() : indexOf(key, key.hashCode());
+    public int indexOf(Object key) {
+        if (key == null) {
+            return indexOfNull();
+        }
+        return indexOf(key, this.mIdentityHashCode ? System.identityHashCode(key) : key.hashCode());
     }
 
-    @Nullable
     public E valueAt(int index) {
         return this.mArray[index];
     }
@@ -206,28 +210,27 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         return this.mSize <= 0;
     }
 
-    public boolean add(@Nullable E value) {
-        int index;
+    public boolean add(E value) {
         int hash;
+        int index;
+        int n = 8;
         if (value == null) {
             hash = 0;
             index = indexOfNull();
         } else {
-            hash = value.hashCode();
+            hash = this.mIdentityHashCode ? System.identityHashCode(value) : value.hashCode();
             index = indexOf(value, hash);
         }
         if (index >= 0) {
             return false;
         }
-        int index2 = ~index;
+        int index2 = index ^ -1;
         if (this.mSize >= this.mHashes.length) {
-            int i = 4;
             if (this.mSize >= 8) {
-                i = (this.mSize >> 1) + this.mSize;
-            } else if (this.mSize >= 4) {
-                i = 8;
+                n = this.mSize + (this.mSize >> 1);
+            } else if (this.mSize < 4) {
+                n = 4;
             }
-            int n = i;
             int[] ohashes = this.mHashes;
             Object[] oarray = this.mArray;
             allocArrays(n);
@@ -249,8 +252,13 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
 
     @RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
     public void append(E value) {
+        int hash;
         int index = this.mSize;
-        int hash = value == null ? 0 : value.hashCode();
+        if (value == null) {
+            hash = 0;
+        } else {
+            hash = this.mIdentityHashCode ? System.identityHashCode(value) : value.hashCode();
+        }
         if (index >= this.mHashes.length) {
             throw new IllegalStateException("Array is full");
         } else if (index <= 0 || this.mHashes[index - 1] <= hash) {
@@ -262,19 +270,12 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         }
     }
 
-    public void addAll(@NonNull ArraySet<? extends E> array) {
+    public void addAll(ArraySet<? extends E> array) {
         int N = array.mSize;
         ensureCapacity(this.mSize + N);
-        int i = 0;
         if (this.mSize != 0) {
-            while (true) {
-                int i2 = i;
-                if (i2 < N) {
-                    add(array.valueAt(i2));
-                    i = i2 + 1;
-                } else {
-                    return;
-                }
+            for (int i = 0; i < N; i++) {
+                add(array.valueAt(i));
             }
         } else if (N > 0) {
             System.arraycopy(array.mHashes, 0, this.mHashes, 0, N);
@@ -283,7 +284,7 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         }
     }
 
-    public boolean remove(@Nullable Object object) {
+    public boolean remove(Object object) {
         int index = indexOf(object);
         if (index < 0) {
             return false;
@@ -293,70 +294,62 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
     }
 
     public E removeAt(int index) {
+        int n = 8;
         Object old = this.mArray[index];
         if (this.mSize <= 1) {
             freeArrays(this.mHashes, this.mArray, this.mSize);
             this.mHashes = INT;
             this.mArray = OBJECT;
             this.mSize = 0;
+        } else if (this.mHashes.length <= 8 || this.mSize >= this.mHashes.length / 3) {
+            this.mSize--;
+            if (index < this.mSize) {
+                System.arraycopy(this.mHashes, index + 1, this.mHashes, index, this.mSize - index);
+                System.arraycopy(this.mArray, index + 1, this.mArray, index, this.mSize - index);
+            }
+            this.mArray[this.mSize] = null;
         } else {
-            int i = 8;
-            if (this.mHashes.length <= 8 || this.mSize >= this.mHashes.length / 3) {
-                this.mSize--;
-                if (index < this.mSize) {
-                    System.arraycopy(this.mHashes, index + 1, this.mHashes, index, this.mSize - index);
-                    System.arraycopy(this.mArray, index + 1, this.mArray, index, this.mSize - index);
-                }
-                this.mArray[this.mSize] = null;
-            } else {
-                if (this.mSize > 8) {
-                    i = (this.mSize >> 1) + this.mSize;
-                }
-                int n = i;
-                int[] ohashes = this.mHashes;
-                Object[] oarray = this.mArray;
-                allocArrays(n);
-                this.mSize--;
-                if (index > 0) {
-                    System.arraycopy(ohashes, 0, this.mHashes, 0, index);
-                    System.arraycopy(oarray, 0, this.mArray, 0, index);
-                }
-                if (index < this.mSize) {
-                    System.arraycopy(ohashes, index + 1, this.mHashes, index, this.mSize - index);
-                    System.arraycopy(oarray, index + 1, this.mArray, index, this.mSize - index);
-                }
+            if (this.mSize > 8) {
+                n = this.mSize + (this.mSize >> 1);
+            }
+            int[] ohashes = this.mHashes;
+            Object[] oarray = this.mArray;
+            allocArrays(n);
+            this.mSize--;
+            if (index > 0) {
+                System.arraycopy(ohashes, 0, this.mHashes, 0, index);
+                System.arraycopy(oarray, 0, this.mArray, 0, index);
+            }
+            if (index < this.mSize) {
+                System.arraycopy(ohashes, index + 1, this.mHashes, index, this.mSize - index);
+                System.arraycopy(oarray, index + 1, this.mArray, index, this.mSize - index);
             }
         }
         return old;
     }
 
-    public boolean removeAll(@NonNull ArraySet<? extends E> array) {
+    public boolean removeAll(ArraySet<? extends E> array) {
         int N = array.mSize;
         int originalSize = this.mSize;
         for (int i = 0; i < N; i++) {
             remove(array.valueAt(i));
         }
-        if (originalSize != this.mSize) {
-            return true;
-        }
-        return false;
+        return originalSize != this.mSize;
     }
 
     public int size() {
         return this.mSize;
     }
 
-    @NonNull
     public Object[] toArray() {
         Object[] result = new Object[this.mSize];
         System.arraycopy(this.mArray, 0, result, 0, this.mSize);
         return result;
     }
 
-    @NonNull
-    public <T> T[] toArray(@NonNull T[] array) {
+    public <T> T[] toArray(T[] array) {
         if (array.length < this.mSize) {
-            array = (Object[]) Array.newInstance(array.getClass().getComponentType(), this.mSize);
+            array = (Object[]) ((Object[]) Array.newInstance(array.getClass().getComponentType(), this.mSize));
         }
         System.arraycopy(this.mArray, 0, array, 0, this.mSize);
         if (array.length > this.mSize) {
@@ -479,7 +472,7 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         return getCollection().getKeySet().iterator();
     }
 
-    public boolean containsAll(@NonNull Collection<?> collection) {
+    public boolean containsAll(Collection<?> collection) {
         for (Object contains : collection) {
             if (!contains(contains)) {
                 return false;
@@ -488,7 +481,7 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         return true;
     }
 
-    public boolean addAll(@NonNull Collection<? extends E> collection) {
+    public boolean addAll(Collection<? extends E> collection) {
         ensureCapacity(this.mSize + collection.size());
         boolean added = false;
         for (E value : collection) {
@@ -497,7 +490,7 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         return added;
     }
 
-    public boolean removeAll(@NonNull Collection<?> collection) {
+    public boolean removeAll(Collection<?> collection) {
         boolean removed = false;
         for (Object value : collection) {
             removed |= remove(value);
@@ -505,7 +498,7 @@ public final class ArraySet<E> implements Collection<E>, Set<E> {
         return removed;
     }
 
-    public boolean retainAll(@NonNull Collection<?> collection) {
+    public boolean retainAll(Collection<?> collection) {
         boolean removed = false;
         for (int i = this.mSize - 1; i >= 0; i--) {
             if (!collection.contains(this.mArray[i])) {

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lb_music">Music</string>
+    <string name="lb_navi">Navigation</string>
+    <string name="lb_settings">Settings</string>
+    <string name="lb_video">Video</string>
+    <string name="lbl_timer">Datatimer</string>
+    <string name="lb_A_switch_to_the_original_car_interface">A switch to the original car interface</string>
+    <string name="lb_Do_not_watch_the_video_while_driving">Do not watch the video while driving</string>
+    <string name="lb_Navigate_for_you_in_real_time">Navigate for you in real time</string>
+    <string name="lb_Open_more_apps">Open more apps</string>
+    <string name="lb_Record_driving_video_and_sound">Record driving video and sound</string>
+    <string name="lb_Resource_management">Resource management</string>
+    <string name="lb_Support_USB_or_Wifi_connection">Support USB or Wifi connection</string>
+    <string name="lb_System_function_settings">System function settings</string>
+    <string name="lb_Turn_on_the_Bluetooth_device_and_make_a_call">Turn on the Bluetooth device and make a call</string>
+    <string name="lb_Video_sound">Video sound</string>
+    <string name="lb_Web_browsing">Web browsing</string>
+    <string name="lb_aux">AUX</string>
+    <string name="lb_bt">Bluetooth</string>
+    <string name="lb_btmusic">BT Music</string>
+    <string name="lb_dvr">DVR</string>
+    <string name="lb_radio">Radio</string>
+    <string name="lb_tv">TV</string>
+    <string name="lbl_am">AM</string>
+    <string name="lbl_fri">FRI</string>
+    <string name="lbl_mon">MON</string>
+    <string name="lbl_pm">PM</string>
+    <string name="lbl_sat">SAT</string>
+    <string name="lbl_sun">SUN</string>
+    <string name="lbl_thu">THU</string>
+    <string name="lbl_tue">TUE</string>
+    <string name="lbl_update_infor">Update at</string>
+    <string name="lbl_wait_network">Waiting for a network connection...</string>
+    <string name="lbl_wed">WED</string>
+</resources>

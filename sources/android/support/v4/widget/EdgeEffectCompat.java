@@ -3,11 +3,39 @@ package android.support.v4.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.widget.EdgeEffect;
 
 public final class EdgeEffectCompat {
+    private static final EdgeEffectBaseImpl IMPL;
     private EdgeEffect mEdgeEffect;
+
+    static {
+        if (Build.VERSION.SDK_INT >= 21) {
+            IMPL = new EdgeEffectApi21Impl();
+        } else {
+            IMPL = new EdgeEffectBaseImpl();
+        }
+    }
+
+    static class EdgeEffectBaseImpl {
+        EdgeEffectBaseImpl() {
+        }
+
+        public void onPull(EdgeEffect edgeEffect, float deltaDistance, float displacement) {
+            edgeEffect.onPull(deltaDistance);
+        }
+    }
+
+    @RequiresApi(21)
+    static class EdgeEffectApi21Impl extends EdgeEffectBaseImpl {
+        EdgeEffectApi21Impl() {
+        }
+
+        public void onPull(EdgeEffect edgeEffect, float deltaDistance, float displacement) {
+            edgeEffect.onPull(deltaDistance, displacement);
+        }
+    }
 
     @Deprecated
     public EdgeEffectCompat(Context context) {
@@ -37,16 +65,12 @@ public final class EdgeEffectCompat {
 
     @Deprecated
     public boolean onPull(float deltaDistance, float displacement) {
-        onPull(this.mEdgeEffect, deltaDistance, displacement);
+        IMPL.onPull(this.mEdgeEffect, deltaDistance, displacement);
         return true;
     }
 
-    public static void onPull(@NonNull EdgeEffect edgeEffect, float deltaDistance, float displacement) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            edgeEffect.onPull(deltaDistance, displacement);
-        } else {
-            edgeEffect.onPull(deltaDistance);
-        }
+    public static void onPull(EdgeEffect edgeEffect, float deltaDistance, float displacement) {
+        IMPL.onPull(edgeEffect, deltaDistance, displacement);
     }
 
     @Deprecated

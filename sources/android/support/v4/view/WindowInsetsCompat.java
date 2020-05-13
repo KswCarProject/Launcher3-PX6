@@ -2,157 +2,293 @@ package android.support.v4.view;
 
 import android.graphics.Rect;
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.view.WindowInsets;
 
 public class WindowInsetsCompat {
+    private static final WindowInsetsCompatImpl IMPL;
     private final Object mInsets;
 
-    private WindowInsetsCompat(Object insets) {
+    private interface WindowInsetsCompatImpl {
+        WindowInsetsCompat consumeStableInsets(Object obj);
+
+        WindowInsetsCompat consumeSystemWindowInsets(Object obj);
+
+        Object getSourceWindowInsets(Object obj);
+
+        int getStableInsetBottom(Object obj);
+
+        int getStableInsetLeft(Object obj);
+
+        int getStableInsetRight(Object obj);
+
+        int getStableInsetTop(Object obj);
+
+        int getSystemWindowInsetBottom(Object obj);
+
+        int getSystemWindowInsetLeft(Object obj);
+
+        int getSystemWindowInsetRight(Object obj);
+
+        int getSystemWindowInsetTop(Object obj);
+
+        boolean hasInsets(Object obj);
+
+        boolean hasStableInsets(Object obj);
+
+        boolean hasSystemWindowInsets(Object obj);
+
+        boolean isConsumed(Object obj);
+
+        boolean isRound(Object obj);
+
+        WindowInsetsCompat replaceSystemWindowInsets(Object obj, int i, int i2, int i3, int i4);
+
+        WindowInsetsCompat replaceSystemWindowInsets(Object obj, Rect rect);
+    }
+
+    private static class WindowInsetsCompatBaseImpl implements WindowInsetsCompatImpl {
+        WindowInsetsCompatBaseImpl() {
+        }
+
+        public int getSystemWindowInsetLeft(Object insets) {
+            return 0;
+        }
+
+        public int getSystemWindowInsetTop(Object insets) {
+            return 0;
+        }
+
+        public int getSystemWindowInsetRight(Object insets) {
+            return 0;
+        }
+
+        public int getSystemWindowInsetBottom(Object insets) {
+            return 0;
+        }
+
+        public boolean hasSystemWindowInsets(Object insets) {
+            return false;
+        }
+
+        public boolean hasInsets(Object insets) {
+            return false;
+        }
+
+        public boolean isConsumed(Object insets) {
+            return false;
+        }
+
+        public boolean isRound(Object insets) {
+            return false;
+        }
+
+        public WindowInsetsCompat consumeSystemWindowInsets(Object insets) {
+            return null;
+        }
+
+        public WindowInsetsCompat replaceSystemWindowInsets(Object insets, int left, int top, int right, int bottom) {
+            return null;
+        }
+
+        public WindowInsetsCompat replaceSystemWindowInsets(Object insets, Rect systemWindowInsets) {
+            return null;
+        }
+
+        public int getStableInsetTop(Object insets) {
+            return 0;
+        }
+
+        public int getStableInsetLeft(Object insets) {
+            return 0;
+        }
+
+        public int getStableInsetRight(Object insets) {
+            return 0;
+        }
+
+        public int getStableInsetBottom(Object insets) {
+            return 0;
+        }
+
+        public boolean hasStableInsets(Object insets) {
+            return false;
+        }
+
+        public WindowInsetsCompat consumeStableInsets(Object insets) {
+            return null;
+        }
+
+        public Object getSourceWindowInsets(Object src) {
+            return null;
+        }
+    }
+
+    private static class WindowInsetsCompatApi20Impl extends WindowInsetsCompatBaseImpl {
+        WindowInsetsCompatApi20Impl() {
+        }
+
+        public WindowInsetsCompat consumeSystemWindowInsets(Object insets) {
+            return new WindowInsetsCompat(WindowInsetsCompatApi20.consumeSystemWindowInsets(insets));
+        }
+
+        public int getSystemWindowInsetBottom(Object insets) {
+            return WindowInsetsCompatApi20.getSystemWindowInsetBottom(insets);
+        }
+
+        public int getSystemWindowInsetLeft(Object insets) {
+            return WindowInsetsCompatApi20.getSystemWindowInsetLeft(insets);
+        }
+
+        public int getSystemWindowInsetRight(Object insets) {
+            return WindowInsetsCompatApi20.getSystemWindowInsetRight(insets);
+        }
+
+        public int getSystemWindowInsetTop(Object insets) {
+            return WindowInsetsCompatApi20.getSystemWindowInsetTop(insets);
+        }
+
+        public boolean hasInsets(Object insets) {
+            return WindowInsetsCompatApi20.hasInsets(insets);
+        }
+
+        public boolean hasSystemWindowInsets(Object insets) {
+            return WindowInsetsCompatApi20.hasSystemWindowInsets(insets);
+        }
+
+        public boolean isRound(Object insets) {
+            return WindowInsetsCompatApi20.isRound(insets);
+        }
+
+        public WindowInsetsCompat replaceSystemWindowInsets(Object insets, int left, int top, int right, int bottom) {
+            return new WindowInsetsCompat(WindowInsetsCompatApi20.replaceSystemWindowInsets(insets, left, top, right, bottom));
+        }
+
+        public Object getSourceWindowInsets(Object src) {
+            return WindowInsetsCompatApi20.getSourceWindowInsets(src);
+        }
+    }
+
+    private static class WindowInsetsCompatApi21Impl extends WindowInsetsCompatApi20Impl {
+        WindowInsetsCompatApi21Impl() {
+        }
+
+        public WindowInsetsCompat consumeStableInsets(Object insets) {
+            return new WindowInsetsCompat(WindowInsetsCompatApi21.consumeStableInsets(insets));
+        }
+
+        public int getStableInsetBottom(Object insets) {
+            return WindowInsetsCompatApi21.getStableInsetBottom(insets);
+        }
+
+        public int getStableInsetLeft(Object insets) {
+            return WindowInsetsCompatApi21.getStableInsetLeft(insets);
+        }
+
+        public int getStableInsetRight(Object insets) {
+            return WindowInsetsCompatApi21.getStableInsetRight(insets);
+        }
+
+        public int getStableInsetTop(Object insets) {
+            return WindowInsetsCompatApi21.getStableInsetTop(insets);
+        }
+
+        public boolean hasStableInsets(Object insets) {
+            return WindowInsetsCompatApi21.hasStableInsets(insets);
+        }
+
+        public boolean isConsumed(Object insets) {
+            return WindowInsetsCompatApi21.isConsumed(insets);
+        }
+
+        public WindowInsetsCompat replaceSystemWindowInsets(Object insets, Rect systemWindowInsets) {
+            return new WindowInsetsCompat(WindowInsetsCompatApi21.replaceSystemWindowInsets(insets, systemWindowInsets));
+        }
+    }
+
+    static {
+        int version = Build.VERSION.SDK_INT;
+        if (version >= 21) {
+            IMPL = new WindowInsetsCompatApi21Impl();
+        } else if (version >= 20) {
+            IMPL = new WindowInsetsCompatApi20Impl();
+        } else {
+            IMPL = new WindowInsetsCompatBaseImpl();
+        }
+    }
+
+    WindowInsetsCompat(Object insets) {
         this.mInsets = insets;
     }
 
     public WindowInsetsCompat(WindowInsetsCompat src) {
-        WindowInsets windowInsets = null;
-        if (Build.VERSION.SDK_INT >= 20) {
-            this.mInsets = src != null ? new WindowInsets((WindowInsets) src.mInsets) : windowInsets;
-        } else {
-            this.mInsets = null;
-        }
+        this.mInsets = src == null ? null : IMPL.getSourceWindowInsets(src.mInsets);
     }
 
     public int getSystemWindowInsetLeft() {
-        if (Build.VERSION.SDK_INT >= 20) {
-            return ((WindowInsets) this.mInsets).getSystemWindowInsetLeft();
-        }
-        return 0;
+        return IMPL.getSystemWindowInsetLeft(this.mInsets);
     }
 
     public int getSystemWindowInsetTop() {
-        if (Build.VERSION.SDK_INT >= 20) {
-            return ((WindowInsets) this.mInsets).getSystemWindowInsetTop();
-        }
-        return 0;
+        return IMPL.getSystemWindowInsetTop(this.mInsets);
     }
 
     public int getSystemWindowInsetRight() {
-        if (Build.VERSION.SDK_INT >= 20) {
-            return ((WindowInsets) this.mInsets).getSystemWindowInsetRight();
-        }
-        return 0;
+        return IMPL.getSystemWindowInsetRight(this.mInsets);
     }
 
     public int getSystemWindowInsetBottom() {
-        if (Build.VERSION.SDK_INT >= 20) {
-            return ((WindowInsets) this.mInsets).getSystemWindowInsetBottom();
-        }
-        return 0;
+        return IMPL.getSystemWindowInsetBottom(this.mInsets);
     }
 
     public boolean hasSystemWindowInsets() {
-        if (Build.VERSION.SDK_INT >= 20) {
-            return ((WindowInsets) this.mInsets).hasSystemWindowInsets();
-        }
-        return false;
+        return IMPL.hasSystemWindowInsets(this.mInsets);
     }
 
     public boolean hasInsets() {
-        if (Build.VERSION.SDK_INT >= 20) {
-            return ((WindowInsets) this.mInsets).hasInsets();
-        }
-        return false;
+        return IMPL.hasInsets(this.mInsets);
     }
 
     public boolean isConsumed() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return ((WindowInsets) this.mInsets).isConsumed();
-        }
-        return false;
+        return IMPL.isConsumed(this.mInsets);
     }
 
     public boolean isRound() {
-        if (Build.VERSION.SDK_INT >= 20) {
-            return ((WindowInsets) this.mInsets).isRound();
-        }
-        return false;
+        return IMPL.isRound(this.mInsets);
     }
 
     public WindowInsetsCompat consumeSystemWindowInsets() {
-        if (Build.VERSION.SDK_INT >= 20) {
-            return new WindowInsetsCompat((Object) ((WindowInsets) this.mInsets).consumeSystemWindowInsets());
-        }
-        return null;
+        return IMPL.consumeSystemWindowInsets(this.mInsets);
     }
 
     public WindowInsetsCompat replaceSystemWindowInsets(int left, int top, int right, int bottom) {
-        if (Build.VERSION.SDK_INT >= 20) {
-            return new WindowInsetsCompat((Object) ((WindowInsets) this.mInsets).replaceSystemWindowInsets(left, top, right, bottom));
-        }
-        return null;
+        return IMPL.replaceSystemWindowInsets(this.mInsets, left, top, right, bottom);
     }
 
     public WindowInsetsCompat replaceSystemWindowInsets(Rect systemWindowInsets) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return new WindowInsetsCompat((Object) ((WindowInsets) this.mInsets).replaceSystemWindowInsets(systemWindowInsets));
-        }
-        return null;
+        return IMPL.replaceSystemWindowInsets(this.mInsets, systemWindowInsets);
     }
 
     public int getStableInsetTop() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return ((WindowInsets) this.mInsets).getStableInsetTop();
-        }
-        return 0;
+        return IMPL.getStableInsetTop(this.mInsets);
     }
 
     public int getStableInsetLeft() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return ((WindowInsets) this.mInsets).getStableInsetLeft();
-        }
-        return 0;
+        return IMPL.getStableInsetLeft(this.mInsets);
     }
 
     public int getStableInsetRight() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return ((WindowInsets) this.mInsets).getStableInsetRight();
-        }
-        return 0;
+        return IMPL.getStableInsetRight(this.mInsets);
     }
 
     public int getStableInsetBottom() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return ((WindowInsets) this.mInsets).getStableInsetBottom();
-        }
-        return 0;
+        return IMPL.getStableInsetBottom(this.mInsets);
     }
 
     public boolean hasStableInsets() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return ((WindowInsets) this.mInsets).hasStableInsets();
-        }
-        return false;
+        return IMPL.hasStableInsets(this.mInsets);
     }
 
     public WindowInsetsCompat consumeStableInsets() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            return new WindowInsetsCompat((Object) ((WindowInsets) this.mInsets).consumeStableInsets());
-        }
-        return null;
-    }
-
-    @Nullable
-    public DisplayCutoutCompat getDisplayCutout() {
-        if (Build.VERSION.SDK_INT >= 28) {
-            return DisplayCutoutCompat.wrap(((WindowInsets) this.mInsets).getDisplayCutout());
-        }
-        return null;
-    }
-
-    public WindowInsetsCompat consumeDisplayCutout() {
-        if (Build.VERSION.SDK_INT >= 28) {
-            return new WindowInsetsCompat((Object) ((WindowInsets) this.mInsets).consumeDisplayCutout());
-        }
-        return this;
+        return IMPL.consumeStableInsets(this.mInsets);
     }
 
     public boolean equals(Object o) {
@@ -166,10 +302,10 @@ public class WindowInsetsCompat {
         if (this.mInsets != null) {
             return this.mInsets.equals(other.mInsets);
         }
-        if (other.mInsets == null) {
-            return true;
+        if (other.mInsets != null) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     public int hashCode() {

@@ -1,28 +1,26 @@
 package android.support.v4.os;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-@Deprecated
 public final class ParcelableCompat {
-    @Deprecated
     public static <T> Parcelable.Creator<T> newCreator(ParcelableCompatCreatorCallbacks<T> callbacks) {
-        return new ParcelableCompatCreatorHoneycombMR2(callbacks);
+        if (Build.VERSION.SDK_INT >= 13) {
+            return ParcelableCompatCreatorHoneycombMR2Stub.instantiate(callbacks);
+        }
+        return new CompatCreator(callbacks);
     }
 
-    static class ParcelableCompatCreatorHoneycombMR2<T> implements Parcelable.ClassLoaderCreator<T> {
-        private final ParcelableCompatCreatorCallbacks<T> mCallbacks;
+    static class CompatCreator<T> implements Parcelable.Creator<T> {
+        final ParcelableCompatCreatorCallbacks<T> mCallbacks;
 
-        ParcelableCompatCreatorHoneycombMR2(ParcelableCompatCreatorCallbacks<T> callbacks) {
+        public CompatCreator(ParcelableCompatCreatorCallbacks<T> callbacks) {
             this.mCallbacks = callbacks;
         }
 
-        public T createFromParcel(Parcel in) {
-            return this.mCallbacks.createFromParcel(in, (ClassLoader) null);
-        }
-
-        public T createFromParcel(Parcel in, ClassLoader loader) {
-            return this.mCallbacks.createFromParcel(in, loader);
+        public T createFromParcel(Parcel source) {
+            return this.mCallbacks.createFromParcel(source, (ClassLoader) null);
         }
 
         public T[] newArray(int size) {

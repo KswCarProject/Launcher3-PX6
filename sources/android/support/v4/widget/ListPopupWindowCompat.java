@@ -1,25 +1,45 @@
 package android.support.v4.widget;
 
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ListPopupWindow;
 
 public final class ListPopupWindowCompat {
+    static final ListPopupWindowImpl IMPL;
+
+    interface ListPopupWindowImpl {
+        View.OnTouchListener createDragToOpenListener(Object obj, View view);
+    }
+
+    static class BaseListPopupWindowImpl implements ListPopupWindowImpl {
+        BaseListPopupWindowImpl() {
+        }
+
+        public View.OnTouchListener createDragToOpenListener(Object listPopupWindow, View src) {
+            return null;
+        }
+    }
+
+    static class KitKatListPopupWindowImpl extends BaseListPopupWindowImpl {
+        KitKatListPopupWindowImpl() {
+        }
+
+        public View.OnTouchListener createDragToOpenListener(Object listPopupWindow, View src) {
+            return ListPopupWindowCompatKitKat.createDragToOpenListener(listPopupWindow, src);
+        }
+    }
+
+    static {
+        if (Build.VERSION.SDK_INT >= 19) {
+            IMPL = new KitKatListPopupWindowImpl();
+        } else {
+            IMPL = new BaseListPopupWindowImpl();
+        }
+    }
+
     private ListPopupWindowCompat() {
     }
 
-    @Deprecated
     public static View.OnTouchListener createDragToOpenListener(Object listPopupWindow, View src) {
-        return createDragToOpenListener((ListPopupWindow) listPopupWindow, src);
-    }
-
-    @Nullable
-    public static View.OnTouchListener createDragToOpenListener(@NonNull ListPopupWindow listPopupWindow, @NonNull View src) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            return listPopupWindow.createDragToOpenListener(src);
-        }
-        return null;
+        return IMPL.createDragToOpenListener(listPopupWindow, src);
     }
 }

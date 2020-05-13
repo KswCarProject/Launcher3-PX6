@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Documented
-@Target({ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE, ElementType.PARAMETER})
+@Target({ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE})
 @Retention(RetentionPolicy.CLASS)
 public @interface MainThread {
 }

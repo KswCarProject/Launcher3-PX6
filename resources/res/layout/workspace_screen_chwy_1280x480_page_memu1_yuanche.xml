@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:layout_width="1280px" android:layout_height="66px">
+    <Button android:id="@+id/Btn_Music" android:background="@drawable/chwy_1280x480_btn_yinyue" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="59px"/>
+    <ImageView android:id="@+id/iv_1" android:background="@drawable/chwy_yinyue_f" android:visibility="gone" android:layout_width="80px" android:layout_height="60px" android:layout_marginLeft="59px"/>
+    <Button android:id="@+id/OriginaCar" android:background="@drawable/chwy_1280x480_btn_fanhuiyuanche" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="242px"/>
+    <ImageView android:id="@+id/iv_2" android:background="@drawable/chwy_fanhuiyuanche_f" android:visibility="gone" android:layout_width="80px" android:layout_height="60px" android:layout_marginLeft="242px"/>
+    <Button android:id="@+id/lanya" android:background="@drawable/chwy_1280x480_btn_lanya" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="424px"/>
+    <ImageView android:id="@+id/iv_3" android:background="@drawable/chwy_lanya_f" android:visibility="gone" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="424px"/>
+    <RelativeLayout android:id="@+id/rl_apps_1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <ImageView android:layout_width="94px" android:layout_height="66px" android:layout_marginLeft="594px" android:src="@drawable/chwy_yingyongdi"/>
+        <Button android:id="@+id/apps" android:background="@drawable/chwy_1280x480_btn_yingyong" android:layout_width="78px" android:layout_height="66px" android:layout_marginLeft="602px"/>
+        <ImageView android:id="@+id/iv_apps" android:background="@drawable/chwy_yingyong_f" android:visibility="gone" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="602px"/>
+    </RelativeLayout>
+    <Button android:id="@+id/navi" android:background="@drawable/chwy_1280x480_btn_daohang" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="771px"/>
+    <ImageView android:id="@+id/iv_4" android:background="@drawable/chwy_daohang_f" android:visibility="gone" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="771px"/>
+    <Button android:id="@+id/Btn_Video" android:background="@drawable/chwy_1280x480_btn_shipin" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="961px"/>
+    <ImageView android:id="@+id/iv_5" android:background="@drawable/chwy_shipin_f" android:visibility="gone" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="961px"/>
+    <Button android:id="@+id/setting" android:background="@drawable/chwy_1280x480_btn_shezhi" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="1141px"/>
+    <ImageView android:id="@+id/iv_6" android:background="@drawable/chwy_shezhi_f" android:visibility="gone" android:layout_width="80px" android:layout_height="66px" android:layout_marginLeft="1141px"/>
+</RelativeLayout>

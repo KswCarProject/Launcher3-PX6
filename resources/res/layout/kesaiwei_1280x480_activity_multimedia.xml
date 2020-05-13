@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:id="@+id/Focus_music" android:background="@drawable/kesaiwei_1280x480_multimedia_f" android:visibility="gone" android:layout_width="637px" android:layout_height="52px" android:layout_marginLeft="100px" android:layout_marginTop="60px"/>
+    <ImageView android:id="@+id/Focus_video" android:background="@drawable/kesaiwei_1280x480_multimedia_f" android:visibility="gone" android:layout_width="637px" android:layout_height="52px" android:layout_marginLeft="100px" android:layout_marginTop="120px"/>
+    <Button android:textSize="30sp" android:textColor="#ffffffff" android:gravity="left" android:id="@+id/music" android:background="@drawable/btn_multimedia_kesaiwei_1280x480" android:paddingLeft="100px" android:layout_width="637px" android:layout_height="52px" android:layout_marginLeft="100px" android:layout_marginTop="60px" android:text="@string/lb_music"/>
+    <Button android:textSize="30sp" android:textColor="#ffffffff" android:gravity="left" android:id="@+id/video" android:background="@drawable/btn_multimedia_kesaiwei_1280x480" android:paddingLeft="100px" android:layout_width="637px" android:layout_height="52px" android:layout_marginLeft="100px" android:layout_marginTop="120px" android:text="@string/lb_video"/>
+</RelativeLayout>

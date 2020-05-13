@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.szchoiceway.index.SearchDropTargetBar xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:focusable="false" style="@style/QSBBar">
+    <LinearLayout android:id="@+id/drag_target_bar" style="@style/SearchDropTargetBar">
+        <include layout="@layout/drop_target_bar"/>
+    </LinearLayout>
+</com.szchoiceway.index.SearchDropTargetBar>

@@ -1,10 +1,8 @@
 package android.support.v4.provider;
 
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
-import com.android.launcher3.IconCache;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,16 +10,15 @@ import java.util.ArrayList;
 class RawDocumentFile extends DocumentFile {
     private File mFile;
 
-    RawDocumentFile(@Nullable DocumentFile parent, File file) {
+    RawDocumentFile(DocumentFile parent, File file) {
         super(parent);
         this.mFile = file;
     }
 
-    @Nullable
     public DocumentFile createFile(String mimeType, String displayName) {
         String extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType);
         if (extension != null) {
-            displayName = displayName + IconCache.EMPTY_CLASS_NAME + extension;
+            displayName = displayName + "." + extension;
         }
         File target = new File(this.mFile, displayName);
         try {
@@ -33,7 +30,6 @@ class RawDocumentFile extends DocumentFile {
         }
     }
 
-    @Nullable
     public DocumentFile createDirectory(String displayName) {
         File target = new File(this.mFile, displayName);
         if (target.isDirectory() || target.mkdir()) {
@@ -50,7 +46,6 @@ class RawDocumentFile extends DocumentFile {
         return this.mFile.getName();
     }
 
-    @Nullable
     public String getType() {
         if (this.mFile.isDirectory()) {
             return null;
@@ -115,13 +110,28 @@ class RawDocumentFile extends DocumentFile {
         return true;
     }
 
-    private static String getTypeForName(String name) {
-        String mime;
-        int lastDot = name.lastIndexOf(46);
-        if (lastDot < 0 || (mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(name.substring(lastDot + 1).toLowerCase())) == null) {
-            return "application/octet-stream";
-        }
-        return mime;
+    /* JADX WARNING: Code restructure failed: missing block: B:2:0x0008, code lost:
+        r2 = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(r4.substring(r1 + 1).toLowerCase());
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    private static java.lang.String getTypeForName(java.lang.String r4) {
+        /*
+            r3 = 46
+            int r1 = r4.lastIndexOf(r3)
+            if (r1 < 0) goto L_0x001d
+            int r3 = r1 + 1
+            java.lang.String r3 = r4.substring(r3)
+            java.lang.String r0 = r3.toLowerCase()
+            android.webkit.MimeTypeMap r3 = android.webkit.MimeTypeMap.getSingleton()
+            java.lang.String r2 = r3.getMimeTypeFromExtension(r0)
+            if (r2 == 0) goto L_0x001d
+        L_0x001c:
+            return r2
+        L_0x001d:
+            java.lang.String r2 = "application/octet-stream"
+            goto L_0x001c
+        */
+        throw new UnsupportedOperationException("Method not decompiled: android.support.v4.provider.RawDocumentFile.getTypeForName(java.lang.String):java.lang.String");
     }
 
     private static boolean deleteContents(File dir) {

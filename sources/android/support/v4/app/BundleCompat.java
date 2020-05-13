@@ -3,8 +3,6 @@ package android.support.v4.app;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,7 +16,7 @@ public final class BundleCompat {
         private static Method sPutIBinderMethod;
         private static boolean sPutIBinderMethodFetched;
 
-        private BundleCompatBaseImpl() {
+        BundleCompatBaseImpl() {
         }
 
         public static IBinder getBinder(Bundle bundle, String key) {
@@ -66,15 +64,14 @@ public final class BundleCompat {
     private BundleCompat() {
     }
 
-    @Nullable
-    public static IBinder getBinder(@NonNull Bundle bundle, @Nullable String key) {
+    public static IBinder getBinder(Bundle bundle, String key) {
         if (Build.VERSION.SDK_INT >= 18) {
             return bundle.getBinder(key);
         }
         return BundleCompatBaseImpl.getBinder(bundle, key);
     }
 
-    public static void putBinder(@NonNull Bundle bundle, @Nullable String key, @Nullable IBinder binder) {
+    public static void putBinder(Bundle bundle, String key, IBinder binder) {
         if (Build.VERSION.SDK_INT >= 18) {
             bundle.putBinder(key, binder);
         } else {

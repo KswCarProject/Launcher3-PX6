@@ -3,11 +3,11 @@ package android.support.v4.view;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.support.annotation.RestrictTo;
-import android.view.PointerIcon;
+import android.support.v4.os.BuildCompat;
 
 public final class PointerIconCompat {
+    static final PointerIconCompatImpl IMPL;
     public static final int TYPE_ALIAS = 1010;
     public static final int TYPE_ALL_SCROLL = 1013;
     public static final int TYPE_ARROW = 1000;
@@ -33,6 +33,14 @@ public final class PointerIconCompat {
     public static final int TYPE_ZOOM_OUT = 1019;
     private Object mPointerIcon;
 
+    interface PointerIconCompatImpl {
+        Object create(Bitmap bitmap, float f, float f2);
+
+        Object getSystemIcon(Context context, int i);
+
+        Object load(Resources resources, int i);
+    }
+
     private PointerIconCompat(Object pointerIcon) {
         this.mPointerIcon = pointerIcon;
     }
@@ -42,24 +50,57 @@ public final class PointerIconCompat {
         return this.mPointerIcon;
     }
 
-    public static PointerIconCompat getSystemIcon(Context context, int style) {
-        if (Build.VERSION.SDK_INT >= 24) {
-            return new PointerIconCompat(PointerIcon.getSystemIcon(context, style));
+    static class BasePointerIconCompatImpl implements PointerIconCompatImpl {
+        BasePointerIconCompatImpl() {
         }
-        return new PointerIconCompat((Object) null);
+
+        public Object getSystemIcon(Context context, int style) {
+            return null;
+        }
+
+        public Object create(Bitmap bitmap, float hotSpotX, float hotSpotY) {
+            return null;
+        }
+
+        public Object load(Resources resources, int resourceId) {
+            return null;
+        }
+    }
+
+    static class Api24PointerIconCompatImpl extends BasePointerIconCompatImpl {
+        Api24PointerIconCompatImpl() {
+        }
+
+        public Object getSystemIcon(Context context, int style) {
+            return PointerIconCompatApi24.getSystemIcon(context, style);
+        }
+
+        public Object create(Bitmap bitmap, float hotSpotX, float hotSpotY) {
+            return PointerIconCompatApi24.create(bitmap, hotSpotX, hotSpotY);
+        }
+
+        public Object load(Resources resources, int resourceId) {
+            return PointerIconCompatApi24.load(resources, resourceId);
+        }
+    }
+
+    static {
+        if (BuildCompat.isAtLeastN()) {
+            IMPL = new Api24PointerIconCompatImpl();
+        } else {
+            IMPL = new BasePointerIconCompatImpl();
+        }
+    }
+
+    public static PointerIconCompat getSystemIcon(Context context, int style) {
+        return new PointerIconCompat(IMPL.getSystemIcon(context, style));
     }
 
     public static PointerIconCompat create(Bitmap bitmap, float hotSpotX, float hotSpotY) {
-        if (Build.VERSION.SDK_INT >= 24) {
-            return new PointerIconCompat(PointerIcon.create(bitmap, hotSpotX, hotSpotY));
-        }
-        return new PointerIconCompat((Object) null);
+        return new PointerIconCompat(IMPL.create(bitmap, hotSpotX, hotSpotY));
     }
 
     public static PointerIconCompat load(Resources resources, int resourceId) {
-        if (Build.VERSION.SDK_INT >= 24) {
-            return new PointerIconCompat(PointerIcon.load(resources, resourceId));
-        }
-        return new PointerIconCompat((Object) null);
+        return new PointerIconCompat(IMPL.load(resources, resourceId));
     }
 }

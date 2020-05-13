@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.DocumentsContract;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
@@ -14,24 +13,28 @@ class DocumentsContractApi19 {
     private static final int FLAG_VIRTUAL_DOCUMENT = 512;
     private static final String TAG = "DocumentFile";
 
+    DocumentsContractApi19() {
+    }
+
+    public static boolean isDocumentUri(Context context, Uri self) {
+        return DocumentsContract.isDocumentUri(context, self);
+    }
+
     public static boolean isVirtual(Context context, Uri self) {
-        if (DocumentsContract.isDocumentUri(context, self) && (getFlags(context, self) & 512) != 0) {
+        if (isDocumentUri(context, self) && (getFlags(context, self) & 512) != 0) {
             return true;
         }
         return false;
     }
 
-    @Nullable
     public static String getName(Context context, Uri self) {
         return queryForString(context, self, "_display_name", (String) null);
     }
 
-    @Nullable
     private static String getRawType(Context context, Uri self) {
         return queryForString(context, self, "mime_type", (String) null);
     }
 
-    @Nullable
     public static String getType(Context context, Uri self) {
         String rawType = getRawType(context, self);
         if ("vnd.android.document/directory".equals(rawType)) {
@@ -65,7 +68,10 @@ class DocumentsContractApi19 {
     }
 
     public static boolean canRead(Context context, Uri self) {
-        return context.checkCallingOrSelfUriPermission(self, 1) == 0 && !TextUtils.isEmpty(getRawType(context, self));
+        if (context.checkCallingOrSelfUriPermission(self, 1) == 0 && !TextUtils.isEmpty(getRawType(context, self))) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean canWrite(Context context, Uri self) {
@@ -89,42 +95,43 @@ class DocumentsContractApi19 {
         return true;
     }
 
-    public static boolean exists(Context context, Uri self) {
-        Cursor c = null;
-        boolean z = false;
-        try {
-            c = context.getContentResolver().query(self, new String[]{"document_id"}, (String) null, (String[]) null, (String) null);
-            if (c.getCount() > 0) {
-                z = true;
-            }
-        } catch (Exception e) {
-            Log.w(TAG, "Failed query: " + e);
-        } catch (Throwable th) {
-            closeQuietly((AutoCloseable) null);
-            throw th;
-        }
-        closeQuietly(c);
-        return z;
+    public static boolean delete(Context context, Uri self) {
+        return DocumentsContract.deleteDocument(context.getContentResolver(), self);
     }
 
-    @Nullable
-    private static String queryForString(Context context, Uri self, String column, @Nullable String defaultValue) {
+    /* JADX INFO: finally extract failed */
+    public static boolean exists(Context context, Uri self) {
+        Cursor c = null;
+        try {
+            c = context.getContentResolver().query(self, new String[]{"document_id"}, (String) null, (String[]) null, (String) null);
+            boolean z = c.getCount() > 0;
+            closeQuietly(c);
+            return z;
+        } catch (Exception e) {
+            Log.w(TAG, "Failed query: " + e);
+            closeQuietly(c);
+            return false;
+        } catch (Throwable th) {
+            closeQuietly(c);
+            throw th;
+        }
+    }
+
+    private static String queryForString(Context context, Uri self, String column, String defaultValue) {
         Cursor c = null;
         try {
             c = context.getContentResolver().query(self, new String[]{column}, (String) null, (String[]) null, (String) null);
-            if (c.moveToFirst() && !c.isNull(0)) {
-                String string = c.getString(0);
+            if (!c.moveToFirst() || c.isNull(0)) {
                 closeQuietly(c);
-                return string;
+                return defaultValue;
             }
+            defaultValue = c.getString(0);
+            return defaultValue;
         } catch (Exception e) {
             Log.w(TAG, "Failed query: " + e);
-        } catch (Throwable th) {
-            closeQuietly((AutoCloseable) null);
-            throw th;
+        } finally {
+            closeQuietly(c);
         }
-        closeQuietly(c);
-        return defaultValue;
     }
 
     private static int queryForInt(Context context, Uri self, String column, int defaultValue) {
@@ -135,22 +142,20 @@ class DocumentsContractApi19 {
         Cursor c = null;
         try {
             c = context.getContentResolver().query(self, new String[]{column}, (String) null, (String[]) null, (String) null);
-            if (c.moveToFirst() && !c.isNull(0)) {
-                long j = c.getLong(0);
+            if (!c.moveToFirst() || c.isNull(0)) {
                 closeQuietly(c);
-                return j;
+                return defaultValue;
             }
+            defaultValue = c.getLong(0);
+            return defaultValue;
         } catch (Exception e) {
             Log.w(TAG, "Failed query: " + e);
-        } catch (Throwable th) {
-            closeQuietly((AutoCloseable) null);
-            throw th;
+        } finally {
+            closeQuietly(c);
         }
-        closeQuietly(c);
-        return defaultValue;
     }
 
-    private static void closeQuietly(@Nullable AutoCloseable closeable) {
+    private static void closeQuietly(AutoCloseable closeable) {
         if (closeable != null) {
             try {
                 closeable.close();
@@ -159,8 +164,5 @@ class DocumentsContractApi19 {
             } catch (Exception e) {
             }
         }
-    }
-
-    private DocumentsContractApi19() {
     }
 }

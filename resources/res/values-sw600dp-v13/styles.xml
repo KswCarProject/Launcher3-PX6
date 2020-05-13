@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ClingButton">
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/cling_button_bg</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/cling_dismiss</item>
+        <item name="android:paddingStart">35dp</item>
+        <item name="android:paddingEnd">35dp</item>
+    </style>
+    <style name="ClingText">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+    <style name="ClingTitleText">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">#33b5e5</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+    <style name="WorkspaceIcon.Landscape.AppsCustomize_chuanqi_cusp">
+        <item name="android:textSize">18px</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:background">@null</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingTop">126dp</item>
+        <item name="android:paddingRight">30dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:shadowRadius">@null</item>
+        <item name="android:drawablePadding">0dp</item>
+    </style>
+</resources>

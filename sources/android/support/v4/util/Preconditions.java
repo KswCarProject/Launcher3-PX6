@@ -6,7 +6,6 @@ import android.support.annotation.RestrictTo;
 import android.text.TextUtils;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 
 @RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
 public class Preconditions {
@@ -122,64 +121,60 @@ public class Preconditions {
         if (Float.isNaN(value)) {
             throw new IllegalArgumentException(valueName + " must not be NaN");
         } else if (value < lower) {
-            throw new IllegalArgumentException(String.format(Locale.US, "%s is out of range of [%f, %f] (too low)", new Object[]{valueName, Float.valueOf(lower), Float.valueOf(upper)}));
+            throw new IllegalArgumentException(String.format("%s is out of range of [%f, %f] (too low)", new Object[]{valueName, Float.valueOf(lower), Float.valueOf(upper)}));
         } else if (value <= upper) {
             return value;
         } else {
-            throw new IllegalArgumentException(String.format(Locale.US, "%s is out of range of [%f, %f] (too high)", new Object[]{valueName, Float.valueOf(lower), Float.valueOf(upper)}));
+            throw new IllegalArgumentException(String.format("%s is out of range of [%f, %f] (too high)", new Object[]{valueName, Float.valueOf(lower), Float.valueOf(upper)}));
         }
     }
 
     public static int checkArgumentInRange(int value, int lower, int upper, String valueName) {
         if (value < lower) {
-            throw new IllegalArgumentException(String.format(Locale.US, "%s is out of range of [%d, %d] (too low)", new Object[]{valueName, Integer.valueOf(lower), Integer.valueOf(upper)}));
+            throw new IllegalArgumentException(String.format("%s is out of range of [%d, %d] (too low)", new Object[]{valueName, Integer.valueOf(lower), Integer.valueOf(upper)}));
         } else if (value <= upper) {
             return value;
         } else {
-            throw new IllegalArgumentException(String.format(Locale.US, "%s is out of range of [%d, %d] (too high)", new Object[]{valueName, Integer.valueOf(lower), Integer.valueOf(upper)}));
+            throw new IllegalArgumentException(String.format("%s is out of range of [%d, %d] (too high)", new Object[]{valueName, Integer.valueOf(lower), Integer.valueOf(upper)}));
         }
     }
 
     public static long checkArgumentInRange(long value, long lower, long upper, String valueName) {
         if (value < lower) {
-            throw new IllegalArgumentException(String.format(Locale.US, "%s is out of range of [%d, %d] (too low)", new Object[]{valueName, Long.valueOf(lower), Long.valueOf(upper)}));
+            throw new IllegalArgumentException(String.format("%s is out of range of [%d, %d] (too low)", new Object[]{valueName, Long.valueOf(lower), Long.valueOf(upper)}));
         } else if (value <= upper) {
             return value;
         } else {
-            throw new IllegalArgumentException(String.format(Locale.US, "%s is out of range of [%d, %d] (too high)", new Object[]{valueName, Long.valueOf(lower), Long.valueOf(upper)}));
+            throw new IllegalArgumentException(String.format("%s is out of range of [%d, %d] (too high)", new Object[]{valueName, Long.valueOf(lower), Long.valueOf(upper)}));
         }
     }
 
     public static <T> T[] checkArrayElementsNotNull(T[] value, String valueName) {
-        if (value != null) {
-            int i = 0;
-            while (i < value.length) {
-                if (value[i] != null) {
-                    i++;
-                } else {
-                    throw new NullPointerException(String.format(Locale.US, "%s[%d] must not be null", new Object[]{valueName, Integer.valueOf(i)}));
-                }
-            }
-            return value;
+        if (value == null) {
+            throw new NullPointerException(valueName + " must not be null");
         }
-        throw new NullPointerException(valueName + " must not be null");
+        for (int i = 0; i < value.length; i++) {
+            if (value[i] == null) {
+                throw new NullPointerException(String.format("%s[%d] must not be null", new Object[]{valueName, Integer.valueOf(i)}));
+            }
+        }
+        return value;
     }
 
     @NonNull
     public static <C extends Collection<T>, T> C checkCollectionElementsNotNull(C value, String valueName) {
-        if (value != null) {
-            long ctr = 0;
-            Iterator it = value.iterator();
-            while (it.hasNext()) {
-                if (it.next() != null) {
-                    ctr++;
-                } else {
-                    throw new NullPointerException(String.format(Locale.US, "%s[%d] must not be null", new Object[]{valueName, Long.valueOf(ctr)}));
-                }
-            }
-            return value;
+        if (value == null) {
+            throw new NullPointerException(valueName + " must not be null");
         }
-        throw new NullPointerException(valueName + " must not be null");
+        long ctr = 0;
+        Iterator it = value.iterator();
+        while (it.hasNext()) {
+            if (it.next() == null) {
+                throw new NullPointerException(String.format("%s[%d] must not be null", new Object[]{valueName, Long.valueOf(ctr)}));
+            }
+            ctr++;
+        }
+        return value;
     }
 
     public static <T> Collection<T> checkCollectionNotEmpty(Collection<T> value, String valueName) {
@@ -200,16 +195,13 @@ public class Preconditions {
             if (Float.isNaN(v)) {
                 throw new IllegalArgumentException(valueName + "[" + i + "] must not be NaN");
             } else if (v < lower) {
-                throw new IllegalArgumentException(String.format(Locale.US, "%s[%d] is out of range of [%f, %f] (too low)", new Object[]{valueName, Integer.valueOf(i), Float.valueOf(lower), Float.valueOf(upper)}));
-            } else if (v <= upper) {
-                i++;
+                throw new IllegalArgumentException(String.format("%s[%d] is out of range of [%f, %f] (too low)", new Object[]{valueName, Integer.valueOf(i), Float.valueOf(lower), Float.valueOf(upper)}));
+            } else if (v > upper) {
+                throw new IllegalArgumentException(String.format("%s[%d] is out of range of [%f, %f] (too high)", new Object[]{valueName, Integer.valueOf(i), Float.valueOf(lower), Float.valueOf(upper)}));
             } else {
-                throw new IllegalArgumentException(String.format(Locale.US, "%s[%d] is out of range of [%f, %f] (too high)", new Object[]{valueName, Integer.valueOf(i), Float.valueOf(lower), Float.valueOf(upper)}));
+                i++;
             }
         }
         return value;
-    }
-
-    private Preconditions() {
     }
 }

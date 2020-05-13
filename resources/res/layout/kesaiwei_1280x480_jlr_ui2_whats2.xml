@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent">
+    <Button android:id="@+id/bluetooth" android:background="@drawable/kesaiwei_1280x480_jlr_ui2_btn_bt" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="0px" android:layout_marginTop="0px"/>
+    <TextView android:textSize="26px" android:textColor="#ffffffff" android:gravity="center" android:layout_width="150px" android:layout_height="80px" android:layout_marginLeft="100px" android:layout_marginTop="185px" android:text="@string/lb_bt"/>
+    <Button android:id="@+id/phonelink" android:background="@drawable/kesaiwei_1280x480_jlr_ui2_btn_phonelink" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="262px" android:layout_marginTop="0px"/>
+    <TextView android:textSize="26px" android:textColor="#ffffffff" android:gravity="center" android:id="@+id/tvPhonelink" android:layout_width="150px" android:layout_height="80px" android:layout_marginLeft="362px" android:layout_marginTop="185px" android:text="@string/lb_shoujihulian"/>
+    <Button android:id="@+id/yibiaopan" android:background="@drawable/kesaiwei_1280x480_jlr_ui2_btn_car_info" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="524px" android:layout_marginTop="0px"/>
+    <TextView android:textSize="26px" android:textColor="#ffffffff" android:gravity="center" android:layout_width="150px" android:layout_height="80px" android:layout_marginLeft="624px" android:layout_marginTop="185px" android:text="@string/lb_dash_board"/>
+    <Button android:id="@+id/apps" android:background="@drawable/kesaiwei_1280x480_jlr_ui2_btn_apps" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="786px" android:layout_marginTop="0px"/>
+    <TextView android:textSize="26px" android:textColor="#ffffffff" android:gravity="center" android:layout_width="150px" android:layout_height="80px" android:layout_marginLeft="886px" android:layout_marginTop="185px" android:text="@string/group_applications"/>
+</RelativeLayout>

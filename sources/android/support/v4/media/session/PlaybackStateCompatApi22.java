@@ -8,6 +8,9 @@ import java.util.List;
 
 @RequiresApi(22)
 class PlaybackStateCompatApi22 {
+    PlaybackStateCompatApi22() {
+    }
+
     public static Bundle getExtras(Object stateObj) {
         return ((PlaybackState) stateObj).getExtras();
     }
@@ -15,7 +18,6 @@ class PlaybackStateCompatApi22 {
     public static Object newInstance(int state, long position, long bufferedPosition, float speed, long actions, CharSequence errorMessage, long updateTime, List<Object> customActions, long activeItemId, Bundle extras) {
         PlaybackState.Builder stateObj = new PlaybackState.Builder();
         stateObj.setState(state, position, speed, updateTime);
-        long j = bufferedPosition;
         stateObj.setBufferedPosition(bufferedPosition);
         stateObj.setActions(actions);
         stateObj.setErrorMessage(errorMessage);
@@ -26,8 +28,5 @@ class PlaybackStateCompatApi22 {
         stateObj.setActiveQueueItemId(activeItemId);
         stateObj.setExtras(extras);
         return stateObj.build();
-    }
-
-    private PlaybackStateCompatApi22() {
     }
 }

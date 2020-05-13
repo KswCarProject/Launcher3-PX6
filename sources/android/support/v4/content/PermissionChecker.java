@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Binder;
 import android.os.Process;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
 import android.support.v4.app.AppOpsManagerCompat;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,7 +13,6 @@ public final class PermissionChecker {
     public static final int PERMISSION_DENIED_APP_OP = -2;
     public static final int PERMISSION_GRANTED = 0;
 
-    @RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
     @Retention(RetentionPolicy.SOURCE)
     public @interface PermissionResult {
     }
@@ -23,7 +20,7 @@ public final class PermissionChecker {
     private PermissionChecker() {
     }
 
-    public static int checkPermission(@NonNull Context context, @NonNull String permission, int pid, int uid, @Nullable String packageName) {
+    public static int checkPermission(@NonNull Context context, @NonNull String permission, int pid, int uid, String packageName) {
         if (context.checkPermission(permission, pid, uid) == -1) {
             return -1;
         }
@@ -38,17 +35,14 @@ public final class PermissionChecker {
             }
             packageName = packageNames[0];
         }
-        if (AppOpsManagerCompat.noteProxyOpNoThrow(context, op, packageName) != 0) {
-            return -2;
-        }
-        return 0;
+        return AppOpsManagerCompat.noteProxyOp(context, op, packageName) != 0 ? -2 : 0;
     }
 
     public static int checkSelfPermission(@NonNull Context context, @NonNull String permission) {
         return checkPermission(context, permission, Process.myPid(), Process.myUid(), context.getPackageName());
     }
 
-    public static int checkCallingPermission(@NonNull Context context, @NonNull String permission, @Nullable String packageName) {
+    public static int checkCallingPermission(@NonNull Context context, @NonNull String permission, String packageName) {
         if (Binder.getCallingPid() == Process.myPid()) {
             return -1;
         }

@@ -14,6 +14,9 @@ class MediaBrowserCompatApi23 {
         void onItemLoaded(Parcel parcel);
     }
 
+    MediaBrowserCompatApi23() {
+    }
+
     public static Object createItemCallback(ItemCallback callback) {
         return new ItemCallbackProxy(callback);
     }
@@ -42,8 +45,5 @@ class MediaBrowserCompatApi23 {
         public void onError(@NonNull String itemId) {
             this.mItemCallback.onError(itemId);
         }
-    }
-
-    private MediaBrowserCompatApi23() {
     }
 }

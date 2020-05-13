@@ -8,7 +8,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.RestrictTo;
 import android.support.v4.media.MediaDescriptionCompat;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.util.ArrayMap;
 import android.text.TextUtils;
 import android.util.Log;
@@ -46,7 +45,6 @@ public final class MediaMetadataCompat implements Parcelable {
     public static final String METADATA_KEY_DISPLAY_ICON_URI = "android.media.metadata.DISPLAY_ICON_URI";
     public static final String METADATA_KEY_DISPLAY_SUBTITLE = "android.media.metadata.DISPLAY_SUBTITLE";
     public static final String METADATA_KEY_DISPLAY_TITLE = "android.media.metadata.DISPLAY_TITLE";
-    public static final String METADATA_KEY_DOWNLOAD_STATUS = "android.media.metadata.DOWNLOAD_STATUS";
     public static final String METADATA_KEY_DURATION = "android.media.metadata.DURATION";
     public static final String METADATA_KEY_GENRE = "android.media.metadata.GENRE";
     public static final String METADATA_KEY_MEDIA_ID = "android.media.metadata.MEDIA_ID";
@@ -121,16 +119,14 @@ public final class MediaMetadataCompat implements Parcelable {
         METADATA_KEYS_TYPE.put(METADATA_KEY_BT_FOLDER_TYPE, 0);
         METADATA_KEYS_TYPE.put(METADATA_KEY_MEDIA_URI, 1);
         METADATA_KEYS_TYPE.put(METADATA_KEY_ADVERTISEMENT, 0);
-        METADATA_KEYS_TYPE.put(METADATA_KEY_DOWNLOAD_STATUS, 0);
     }
 
     MediaMetadataCompat(Bundle bundle) {
         this.mBundle = new Bundle(bundle);
-        MediaSessionCompat.ensureClassLoader(this.mBundle);
     }
 
     MediaMetadataCompat(Parcel in) {
-        this.mBundle = in.readBundle(MediaSessionCompat.class.getClassLoader());
+        this.mBundle = in.readBundle();
     }
 
     public boolean containsKey(String key) {
@@ -237,14 +233,9 @@ public final class MediaMetadataCompat implements Parcelable {
         bob.setIconBitmap(icon);
         bob.setIconUri(iconUri);
         bob.setMediaUri(mediaUri);
-        Bundle bundle = new Bundle();
         if (this.mBundle.containsKey(METADATA_KEY_BT_FOLDER_TYPE)) {
+            Bundle bundle = new Bundle();
             bundle.putLong(MediaDescriptionCompat.EXTRA_BT_FOLDER_TYPE, getLong(METADATA_KEY_BT_FOLDER_TYPE));
-        }
-        if (this.mBundle.containsKey(METADATA_KEY_DOWNLOAD_STATUS)) {
-            bundle.putLong(MediaDescriptionCompat.EXTRA_DOWNLOAD_STATUS, getLong(METADATA_KEY_DOWNLOAD_STATUS));
-        }
-        if (!bundle.isEmpty()) {
             bob.setExtras(bundle);
         }
         this.mDescription = bob.build();
@@ -268,7 +259,7 @@ public final class MediaMetadataCompat implements Parcelable {
     }
 
     public Bundle getBundle() {
-        return new Bundle(this.mBundle);
+        return this.mBundle;
     }
 
     public static MediaMetadataCompat fromMediaMetadata(Object metadataObj) {
@@ -285,13 +276,14 @@ public final class MediaMetadataCompat implements Parcelable {
     }
 
     public Object getMediaMetadata() {
-        if (this.mMetadataObj == null && Build.VERSION.SDK_INT >= 21) {
-            Parcel p = Parcel.obtain();
-            writeToParcel(p, 0);
-            p.setDataPosition(0);
-            this.mMetadataObj = MediaMetadataCompatApi21.createFromParcel(p);
-            p.recycle();
+        if (this.mMetadataObj != null || Build.VERSION.SDK_INT < 21) {
+            return this.mMetadataObj;
         }
+        Parcel p = Parcel.obtain();
+        writeToParcel(p, 0);
+        p.setDataPosition(0);
+        this.mMetadataObj = MediaMetadataCompatApi21.createFromParcel(p);
+        p.recycle();
         return this.mMetadataObj;
     }
 
@@ -304,7 +296,6 @@ public final class MediaMetadataCompat implements Parcelable {
 
         public Builder(MediaMetadataCompat source) {
             this.mBundle = new Bundle(source.mBundle);
-            MediaSessionCompat.ensureClassLoader(this.mBundle);
         }
 
         @RestrictTo({RestrictTo.Scope.LIBRARY_GROUP})
@@ -312,10 +303,12 @@ public final class MediaMetadataCompat implements Parcelable {
             this(source);
             for (String key : this.mBundle.keySet()) {
                 Object value = this.mBundle.get(key);
-                if (value instanceof Bitmap) {
+                if (value != null && (value instanceof Bitmap)) {
                     Bitmap bmp = (Bitmap) value;
                     if (bmp.getHeight() > maxBitmapSize || bmp.getWidth() > maxBitmapSize) {
                         putBitmap(key, scaleBitmap(bmp, maxBitmapSize));
+                    } else if (Build.VERSION.SDK_INT >= 14 && (key.equals(MediaMetadataCompat.METADATA_KEY_ART) || key.equals(MediaMetadataCompat.METADATA_KEY_ALBUM_ART))) {
+                        putBitmap(key, bmp.copy(bmp.getConfig(), false));
                     }
                 }
             }

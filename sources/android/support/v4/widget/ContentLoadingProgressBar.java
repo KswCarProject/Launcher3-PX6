@@ -1,8 +1,6 @@
 package android.support.v4.widget;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
@@ -16,11 +14,11 @@ public class ContentLoadingProgressBar extends ProgressBar {
     boolean mPostedShow;
     long mStartTime;
 
-    public ContentLoadingProgressBar(@NonNull Context context) {
+    public ContentLoadingProgressBar(Context context) {
         this(context, (AttributeSet) null);
     }
 
-    public ContentLoadingProgressBar(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public ContentLoadingProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
         this.mStartTime = -1;
         this.mPostedHide = false;
@@ -59,27 +57,22 @@ public class ContentLoadingProgressBar extends ProgressBar {
         removeCallbacks(this.mDelayedShow);
     }
 
-    public synchronized void hide() {
+    public void hide() {
         this.mDismissed = true;
         removeCallbacks(this.mDelayedShow);
-        this.mPostedShow = false;
         long diff = System.currentTimeMillis() - this.mStartTime;
-        if (diff < 500) {
-            if (this.mStartTime != -1) {
-                if (!this.mPostedHide) {
-                    postDelayed(this.mDelayedHide, 500 - diff);
-                    this.mPostedHide = true;
-                }
-            }
+        if (diff >= 500 || this.mStartTime == -1) {
+            setVisibility(8);
+        } else if (!this.mPostedHide) {
+            postDelayed(this.mDelayedHide, 500 - diff);
+            this.mPostedHide = true;
         }
-        setVisibility(8);
     }
 
-    public synchronized void show() {
+    public void show() {
         this.mStartTime = -1;
         this.mDismissed = false;
         removeCallbacks(this.mDelayedHide);
-        this.mPostedHide = false;
         if (!this.mPostedShow) {
             postDelayed(this.mDelayedShow, 500);
             this.mPostedShow = true;

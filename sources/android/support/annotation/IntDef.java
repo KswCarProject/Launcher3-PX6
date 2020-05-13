@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 public @interface IntDef {
     boolean flag() default false;
 
-    int[] value() default {};
+    long[] value() default {};
 }

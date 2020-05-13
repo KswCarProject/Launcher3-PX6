@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="all_apps_item_height">80dp</dimen>
-    <dimen name="all_apps_item_text_margin_top">120dp</dimen>
-    <dimen name="all_apps_item_text_size">24sp</dimen>
-    <dimen name="all_apps_item_width">80dp</dimen>
-    <dimen name="drop_target_drag_padding">20dp</dimen>
-    <dimen name="drop_target_text_size">16sp</dimen>
-</resources>

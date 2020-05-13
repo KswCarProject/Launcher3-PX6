@@ -62,17 +62,16 @@ public abstract class CursorAdapter extends BaseAdapter implements Filterable, C
 
     /* access modifiers changed from: package-private */
     public void init(Context context, Cursor c, int flags) {
-        boolean z = false;
+        boolean cursorPresent = true;
         if ((flags & 1) == 1) {
             flags |= 2;
             this.mAutoRequery = true;
         } else {
             this.mAutoRequery = false;
         }
-        if (c != null) {
-            z = true;
+        if (c == null) {
+            cursorPresent = false;
         }
-        boolean cursorPresent = z;
         this.mCursor = c;
         this.mDataValid = cursorPresent;
         this.mContext = context;
@@ -128,7 +127,9 @@ public abstract class CursorAdapter extends BaseAdapter implements Filterable, C
         View v;
         if (!this.mDataValid) {
             throw new IllegalStateException("this should only be called when the cursor is valid");
-        } else if (this.mCursor.moveToPosition(position)) {
+        } else if (!this.mCursor.moveToPosition(position)) {
+            throw new IllegalStateException("couldn't move cursor to position " + position);
+        } else {
             if (convertView == null) {
                 v = newView(this.mContext, this.mCursor, parent);
             } else {
@@ -136,8 +137,6 @@ public abstract class CursorAdapter extends BaseAdapter implements Filterable, C
             }
             bindView(v, this.mContext, this.mCursor);
             return v;
-        } else {
-            throw new IllegalStateException("couldn't move cursor to position " + position);
         }
     }
 
@@ -191,11 +190,11 @@ public abstract class CursorAdapter extends BaseAdapter implements Filterable, C
             this.mRowIDColumn = newCursor.getColumnIndexOrThrow("_id");
             this.mDataValid = true;
             notifyDataSetChanged();
-        } else {
-            this.mRowIDColumn = -1;
-            this.mDataValid = false;
-            notifyDataSetInvalidated();
+            return oldCursor;
         }
+        this.mRowIDColumn = -1;
+        this.mDataValid = false;
+        notifyDataSetInvalidated();
         return oldCursor;
     }
 

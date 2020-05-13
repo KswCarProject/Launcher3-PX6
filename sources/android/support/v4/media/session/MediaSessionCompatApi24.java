@@ -22,6 +22,9 @@ class MediaSessionCompatApi24 {
         void onPrepareFromUri(Uri uri, Bundle bundle);
     }
 
+    MediaSessionCompatApi24() {
+    }
+
     public static Object createCallback(Callback callback) {
         return new CallbackProxy(callback);
     }
@@ -46,21 +49,15 @@ class MediaSessionCompatApi24 {
         }
 
         public void onPrepareFromMediaId(String mediaId, Bundle extras) {
-            MediaSessionCompat.ensureClassLoader(extras);
             ((Callback) this.mCallback).onPrepareFromMediaId(mediaId, extras);
         }
 
         public void onPrepareFromSearch(String query, Bundle extras) {
-            MediaSessionCompat.ensureClassLoader(extras);
             ((Callback) this.mCallback).onPrepareFromSearch(query, extras);
         }
 
         public void onPrepareFromUri(Uri uri, Bundle extras) {
-            MediaSessionCompat.ensureClassLoader(extras);
             ((Callback) this.mCallback).onPrepareFromUri(uri, extras);
         }
-    }
-
-    private MediaSessionCompatApi24() {
     }
 }

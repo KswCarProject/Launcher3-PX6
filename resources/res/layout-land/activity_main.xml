@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+    <TextView android:textSize="30px" android:gravity="left|center_vertical|center_horizontal|center" android:layout_width="921px" android:layout_height="40px" android:layout_marginLeft="48px" android:layout_marginTop="8px" android:text="请选择所在的地区："/>
+    <ListView android:id="@+id/LvCityList" android:layout_width="921px" android:layout_height="460px" android:layout_marginLeft="48px" android:layout_marginTop="58px" android:divider="#ff353840" android:dividerHeight="1px"/>
+</RelativeLayout>

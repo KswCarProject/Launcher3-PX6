@@ -33,18 +33,17 @@ public interface ICallbackfn extends IInterface {
         }
 
         public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
-            int i = code;
-            if (i == 1) {
-                Parcel parcel = reply;
-                data.enforceInterface(DESCRIPTOR);
-                notifyEvt(data.readInt(), data.readInt(), data.readInt(), data.createByteArray(), data.readString());
-                reply.writeNoException();
-                return true;
-            } else if (i != 1598968902) {
-                return super.onTransact(code, data, reply, flags);
-            } else {
-                reply.writeString(DESCRIPTOR);
-                return true;
+            switch (code) {
+                case 1:
+                    data.enforceInterface(DESCRIPTOR);
+                    notifyEvt(data.readInt(), data.readInt(), data.readInt(), data.createByteArray(), data.readString());
+                    reply.writeNoException();
+                    return true;
+                case 1598968902:
+                    reply.writeString(DESCRIPTOR);
+                    return true;
+                default:
+                    return super.onTransact(code, data, reply, flags);
             }
         }
 

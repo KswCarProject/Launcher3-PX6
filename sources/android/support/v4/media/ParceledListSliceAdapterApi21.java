@@ -10,6 +10,9 @@ import java.util.List;
 class ParceledListSliceAdapterApi21 {
     private static Constructor sConstructor;
 
+    ParceledListSliceAdapterApi21() {
+    }
+
     static {
         try {
             sConstructor = Class.forName("android.content.pm.ParceledListSlice").getConstructor(new Class[]{List.class});
@@ -25,8 +28,5 @@ class ParceledListSliceAdapterApi21 {
             e.printStackTrace();
             return null;
         }
-    }
-
-    private ParceledListSliceAdapterApi21() {
     }
 }

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <plurals name="badged_app_label">
-        <item quantity="one">%1$s heeft %2$d melding</item>
-        <item quantity="other">%1$s heeft %2$d meldingen</item>
-    </plurals>
-</resources>

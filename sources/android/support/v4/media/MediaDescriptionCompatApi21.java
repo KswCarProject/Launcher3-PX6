@@ -9,6 +9,9 @@ import android.support.annotation.RequiresApi;
 
 @RequiresApi(21)
 class MediaDescriptionCompatApi21 {
+    MediaDescriptionCompatApi21() {
+    }
+
     public static String getMediaId(Object descriptionObj) {
         return ((MediaDescription) descriptionObj).getMediaId();
     }
@@ -46,6 +49,9 @@ class MediaDescriptionCompatApi21 {
     }
 
     static class Builder {
+        Builder() {
+        }
+
         public static Object newInstance() {
             return new MediaDescription.Builder();
         }
@@ -81,11 +87,5 @@ class MediaDescriptionCompatApi21 {
         public static Object build(Object builderObj) {
             return ((MediaDescription.Builder) builderObj).build();
         }
-
-        private Builder() {
-        }
-    }
-
-    private MediaDescriptionCompatApi21() {
     }
 }

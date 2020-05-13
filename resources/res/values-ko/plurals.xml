@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <plurals name="badged_app_label">
-        <item quantity="one">%2$d개의 %1$s 알림 있음</item>
-        <item quantity="other">%2$d개의 %1$s 알림 있음</item>
-    </plurals>
-</resources>

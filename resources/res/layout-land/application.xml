@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.szchoiceway.index.BubbleTextView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:background="@drawable/focusable_view_bg" android:focusable="true" style="@style/WorkspaceIcon.Landscape"/>

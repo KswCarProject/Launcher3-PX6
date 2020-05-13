@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="icon_shape_override_paths_names">
-        <item>@string/icon_shape_system_default</item>
-        <item>@string/icon_shape_square</item>
-        <item>@string/icon_shape_squircle</item>
-        <item>@string/icon_shape_circle</item>
-        <item>@string/icon_shape_teardrop</item>
+    <array name="wallpapers">
+        <item>wallpaper_01</item>
+        <item>wallpaper_02</item>
+        <item>wallpaper_03</item>
+        <item>wallpaper_04</item>
+        <item>wallpaper_05</item>
+        <item>wallpaper_06</item>
+        <item>wallpaper_07</item>
+        <item>wallpaper_08</item>
+        <item>wallpaper_09</item>
+        <item>wallpaper_10</item>
+        <item>wallpaper_11</item>
+        <item>wallpaper_12</item>
+        <item>wallpaper_13</item>
+        <item>wallpaper_14</item>
+        <item>wallpaper_15</item>
+        <item>wallpaper_16</item>
+        <item>wallpaper_17</item>
+        <item>wallpaper_18</item>
+        <item>wallpaper_19</item>
+        <item>wallpaper_20</item>
+        <item>wallpaper_21</item>
     </array>
-    <array name="icon_shape_override_paths_values">
-        <item />
-        <item>M50,0L100,0 100,100 0,100 0,0z</item>
-        <item>M50,0 C10,0 0,10 0,50 0,90 10,100 50,100 90,100 100,90 100,50 100,10 90,0 50,0 Z</item>
-        <item>M50 0A50 50,0,1,1,50 100A50 50,0,1,1,50 0</item>
-        <item>M50,0A50,50,0,0 1 100,50 L100,85 A15,15,0,0 1 85,100 L50,100 A50,50,0,0 1 50,0z</item>
+    <array name="extra_wallpapers">
+    </array>
+    <array name="ksw_wallpapers">
+        <item>wallpaper_14</item>
     </array>
 </resources>

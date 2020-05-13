@@ -3,73 +3,117 @@ package android.support.v4.view.accessibility;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.view.accessibility.AccessibilityNodeInfo;
-import android.view.accessibility.AccessibilityNodeProvider;
+import android.support.v4.view.accessibility.AccessibilityNodeProviderCompatJellyBean;
+import android.support.v4.view.accessibility.AccessibilityNodeProviderCompatKitKat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccessibilityNodeProviderCompat {
     public static final int HOST_VIEW_ID = -1;
+    private static final AccessibilityNodeProviderImpl IMPL;
     private final Object mProvider;
 
-    @RequiresApi(16)
-    static class AccessibilityNodeProviderApi16 extends AccessibilityNodeProvider {
-        final AccessibilityNodeProviderCompat mCompat;
+    interface AccessibilityNodeProviderImpl {
+        Object newAccessibilityNodeProviderBridge(AccessibilityNodeProviderCompat accessibilityNodeProviderCompat);
+    }
 
-        AccessibilityNodeProviderApi16(AccessibilityNodeProviderCompat compat) {
-            this.mCompat = compat;
+    static class AccessibilityNodeProviderStubImpl implements AccessibilityNodeProviderImpl {
+        AccessibilityNodeProviderStubImpl() {
         }
 
-        public AccessibilityNodeInfo createAccessibilityNodeInfo(int virtualViewId) {
-            AccessibilityNodeInfoCompat compatInfo = this.mCompat.createAccessibilityNodeInfo(virtualViewId);
-            if (compatInfo == null) {
-                return null;
-            }
-            return compatInfo.unwrap();
-        }
-
-        public List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText(String text, int virtualViewId) {
-            List<AccessibilityNodeInfoCompat> compatInfos = this.mCompat.findAccessibilityNodeInfosByText(text, virtualViewId);
-            if (compatInfos == null) {
-                return null;
-            }
-            List<AccessibilityNodeInfo> infoList = new ArrayList<>();
-            int infoCount = compatInfos.size();
-            for (int i = 0; i < infoCount; i++) {
-                infoList.add(compatInfos.get(i).unwrap());
-            }
-            return infoList;
-        }
-
-        public boolean performAction(int virtualViewId, int action, Bundle arguments) {
-            return this.mCompat.performAction(virtualViewId, action, arguments);
+        public Object newAccessibilityNodeProviderBridge(AccessibilityNodeProviderCompat compat) {
+            return null;
         }
     }
 
-    @RequiresApi(19)
-    static class AccessibilityNodeProviderApi19 extends AccessibilityNodeProviderApi16 {
-        AccessibilityNodeProviderApi19(AccessibilityNodeProviderCompat compat) {
-            super(compat);
+    private static class AccessibilityNodeProviderJellyBeanImpl extends AccessibilityNodeProviderStubImpl {
+        AccessibilityNodeProviderJellyBeanImpl() {
         }
 
-        public AccessibilityNodeInfo findFocus(int focus) {
-            AccessibilityNodeInfoCompat compatInfo = this.mCompat.findFocus(focus);
-            if (compatInfo == null) {
-                return null;
-            }
-            return compatInfo.unwrap();
+        public Object newAccessibilityNodeProviderBridge(final AccessibilityNodeProviderCompat compat) {
+            return AccessibilityNodeProviderCompatJellyBean.newAccessibilityNodeProviderBridge(new AccessibilityNodeProviderCompatJellyBean.AccessibilityNodeInfoBridge() {
+                public boolean performAction(int virtualViewId, int action, Bundle arguments) {
+                    return compat.performAction(virtualViewId, action, arguments);
+                }
+
+                public List<Object> findAccessibilityNodeInfosByText(String text, int virtualViewId) {
+                    List<AccessibilityNodeInfoCompat> compatInfos = compat.findAccessibilityNodeInfosByText(text, virtualViewId);
+                    if (compatInfos == null) {
+                        return null;
+                    }
+                    List<Object> infos = new ArrayList<>();
+                    int infoCount = compatInfos.size();
+                    for (int i = 0; i < infoCount; i++) {
+                        infos.add(compatInfos.get(i).getInfo());
+                    }
+                    return infos;
+                }
+
+                public Object createAccessibilityNodeInfo(int virtualViewId) {
+                    AccessibilityNodeInfoCompat compatInfo = compat.createAccessibilityNodeInfo(virtualViewId);
+                    if (compatInfo == null) {
+                        return null;
+                    }
+                    return compatInfo.getInfo();
+                }
+            });
+        }
+    }
+
+    private static class AccessibilityNodeProviderKitKatImpl extends AccessibilityNodeProviderStubImpl {
+        AccessibilityNodeProviderKitKatImpl() {
+        }
+
+        public Object newAccessibilityNodeProviderBridge(final AccessibilityNodeProviderCompat compat) {
+            return AccessibilityNodeProviderCompatKitKat.newAccessibilityNodeProviderBridge(new AccessibilityNodeProviderCompatKitKat.AccessibilityNodeInfoBridge() {
+                public boolean performAction(int virtualViewId, int action, Bundle arguments) {
+                    return compat.performAction(virtualViewId, action, arguments);
+                }
+
+                public List<Object> findAccessibilityNodeInfosByText(String text, int virtualViewId) {
+                    List<AccessibilityNodeInfoCompat> compatInfos = compat.findAccessibilityNodeInfosByText(text, virtualViewId);
+                    if (compatInfos == null) {
+                        return null;
+                    }
+                    List<Object> infos = new ArrayList<>();
+                    int infoCount = compatInfos.size();
+                    for (int i = 0; i < infoCount; i++) {
+                        infos.add(compatInfos.get(i).getInfo());
+                    }
+                    return infos;
+                }
+
+                public Object createAccessibilityNodeInfo(int virtualViewId) {
+                    AccessibilityNodeInfoCompat compatInfo = compat.createAccessibilityNodeInfo(virtualViewId);
+                    if (compatInfo == null) {
+                        return null;
+                    }
+                    return compatInfo.getInfo();
+                }
+
+                public Object findFocus(int focus) {
+                    AccessibilityNodeInfoCompat compatInfo = compat.findFocus(focus);
+                    if (compatInfo == null) {
+                        return null;
+                    }
+                    return compatInfo.getInfo();
+                }
+            });
+        }
+    }
+
+    static {
+        if (Build.VERSION.SDK_INT >= 19) {
+            IMPL = new AccessibilityNodeProviderKitKatImpl();
+        } else if (Build.VERSION.SDK_INT >= 16) {
+            IMPL = new AccessibilityNodeProviderJellyBeanImpl();
+        } else {
+            IMPL = new AccessibilityNodeProviderStubImpl();
         }
     }
 
     public AccessibilityNodeProviderCompat() {
-        if (Build.VERSION.SDK_INT >= 19) {
-            this.mProvider = new AccessibilityNodeProviderApi19(this);
-        } else if (Build.VERSION.SDK_INT >= 16) {
-            this.mProvider = new AccessibilityNodeProviderApi16(this);
-        } else {
-            this.mProvider = null;
-        }
+        this.mProvider = IMPL.newAccessibilityNodeProviderBridge(this);
     }
 
     public AccessibilityNodeProviderCompat(Object provider) {

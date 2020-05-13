@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:paddingTop="@dimen/workspace_divider_padding_top" android:paddingBottom="@dimen/workspace_divider_padding_bottom" android:scaleType="fitXY" android:paddingStart="@dimen/workspace_divider_padding_left" android:paddingEnd="@dimen/workspace_divider_padding_right"/>

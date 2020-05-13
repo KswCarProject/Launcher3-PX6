@@ -10,17 +10,16 @@ public final class CircularIntArray {
         int n = this.mElements.length;
         int r = n - this.mHead;
         int newCapacity = n << 1;
-        if (newCapacity >= 0) {
-            int[] a = new int[newCapacity];
-            System.arraycopy(this.mElements, this.mHead, a, 0, r);
-            System.arraycopy(this.mElements, 0, a, r, this.mHead);
-            this.mElements = a;
-            this.mHead = 0;
-            this.mTail = n;
-            this.mCapacityBitmask = newCapacity - 1;
-            return;
+        if (newCapacity < 0) {
+            throw new RuntimeException("Max array capacity exceeded");
         }
-        throw new RuntimeException("Max array capacity exceeded");
+        int[] a = new int[newCapacity];
+        System.arraycopy(this.mElements, this.mHead, a, 0, r);
+        System.arraycopy(this.mElements, 0, a, r, this.mHead);
+        this.mElements = a;
+        this.mHead = 0;
+        this.mTail = n;
+        this.mCapacityBitmask = newCapacity - 1;
     }
 
     public CircularIntArray() {
@@ -31,7 +30,9 @@ public final class CircularIntArray {
         int arrayCapacity;
         if (minCapacity < 1) {
             throw new IllegalArgumentException("capacity must be >= 1");
-        } else if (minCapacity <= 1073741824) {
+        } else if (minCapacity > 1073741824) {
+            throw new IllegalArgumentException("capacity must be <= 2^30");
+        } else {
             if (Integer.bitCount(minCapacity) != 1) {
                 arrayCapacity = Integer.highestOneBit(minCapacity - 1) << 1;
             } else {
@@ -39,8 +40,6 @@ public final class CircularIntArray {
             }
             this.mCapacityBitmask = arrayCapacity - 1;
             this.mElements = new int[arrayCapacity];
-        } else {
-            throw new IllegalArgumentException("capacity must be <= 2^30");
         }
     }
 
@@ -61,22 +60,22 @@ public final class CircularIntArray {
     }
 
     public int popFirst() {
-        if (this.mHead != this.mTail) {
-            int result = this.mElements[this.mHead];
-            this.mHead = (this.mHead + 1) & this.mCapacityBitmask;
-            return result;
+        if (this.mHead == this.mTail) {
+            throw new ArrayIndexOutOfBoundsException();
         }
-        throw new ArrayIndexOutOfBoundsException();
+        int result = this.mElements[this.mHead];
+        this.mHead = (this.mHead + 1) & this.mCapacityBitmask;
+        return result;
     }
 
     public int popLast() {
-        if (this.mHead != this.mTail) {
-            int t = (this.mTail - 1) & this.mCapacityBitmask;
-            int result = this.mElements[t];
-            this.mTail = t;
-            return result;
+        if (this.mHead == this.mTail) {
+            throw new ArrayIndexOutOfBoundsException();
         }
-        throw new ArrayIndexOutOfBoundsException();
+        int t = (this.mTail - 1) & this.mCapacityBitmask;
+        int result = this.mElements[t];
+        this.mTail = t;
+        return result;
     }
 
     public void clear() {
@@ -85,21 +84,19 @@ public final class CircularIntArray {
 
     public void removeFromStart(int numOfElements) {
         if (numOfElements > 0) {
-            if (numOfElements <= size()) {
-                this.mHead = (this.mHead + numOfElements) & this.mCapacityBitmask;
-                return;
+            if (numOfElements > size()) {
+                throw new ArrayIndexOutOfBoundsException();
             }
-            throw new ArrayIndexOutOfBoundsException();
+            this.mHead = (this.mHead + numOfElements) & this.mCapacityBitmask;
         }
     }
 
     public void removeFromEnd(int numOfElements) {
         if (numOfElements > 0) {
-            if (numOfElements <= size()) {
-                this.mTail = (this.mTail - numOfElements) & this.mCapacityBitmask;
-                return;
+            if (numOfElements > size()) {
+                throw new ArrayIndexOutOfBoundsException();
             }
-            throw new ArrayIndexOutOfBoundsException();
+            this.mTail = (this.mTail - numOfElements) & this.mCapacityBitmask;
         }
     }
 

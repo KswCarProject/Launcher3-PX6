@@ -19,7 +19,7 @@ public abstract class SharedElementCallback {
     private static final String BUNDLE_SNAPSHOT_BITMAP = "sharedElement:snapshot:bitmap";
     private static final String BUNDLE_SNAPSHOT_IMAGE_MATRIX = "sharedElement:snapshot:imageMatrix";
     private static final String BUNDLE_SNAPSHOT_IMAGE_SCALETYPE = "sharedElement:snapshot:imageScaleType";
-    private static final int MAX_IMAGE_SIZE = 1048576;
+    private static int MAX_IMAGE_SIZE = 1048576;
     private Matrix mTempMatrix;
 
     public interface OnSharedElementsReadyListener {
@@ -48,32 +48,33 @@ public abstract class SharedElementCallback {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(BUNDLE_SNAPSHOT_BITMAP, bitmap);
                 bundle.putString(BUNDLE_SNAPSHOT_IMAGE_SCALETYPE, imageView.getScaleType().toString());
-                if (imageView.getScaleType() == ImageView.ScaleType.MATRIX) {
-                    float[] values = new float[9];
-                    imageView.getImageMatrix().getValues(values);
-                    bundle.putFloatArray(BUNDLE_SNAPSHOT_IMAGE_MATRIX, values);
+                if (imageView.getScaleType() != ImageView.ScaleType.MATRIX) {
+                    return bundle;
                 }
+                float[] values = new float[9];
+                imageView.getImageMatrix().getValues(values);
+                bundle.putFloatArray(BUNDLE_SNAPSHOT_IMAGE_MATRIX, values);
                 return bundle;
             }
         }
         int bitmapWidth = Math.round(screenBounds.width());
         int bitmapHeight = Math.round(screenBounds.height());
-        if (bitmapWidth <= 0 || bitmapHeight <= 0) {
-            return null;
+        Bitmap bitmap2 = null;
+        if (bitmapWidth > 0 && bitmapHeight > 0) {
+            float scale = Math.min(1.0f, ((float) MAX_IMAGE_SIZE) / ((float) (bitmapWidth * bitmapHeight)));
+            int bitmapWidth2 = (int) (((float) bitmapWidth) * scale);
+            int bitmapHeight2 = (int) (((float) bitmapHeight) * scale);
+            if (this.mTempMatrix == null) {
+                this.mTempMatrix = new Matrix();
+            }
+            this.mTempMatrix.set(viewToGlobalMatrix);
+            this.mTempMatrix.postTranslate(-screenBounds.left, -screenBounds.top);
+            this.mTempMatrix.postScale(scale, scale);
+            bitmap2 = Bitmap.createBitmap(bitmapWidth2, bitmapHeight2, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap2);
+            canvas.concat(this.mTempMatrix);
+            sharedElement.draw(canvas);
         }
-        float scale = Math.min(1.0f, 1048576.0f / ((float) (bitmapWidth * bitmapHeight)));
-        int bitmapWidth2 = (int) (((float) bitmapWidth) * scale);
-        int bitmapHeight2 = (int) (((float) bitmapHeight) * scale);
-        if (this.mTempMatrix == null) {
-            this.mTempMatrix = new Matrix();
-        }
-        this.mTempMatrix.set(viewToGlobalMatrix);
-        this.mTempMatrix.postTranslate(-screenBounds.left, -screenBounds.top);
-        this.mTempMatrix.postScale(scale, scale);
-        Bitmap bitmap2 = Bitmap.createBitmap(bitmapWidth2, bitmapHeight2, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap2);
-        canvas.concat(this.mTempMatrix);
-        sharedElement.draw(canvas);
         return bitmap2;
     }
 
@@ -83,7 +84,7 @@ public abstract class SharedElementCallback {
         if (width <= 0 || height <= 0) {
             return null;
         }
-        float scale = Math.min(1.0f, 1048576.0f / ((float) (width * height)));
+        float scale = Math.min(1.0f, ((float) MAX_IMAGE_SIZE) / ((float) (width * height)));
         if ((drawable instanceof BitmapDrawable) && scale == 1.0f) {
             return ((BitmapDrawable) drawable).getBitmap();
         }
@@ -103,6 +104,7 @@ public abstract class SharedElementCallback {
     }
 
     public View onCreateSnapshotView(Context context, Parcelable snapshot) {
+        ImageView view = null;
         if (snapshot instanceof Bundle) {
             Bundle bundle = (Bundle) snapshot;
             Bitmap bitmap = (Bitmap) bundle.getParcelable(BUNDLE_SNAPSHOT_BITMAP);
@@ -110,24 +112,20 @@ public abstract class SharedElementCallback {
                 return null;
             }
             ImageView imageView = new ImageView(context);
-            ImageView view = imageView;
+            view = imageView;
             imageView.setImageBitmap(bitmap);
             imageView.setScaleType(ImageView.ScaleType.valueOf(bundle.getString(BUNDLE_SNAPSHOT_IMAGE_SCALETYPE)));
-            if (imageView.getScaleType() != ImageView.ScaleType.MATRIX) {
-                return view;
+            if (imageView.getScaleType() == ImageView.ScaleType.MATRIX) {
+                float[] values = bundle.getFloatArray(BUNDLE_SNAPSHOT_IMAGE_MATRIX);
+                Matrix matrix = new Matrix();
+                matrix.setValues(values);
+                imageView.setImageMatrix(matrix);
             }
-            float[] values = bundle.getFloatArray(BUNDLE_SNAPSHOT_IMAGE_MATRIX);
-            Matrix matrix = new Matrix();
-            matrix.setValues(values);
-            imageView.setImageMatrix(matrix);
-            return view;
-        } else if (!(snapshot instanceof Bitmap)) {
-            return null;
-        } else {
-            ImageView view2 = new ImageView(context);
-            view2.setImageBitmap((Bitmap) snapshot);
-            return view2;
+        } else if (snapshot instanceof Bitmap) {
+            view = new ImageView(context);
+            view.setImageBitmap((Bitmap) snapshot);
         }
+        return view;
     }
 
     public void onSharedElementsArrived(List<String> list, List<View> list2, OnSharedElementsReadyListener listener) {

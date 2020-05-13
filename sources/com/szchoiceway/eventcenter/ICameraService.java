@@ -51,50 +51,48 @@ public interface ICameraService extends IInterface {
         }
 
         public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
-            if (code != 1598968902) {
-                switch (code) {
-                    case 1:
-                        data.enforceInterface(DESCRIPTOR);
-                        setCameraRect(data.readInt(), data.readInt(), data.readInt(), data.readInt());
-                        reply.writeNoException();
-                        return true;
-                    case 2:
-                        data.enforceInterface(DESCRIPTOR);
-                        openCamera();
-                        reply.writeNoException();
-                        return true;
-                    case 3:
-                        data.enforceInterface(DESCRIPTOR);
-                        closeCamera();
-                        reply.writeNoException();
-                        return true;
-                    case 4:
-                        data.enforceInterface(DESCRIPTOR);
-                        int _result = getSignalState();
-                        reply.writeNoException();
-                        reply.writeInt(_result);
-                        return true;
-                    case 5:
-                        data.enforceInterface(DESCRIPTOR);
-                        openDvd();
-                        reply.writeNoException();
-                        return true;
-                    case 6:
-                        data.enforceInterface(DESCRIPTOR);
-                        closeDvd();
-                        reply.writeNoException();
-                        return true;
-                    case 7:
-                        data.enforceInterface(DESCRIPTOR);
-                        setSignalChannal(data.readInt());
-                        reply.writeNoException();
-                        return true;
-                    default:
-                        return super.onTransact(code, data, reply, flags);
-                }
-            } else {
-                reply.writeString(DESCRIPTOR);
-                return true;
+            switch (code) {
+                case 1:
+                    data.enforceInterface(DESCRIPTOR);
+                    setCameraRect(data.readInt(), data.readInt(), data.readInt(), data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 2:
+                    data.enforceInterface(DESCRIPTOR);
+                    openCamera();
+                    reply.writeNoException();
+                    return true;
+                case 3:
+                    data.enforceInterface(DESCRIPTOR);
+                    closeCamera();
+                    reply.writeNoException();
+                    return true;
+                case 4:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result = getSignalState();
+                    reply.writeNoException();
+                    reply.writeInt(_result);
+                    return true;
+                case 5:
+                    data.enforceInterface(DESCRIPTOR);
+                    openDvd();
+                    reply.writeNoException();
+                    return true;
+                case 6:
+                    data.enforceInterface(DESCRIPTOR);
+                    closeDvd();
+                    reply.writeNoException();
+                    return true;
+                case 7:
+                    data.enforceInterface(DESCRIPTOR);
+                    setSignalChannal(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 1598968902:
+                    reply.writeString(DESCRIPTOR);
+                    return true;
+                default:
+                    return super.onTransact(code, data, reply, flags);
             }
         }
 

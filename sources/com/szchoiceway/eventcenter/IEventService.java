@@ -5,6 +5,7 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Parcel;
 import android.os.RemoteException;
+import com.szchoiceway.eventcenter.ICallbackfn;
 
 public interface IEventService extends IInterface {
     int GetBTStatus() throws RemoteException;
@@ -416,1253 +417,730 @@ public interface IEventService extends IInterface {
             return this;
         }
 
-        /*  JADX ERROR: NullPointerException in pass: CodeShrinkVisitor
-            java.lang.NullPointerException
-            	at jadx.core.dex.instructions.args.InsnArg.wrapInstruction(InsnArg.java:118)
-            	at jadx.core.dex.visitors.shrink.CodeShrinkVisitor.inline(CodeShrinkVisitor.java:146)
-            	at jadx.core.dex.visitors.shrink.CodeShrinkVisitor.shrinkBlock(CodeShrinkVisitor.java:71)
-            	at jadx.core.dex.visitors.shrink.CodeShrinkVisitor.shrinkMethod(CodeShrinkVisitor.java:43)
-            	at jadx.core.dex.visitors.shrink.CodeShrinkVisitor.visit(CodeShrinkVisitor.java:35)
-            */
-        public boolean onTransact(int r30, android.os.Parcel r31, android.os.Parcel r32, int r33) throws android.os.RemoteException {
-            /*
-                r29 = this;
-                r13 = r29
-                r14 = r30
-                r15 = r31
-                r12 = r32
-                java.lang.String r11 = "com.szchoiceway.eventcenter.IEventService"
-                r0 = 1598968902(0x5f4e5446, float:1.4867585E19)
-                r16 = 1
-                if (r14 == r0) goto L_0x0947
-                r0 = 0
-                switch(r14) {
-                    case 1: goto L_0x092f;
-                    case 2: goto L_0x091f;
-                    case 3: goto L_0x090f;
-                    case 4: goto L_0x08ff;
-                    case 5: goto L_0x08ef;
-                    case 6: goto L_0x08df;
-                    case 7: goto L_0x08d3;
-                    case 8: goto L_0x08bf;
-                    case 9: goto L_0x08ab;
-                    case 10: goto L_0x0897;
-                    case 11: goto L_0x0887;
-                    case 12: goto L_0x0877;
-                    case 13: goto L_0x0867;
-                    case 14: goto L_0x0857;
-                    case 15: goto L_0x0847;
-                    case 16: goto L_0x0837;
-                    case 17: goto L_0x0827;
-                    case 18: goto L_0x0817;
-                    case 19: goto L_0x0807;
-                    case 20: goto L_0x07f7;
-                    case 21: goto L_0x07e7;
-                    case 22: goto L_0x07d7;
-                    case 23: goto L_0x07c7;
-                    case 24: goto L_0x07b7;
-                    case 25: goto L_0x07a7;
-                    case 26: goto L_0x0797;
-                    case 27: goto L_0x0787;
-                    case 28: goto L_0x0777;
-                    case 29: goto L_0x0763;
-                    case 30: goto L_0x074b;
-                    case 31: goto L_0x073b;
-                    case 32: goto L_0x072b;
-                    case 33: goto L_0x0717;
-                    case 34: goto L_0x0703;
-                    case 35: goto L_0x06ef;
-                    case 36: goto L_0x06db;
-                    case 37: goto L_0x06c3;
-                    case 38: goto L_0x06b7;
-                    case 39: goto L_0x06ab;
-                    case 40: goto L_0x068f;
-                    case 41: goto L_0x0677;
-                    case 42: goto L_0x065f;
-                    case 43: goto L_0x0647;
-                    case 44: goto L_0x062f;
-                    case 45: goto L_0x0613;
-                    case 46: goto L_0x0603;
-                    case 47: goto L_0x05d6;
-                    case 48: goto L_0x05c6;
-                    case 49: goto L_0x05b6;
-                    case 50: goto L_0x05a6;
-                    case 51: goto L_0x0596;
-                    case 52: goto L_0x0586;
-                    case 53: goto L_0x0576;
-                    case 54: goto L_0x0566;
-                    case 55: goto L_0x0556;
-                    case 56: goto L_0x0546;
-                    case 57: goto L_0x0536;
-                    case 58: goto L_0x0526;
-                    case 59: goto L_0x0516;
-                    case 60: goto L_0x0506;
-                    case 61: goto L_0x04f6;
-                    case 62: goto L_0x04e6;
-                    case 63: goto L_0x04b9;
-                    case 64: goto L_0x04a9;
-                    case 65: goto L_0x047c;
-                    case 66: goto L_0x046c;
-                    case 67: goto L_0x045c;
-                    case 68: goto L_0x0448;
-                    case 69: goto L_0x0434;
-                    case 70: goto L_0x0420;
-                    case 71: goto L_0x040c;
-                    case 72: goto L_0x03f8;
-                    case 73: goto L_0x03e8;
-                    case 74: goto L_0x03d8;
-                    case 75: goto L_0x03c8;
-                    case 76: goto L_0x03b8;
-                    case 77: goto L_0x03a4;
-                    case 78: goto L_0x0388;
-                    case 79: goto L_0x0377;
-                    case 80: goto L_0x0368;
-                    case 81: goto L_0x0359;
-                    case 82: goto L_0x0304;
-                    case 83: goto L_0x02f6;
-                    case 84: goto L_0x02e8;
-                    case 85: goto L_0x02da;
-                    case 86: goto L_0x02cc;
-                    case 87: goto L_0x02be;
-                    case 88: goto L_0x02b0;
-                    case 89: goto L_0x02a2;
-                    case 90: goto L_0x0294;
-                    case 91: goto L_0x0286;
-                    case 92: goto L_0x0278;
-                    case 93: goto L_0x026a;
-                    case 94: goto L_0x025c;
-                    case 95: goto L_0x024e;
-                    case 96: goto L_0x023c;
-                    case 97: goto L_0x022e;
-                    case 98: goto L_0x021c;
-                    case 99: goto L_0x020a;
-                    case 100: goto L_0x01fc;
-                    case 101: goto L_0x01f2;
-                    case 102: goto L_0x01e8;
-                    case 103: goto L_0x01d2;
-                    case 104: goto L_0x01a4;
-                    case 105: goto L_0x0196;
-                    case 106: goto L_0x0188;
-                    case 107: goto L_0x017e;
-                    case 108: goto L_0x0170;
-                    case 109: goto L_0x0162;
-                    case 110: goto L_0x0154;
-                    case 111: goto L_0x0146;
-                    case 112: goto L_0x0138;
-                    case 113: goto L_0x012a;
-                    case 114: goto L_0x0114;
-                    case 115: goto L_0x00f6;
-                    case 116: goto L_0x00e8;
-                    case 117: goto L_0x00da;
-                    case 118: goto L_0x00cc;
-                    case 119: goto L_0x00be;
-                    case 120: goto L_0x00ac;
-                    case 121: goto L_0x009a;
-                    case 122: goto L_0x008c;
-                    case 123: goto L_0x0072;
-                    case 124: goto L_0x0064;
-                    case 125: goto L_0x0056;
-                    case 126: goto L_0x0040;
-                    case 127: goto L_0x0036;
-                    case 128: goto L_0x0028;
-                    case 129: goto L_0x001a;
-                    default: goto L_0x0015;
-                }
-            L_0x0015:
-                boolean r0 = super.onTransact(r30, r31, r32, r33)
-                return r0
-            L_0x001a:
-                r15.enforceInterface(r11)
-                int r0 = r31.readInt()
-                r13.sendKeyDownUpSync(r0)
-                r32.writeNoException()
-                return r16
-            L_0x0028:
-                r15.enforceInterface(r11)
-                boolean r0 = r29.getmIsAddMouseView()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x0036:
-                r15.enforceInterface(r11)
-                r29.sendToOSData()
-                r32.writeNoException()
-                return r16
-            L_0x0040:
-                r15.enforceInterface(r11)
-                int r1 = r31.readInt()
-                int r2 = r31.readInt()
-                if (r2 == 0) goto L_0x004f
-                r0 = 1
-            L_0x004f:
-                r13.openTVout(r1, r0)
-                r32.writeNoException()
-                return r16
-            L_0x0056:
-                r15.enforceInterface(r11)
-                int r0 = r31.readInt()
-                r13.setCameraOwner(r0)
-                r32.writeNoException()
-                return r16
-            L_0x0064:
-                r15.enforceInterface(r11)
-                int r0 = r29.getCameraOwner()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x0072:
-                r15.enforceInterface(r11)
-                int r0 = r31.readInt()
-                int r1 = r31.readInt()
-                int r2 = r31.readInt()
-                int r3 = r31.readInt()
-                r13.send_KSW_page2_vol_info(r0, r1, r2, r3)
-                r32.writeNoException()
-                return r16
-            L_0x008c:
-                r15.enforceInterface(r11)
-                int r0 = r29.get_m_i_easyconn_state_KSW()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x009a:
-                r15.enforceInterface(r11)
-                android.os.IBinder r0 = r31.readStrongBinder()
-                com.szchoiceway.eventcenter.ICallbackfn r0 = com.szchoiceway.eventcenter.ICallbackfn.Stub.asInterface(r0)
-                r13.setGpsFocusCallback(r0)
-                r32.writeNoException()
-                return r16
-            L_0x00ac:
-                r15.enforceInterface(r11)
-                android.os.IBinder r0 = r31.readStrongBinder()
-                com.szchoiceway.eventcenter.ICallbackfn r0 = com.szchoiceway.eventcenter.ICallbackfn.Stub.asInterface(r0)
-                r13.setDashBoardCallback(r0)
-                r32.writeNoException()
-                return r16
-            L_0x00be:
-                r15.enforceInterface(r11)
-                byte[] r0 = r31.createByteArray()
-                r13.sendMcuData_KSW(r0)
-                r32.writeNoException()
-                return r16
-            L_0x00cc:
-                r15.enforceInterface(r11)
-                byte[] r0 = r31.createByteArray()
-                r13.sendDvdDataToMcu(r0)
-                r32.writeNoException()
-                return r16
-            L_0x00da:
-                r15.enforceInterface(r11)
-                boolean r0 = r29.get_kesaiwei_bPark()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x00e8:
-                r15.enforceInterface(r11)
-                boolean r0 = r29.get_kesaiwei_chk_Video_Driving_Ban()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x00f6:
-                r15.enforceInterface(r11)
-                int r1 = r31.readInt()
-                if (r1 == 0) goto L_0x0101
-                r0 = 1
-            L_0x0101:
-                int r1 = r31.readInt()
-                int r2 = r31.readInt()
-                int r3 = r31.readInt()
-                r13.SendVol_KSW(r0, r1, r2, r3)
-                r32.writeNoException()
-                return r16
-            L_0x0114:
-                r15.enforceInterface(r11)
-                byte[] r0 = r31.createByteArray()
-                int r1 = r31.readInt()
-                boolean r2 = r13.Send8902McuUpgradeData(r0, r1)
-                r32.writeNoException()
-                r12.writeInt(r2)
-                return r16
-            L_0x012a:
-                r15.enforceInterface(r11)
-                java.lang.String r0 = r29.getTFTVer()
-                r32.writeNoException()
-                r12.writeString(r0)
-                return r16
-            L_0x0138:
-                r15.enforceInterface(r11)
-                int r0 = r29.GetCurrDim()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x0146:
-                r15.enforceInterface(r11)
-                int r0 = r31.readInt()
-                r13.SetCurrDim(r0)
-                r32.writeNoException()
-                return r16
-            L_0x0154:
-                r15.enforceInterface(r11)
-                int r0 = r29.LoadNLightVal()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x0162:
-                r15.enforceInterface(r11)
-                boolean r0 = r29.IsBackcarConnected()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x0170:
-                r15.enforceInterface(r11)
-                int r0 = r29.GetBTStatus()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x017e:
-                r15.enforceInterface(r11)
-                r29.SendFactorySet()
-                r32.writeNoException()
-                return r16
-            L_0x0188:
-                r15.enforceInterface(r11)
-                byte r0 = r31.readByte()
-                r13.SendGPSVolToMCU(r0)
-                r32.writeNoException()
-                return r16
-            L_0x0196:
-                r15.enforceInterface(r11)
-                boolean r0 = r29.isUpgradeMode()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x01a4:
-                r15.enforceInterface(r11)
-                long r7 = r31.readLong()
-                byte[] r9 = r31.createByteArray()
-                int r10 = r31.readInt()
-                int r17 = r31.readInt()
-                int r1 = r31.readInt()
-                if (r1 == 0) goto L_0x01bf
-                r6 = 1
-                goto L_0x01c0
-            L_0x01bf:
-                r6 = 0
-            L_0x01c0:
-                r0 = r29
-                r1 = r7
-                r3 = r9
-                r4 = r10
-                r5 = r17
-                boolean r0 = r0.sendMcuUpgradeData(r1, r3, r4, r5, r6)
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x01d2:
-                r15.enforceInterface(r11)
-                int r1 = r31.readInt()
-                if (r1 == 0) goto L_0x01dd
-                r0 = 1
-            L_0x01dd:
-                boolean r1 = r13.sendMcuUpgradeMode(r0)
-                r32.writeNoException()
-                r12.writeInt(r1)
-                return r16
-            L_0x01e8:
-                r15.enforceInterface(r11)
-                r29.exitUpgradeMode()
-                r32.writeNoException()
-                return r16
-            L_0x01f2:
-                r15.enforceInterface(r11)
-                r29.enterUpgradeMode()
-                r32.writeNoException()
-                return r16
-            L_0x01fc:
-                r15.enforceInterface(r11)
-                boolean r0 = r29.getMcuInitStatus()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x020a:
-                r15.enforceInterface(r11)
-                int r1 = r31.readInt()
-                if (r1 == 0) goto L_0x0215
-                r0 = 1
-            L_0x0215:
-                r13.setMcuInitStatus(r0)
-                r32.writeNoException()
-                return r16
-            L_0x021c:
-                r15.enforceInterface(r11)
-                android.os.IBinder r0 = r31.readStrongBinder()
-                com.szchoiceway.eventcenter.ICallbackfn r0 = com.szchoiceway.eventcenter.ICallbackfn.Stub.asInterface(r0)
-                r13.setCarMediaCallback(r0)
-                r32.writeNoException()
-                return r16
-            L_0x022e:
-                r15.enforceInterface(r11)
-                boolean r0 = r29.IsDiscConneted()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x023c:
-                r15.enforceInterface(r11)
-                int r1 = r31.readInt()
-                if (r1 == 0) goto L_0x0247
-                r0 = 1
-            L_0x0247:
-                r13.sendResetDVD(r0)
-                r32.writeNoException()
-                return r16
-            L_0x024e:
-                r15.enforceInterface(r11)
-                int r0 = r31.readInt()
-                r13.SetDVDVideoCH(r0)
-                r32.writeNoException()
-                return r16
-            L_0x025c:
-                r15.enforceInterface(r11)
-                int r0 = r29.getValidPlayStatus()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x026a:
-                r15.enforceInterface(r11)
-                int r0 = r29.getValidRepeatMode()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x0278:
-                r15.enforceInterface(r11)
-                int r0 = r29.getValidLoopMode()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x0286:
-                r15.enforceInterface(r11)
-                int r0 = r29.getValidTotFolder()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x0294:
-                r15.enforceInterface(r11)
-                int r0 = r29.getValidCurFolder()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x02a2:
-                r15.enforceInterface(r11)
-                int r0 = r29.getValidTotTime()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x02b0:
-                r15.enforceInterface(r11)
-                int r0 = r29.getValidCurTime()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x02be:
-                r15.enforceInterface(r11)
-                int r0 = r29.getValidTotTrack()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x02cc:
-                r15.enforceInterface(r11)
-                int r0 = r29.getValidCurTrack()
-                r32.writeNoException()
-                r12.writeInt(r0)
-                return r16
-            L_0x02da:
-                r15.enforceInterface(r11)
-                java.lang.String r0 = r29.getValidModeArtistInfor()
-                r32.writeNoException()
-                r12.writeString(r0)
-                return r16
-            L_0x02e8:
-                r15.enforceInterface(r11)
-                java.lang.String r0 = r29.getValidModeAblumInfor()
-                r32.writeNoException()
-                r12.writeString(r0)
-                return r16
-            L_0x02f6:
-                r15.enforceInterface(r11)
-                java.lang.String r0 = r29.getValidModeTitleInfor()
-                r32.writeNoException()
-                r12.writeString(r0)
-                return r16
-            L_0x0304:
-                r15.enforceInterface(r11)
-                java.lang.String r17 = r31.readString()
-                java.lang.String r18 = r31.readString()
-                java.lang.String r19 = r31.readString()
-                int r20 = r31.readInt()
-                int r21 = r31.readInt()
-                int r22 = r31.readInt()
-                int r23 = r31.readInt()
-                int r24 = r31.readInt()
-                int r25 = r31.readInt()
-                int r26 = r31.readInt()
-                int r27 = r31.readInt()
-                int r28 = r31.readInt()
-                r0 = r29
-                r1 = r17
-                r2 = r18
-                r3 = r19
-                r4 = r20
-                r5 = r21
-                r6 = r22
-                r7 = r23
-                r8 = r24
-                r9 = r25
-                r10 = r26
-                r14 = r11
-                r11 = r27
-                r12 = r28
-                r0.setValidModeInfor(r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12)
-                r32.writeNoException()
-                return r16
-            L_0x0359:
-                r14 = r11
-                r15.enforceInterface(r14)
-                byte[] r0 = r31.createByteArray()
-                r13.sendCanbusData(r0)
-                r32.writeNoException()
-                return r16
-            L_0x0368:
-                r14 = r11
-                r15.enforceInterface(r14)
-                byte r0 = r31.readByte()
-                r13.initRadioZone(r0)
-                r32.writeNoException()
-                return r16
-            L_0x0377:
-                r14 = r11
-                r15.enforceInterface(r14)
-                boolean r0 = r29.IsMuteOn()
-                r32.writeNoException()
-                r7 = r32
-                r7.writeInt(r0)
-                return r16
-            L_0x0388:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                int r1 = r31.readInt()
-                int r2 = r31.readInt()
-                int r3 = r31.readInt()
-                r13.SetVideoSize(r0, r1, r2, r3)
-                r32.writeNoException()
-                return r16
-            L_0x03a4:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r1 = r31.readInt()
-                if (r1 == 0) goto L_0x03b1
-                r0 = 1
-            L_0x03b1:
-                r13.OpenVideo(r0)
-                r32.writeNoException()
-                return r16
-            L_0x03b8:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r29.GetSignalStatus()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x03c8:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                r13.SetVideoCH(r0)
-                r32.writeNoException()
-                return r16
-            L_0x03d8:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.IsMCUUpgradeWriteErr()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x03e8:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.IsBrakeConneted()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x03f8:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r1 = r31.readInt()
-                if (r1 == 0) goto L_0x0405
-                r0 = 1
-            L_0x0405:
-                r13.SendBlackState(r0)
-                r32.writeNoException()
-                return r16
-            L_0x040c:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r31.readByte()
-                byte r1 = r31.readByte()
-                r13.SendBALFADVal(r0, r1)
-                r32.writeNoException()
-                return r16
-            L_0x0420:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                android.os.IBinder r0 = r31.readStrongBinder()
-                com.szchoiceway.eventcenter.ICallbackfn r0 = com.szchoiceway.eventcenter.ICallbackfn.Stub.asInterface(r0)
-                r13.setAUXCallback(r0)
-                r32.writeNoException()
-                return r16
-            L_0x0434:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                android.os.IBinder r0 = r31.readStrongBinder()
-                com.szchoiceway.eventcenter.ICallbackfn r0 = com.szchoiceway.eventcenter.ICallbackfn.Stub.asInterface(r0)
-                r13.setTVCallback(r0)
-                r32.writeNoException()
-                return r16
-            L_0x0448:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r31.readByte()
-                byte r1 = r31.readByte()
-                r13.SendBLVal(r0, r1)
-                r32.writeNoException()
-                return r16
-            L_0x045c:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r31.readByte()
-                r13.SendMainVol(r0)
-                r32.writeNoException()
-                return r16
-            L_0x046c:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r31.readByte()
-                r13.SendDVRKey(r0)
-                r32.writeNoException()
-                return r16
-            L_0x047c:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r8 = r31.readInt()
-                int r9 = r31.readInt()
-                int r10 = r31.readInt()
-                int r11 = r31.readInt()
-                int r12 = r31.readInt()
-                int r17 = r31.readInt()
-                r0 = r29
-                r1 = r8
-                r2 = r9
-                r3 = r10
-                r4 = r11
-                r5 = r12
-                r6 = r17
-                r0.SendSysRTCTimeMCU(r1, r2, r3, r4, r5, r6)
-                r32.writeNoException()
-                return r16
-            L_0x04a9:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                r13.SendWheelKey(r0)
-                r32.writeNoException()
-                return r16
-            L_0x04b9:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r8 = r31.readInt()
-                int r9 = r31.readInt()
-                int r10 = r31.readInt()
-                int r11 = r31.readInt()
-                int r12 = r31.readInt()
-                int r17 = r31.readInt()
-                r0 = r29
-                r1 = r8
-                r2 = r9
-                r3 = r10
-                r4 = r11
-                r5 = r12
-                r6 = r17
-                r0.SendAudioSetToMCU(r1, r2, r3, r4, r5, r6)
-                r32.writeNoException()
-                return r16
-            L_0x04e6:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getLoudStatus()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x04f6:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getMuteStatus()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0506:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getUserMiddleVal()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x0516:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getUserTrebleVal()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x0526:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getUserBassVal()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x0536:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getEQMode()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x0546:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getFADVal()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x0556:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getBALVal()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x0566:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getTrebleFre()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x0576:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getMiddleFre()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x0586:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getBassFre()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x0596:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getMiddleVal()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x05a6:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getTrebleVal()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x05b6:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getBassVal()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x05c6:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r29.getMainVolval()
-                r32.writeNoException()
-                r7.writeByte(r0)
-                return r16
-            L_0x05d6:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r8 = r31.readByte()
-                byte r9 = r31.readByte()
-                byte r10 = r31.readByte()
-                byte r11 = r31.readByte()
-                byte r12 = r31.readByte()
-                byte r17 = r31.readByte()
-                r0 = r29
-                r1 = r8
-                r2 = r9
-                r3 = r10
-                r4 = r11
-                r5 = r12
-                r6 = r17
-                r0.SendFactorySetToMCU(r1, r2, r3, r4, r5, r6)
-                r32.writeNoException()
-                return r16
-            L_0x0603:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r29.getValidMode()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0613:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r1 = r31.readInt()
-                int r2 = r31.readInt()
-                int r3 = r31.readInt()
-                if (r3 == 0) goto L_0x0628
-                r0 = 1
-            L_0x0628:
-                r13.sendTouchPos(r1, r2, r0)
-                r32.writeNoException()
-                return r16
-            L_0x062f:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r0 = r31.readString()
-                java.lang.String r1 = r31.readString()
-                java.lang.String r2 = r13.getSettingString(r0, r1)
-                r32.writeNoException()
-                r7.writeString(r2)
-                return r16
-            L_0x0647:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r0 = r31.readString()
-                long r1 = r31.readLong()
-                long r3 = r13.getSettingLong(r0, r1)
-                r32.writeNoException()
-                r7.writeLong(r3)
-                return r16
-            L_0x065f:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r0 = r31.readString()
-                int r1 = r31.readInt()
-                int r2 = r13.getSettingInt(r0, r1)
-                r32.writeNoException()
-                r7.writeInt(r2)
-                return r16
-            L_0x0677:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r0 = r31.readString()
-                float r1 = r31.readFloat()
-                float r2 = r13.getSettingFloat(r0, r1)
-                r32.writeNoException()
-                r7.writeFloat(r2)
-                return r16
-            L_0x068f:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r1 = r31.readString()
-                int r2 = r31.readInt()
-                if (r2 == 0) goto L_0x06a0
-                r0 = 1
-            L_0x06a0:
-                boolean r2 = r13.getSettingBoolean(r1, r0)
-                r32.writeNoException()
-                r7.writeInt(r2)
-                return r16
-            L_0x06ab:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                r29.appySetting()
-                r32.writeNoException()
-                return r16
-            L_0x06b7:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                r29.commitSetting()
-                r32.writeNoException()
-                return r16
-            L_0x06c3:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r1 = r31.readString()
-                int r2 = r31.readInt()
-                if (r2 == 0) goto L_0x06d4
-                r0 = 1
-            L_0x06d4:
-                r13.putSettingBoolean(r1, r0)
-                r32.writeNoException()
-                return r16
-            L_0x06db:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r0 = r31.readString()
-                float r1 = r31.readFloat()
-                r13.putSettingFloat(r0, r1)
-                r32.writeNoException()
-                return r16
-            L_0x06ef:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r0 = r31.readString()
-                long r1 = r31.readLong()
-                r13.putSettingLong(r0, r1)
-                r32.writeNoException()
-                return r16
-            L_0x0703:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r0 = r31.readString()
-                int r1 = r31.readInt()
-                r13.putSettingInt(r0, r1)
-                r32.writeNoException()
-                return r16
-            L_0x0717:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r0 = r31.readString()
-                java.lang.String r1 = r31.readString()
-                r13.putSettingStr(r0, r1)
-                r32.writeNoException()
-                return r16
-            L_0x072b:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r0 = r29.getMCUVer()
-                r32.writeNoException()
-                r7.writeString(r0)
-                return r16
-            L_0x073b:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                r13.exitCurMode(r0)
-                r32.writeNoException()
-                return r16
-            L_0x074b:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                android.os.IBinder r1 = r31.readStrongBinder()
-                com.szchoiceway.eventcenter.ICallbackfn r1 = com.szchoiceway.eventcenter.ICallbackfn.Stub.asInterface(r1)
-                r13.setCurModeCallback(r0, r1)
-                r32.writeNoException()
-                return r16
-            L_0x0763:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                android.os.IBinder r0 = r31.readStrongBinder()
-                com.szchoiceway.eventcenter.ICallbackfn r0 = com.szchoiceway.eventcenter.ICallbackfn.Stub.asInterface(r0)
-                r13.setRadioCallback(r0)
-                r32.writeNoException()
-                return r16
-            L_0x0777:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioTrafficState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0787:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioTPIconState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0797:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioSteroIconState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x07a7:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioAPSState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x07b7:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioAMSState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x07c7:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioDXLOCState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x07d7:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioSTMonoState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x07e7:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioTAState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x07f7:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioAFState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0807:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                java.lang.String r0 = r29.getRadioPTYName()
-                r32.writeNoException()
-                r7.writeString(r0)
-                return r16
-            L_0x0817:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r29.getRadioPTYNum()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0827:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioPTYState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0837:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                boolean r0 = r29.getRadioRDSState()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0847:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r29.getRadioNum()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0857:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r29.getRadioBand()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0867:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int[] r0 = r29.getRadioFreqList()
-                r32.writeNoException()
-                r7.writeIntArray(r0)
-                return r16
-            L_0x0877:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r29.getRadioFreq()
-                r32.writeNoException()
-                r7.writeInt(r0)
-                return r16
-            L_0x0887:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                r13.sendBTState(r0)
-                r32.writeNoException()
-                return r16
-            L_0x0897:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                byte r0 = r31.readByte()
-                byte r1 = r31.readByte()
-                r13.sendSetup(r0, r1)
-                r32.writeNoException()
-                return r16
-            L_0x08ab:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r1 = r31.readInt()
-                if (r1 == 0) goto L_0x08b8
-                r0 = 1
-            L_0x08b8:
-                r13.sendPlayState(r0)
-                r32.writeNoException()
-                return r16
-            L_0x08bf:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r1 = r31.readInt()
-                if (r1 == 0) goto L_0x08cc
-                r0 = 1
-            L_0x08cc:
-                r13.sendMuteState(r0)
-                r32.writeNoException()
-                return r16
-            L_0x08d3:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                r29.beep()
-                r32.writeNoException()
-                return r16
-            L_0x08df:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                r13.sendUserFreq(r0)
-                r32.writeNoException()
-                return r16
-            L_0x08ef:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                r13.sendEQMode(r0)
-                r32.writeNoException()
-                return r16
-            L_0x08ff:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                r13.sendSystemKey(r0)
-                r32.writeNoException()
-                return r16
-            L_0x090f:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                r13.sendTVKey(r0)
-                r32.writeNoException()
-                return r16
-            L_0x091f:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r0 = r31.readInt()
-                r13.sendRadioKey(r0)
-                r32.writeNoException()
-                return r16
-            L_0x092f:
-                r14 = r11
-                r7 = r12
-                r15.enforceInterface(r14)
-                int r1 = r31.readInt()
-                int r2 = r31.readInt()
-                if (r2 == 0) goto L_0x0940
-                r0 = 1
-            L_0x0940:
-                r13.sendMode(r1, r0)
-                r32.writeNoException()
-                return r16
-            L_0x0947:
-                r14 = r11
-                r7 = r12
-                r7.writeString(r14)
-                return r16
-            */
-            throw new UnsupportedOperationException("Method not decompiled: com.szchoiceway.eventcenter.IEventService.Stub.onTransact(int, android.os.Parcel, android.os.Parcel, int):boolean");
+        public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+            switch (code) {
+                case 1:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendMode(data.readInt(), data.readInt() != 0);
+                    reply.writeNoException();
+                    return true;
+                case 2:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendRadioKey(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 3:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendTVKey(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 4:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendSystemKey(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 5:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendEQMode(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 6:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendUserFreq(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 7:
+                    data.enforceInterface(DESCRIPTOR);
+                    beep();
+                    reply.writeNoException();
+                    return true;
+                case 8:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendMuteState(data.readInt() != 0);
+                    reply.writeNoException();
+                    return true;
+                case 9:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendPlayState(data.readInt() != 0);
+                    reply.writeNoException();
+                    return true;
+                case 10:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendSetup(data.readByte(), data.readByte());
+                    reply.writeNoException();
+                    return true;
+                case 11:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendBTState(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 12:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result = getRadioFreq();
+                    reply.writeNoException();
+                    reply.writeInt(_result);
+                    return true;
+                case 13:
+                    data.enforceInterface(DESCRIPTOR);
+                    int[] _result2 = getRadioFreqList();
+                    reply.writeNoException();
+                    reply.writeIntArray(_result2);
+                    return true;
+                case 14:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result3 = getRadioBand();
+                    reply.writeNoException();
+                    reply.writeInt(_result3);
+                    return true;
+                case 15:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result4 = getRadioNum();
+                    reply.writeNoException();
+                    reply.writeInt(_result4);
+                    return true;
+                case 16:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result5 = getRadioRDSState();
+                    reply.writeNoException();
+                    reply.writeInt(_result5 ? 1 : 0);
+                    return true;
+                case 17:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result6 = getRadioPTYState();
+                    reply.writeNoException();
+                    reply.writeInt(_result6 ? 1 : 0);
+                    return true;
+                case 18:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result7 = getRadioPTYNum();
+                    reply.writeNoException();
+                    reply.writeInt(_result7);
+                    return true;
+                case 19:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result8 = getRadioPTYName();
+                    reply.writeNoException();
+                    reply.writeString(_result8);
+                    return true;
+                case 20:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result9 = getRadioAFState();
+                    reply.writeNoException();
+                    reply.writeInt(_result9 ? 1 : 0);
+                    return true;
+                case 21:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result10 = getRadioTAState();
+                    reply.writeNoException();
+                    reply.writeInt(_result10 ? 1 : 0);
+                    return true;
+                case 22:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result11 = getRadioSTMonoState();
+                    reply.writeNoException();
+                    reply.writeInt(_result11 ? 1 : 0);
+                    return true;
+                case 23:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result12 = getRadioDXLOCState();
+                    reply.writeNoException();
+                    reply.writeInt(_result12 ? 1 : 0);
+                    return true;
+                case 24:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result13 = getRadioAMSState();
+                    reply.writeNoException();
+                    reply.writeInt(_result13 ? 1 : 0);
+                    return true;
+                case 25:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result14 = getRadioAPSState();
+                    reply.writeNoException();
+                    reply.writeInt(_result14 ? 1 : 0);
+                    return true;
+                case 26:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result15 = getRadioSteroIconState();
+                    reply.writeNoException();
+                    reply.writeInt(_result15 ? 1 : 0);
+                    return true;
+                case 27:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result16 = getRadioTPIconState();
+                    reply.writeNoException();
+                    reply.writeInt(_result16 ? 1 : 0);
+                    return true;
+                case 28:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result17 = getRadioTrafficState();
+                    reply.writeNoException();
+                    reply.writeInt(_result17 ? 1 : 0);
+                    return true;
+                case 29:
+                    data.enforceInterface(DESCRIPTOR);
+                    setRadioCallback(ICallbackfn.Stub.asInterface(data.readStrongBinder()));
+                    reply.writeNoException();
+                    return true;
+                case 30:
+                    data.enforceInterface(DESCRIPTOR);
+                    setCurModeCallback(data.readInt(), ICallbackfn.Stub.asInterface(data.readStrongBinder()));
+                    reply.writeNoException();
+                    return true;
+                case 31:
+                    data.enforceInterface(DESCRIPTOR);
+                    exitCurMode(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 32:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result18 = getMCUVer();
+                    reply.writeNoException();
+                    reply.writeString(_result18);
+                    return true;
+                case 33:
+                    data.enforceInterface(DESCRIPTOR);
+                    putSettingStr(data.readString(), data.readString());
+                    reply.writeNoException();
+                    return true;
+                case 34:
+                    data.enforceInterface(DESCRIPTOR);
+                    putSettingInt(data.readString(), data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 35:
+                    data.enforceInterface(DESCRIPTOR);
+                    putSettingLong(data.readString(), data.readLong());
+                    reply.writeNoException();
+                    return true;
+                case 36:
+                    data.enforceInterface(DESCRIPTOR);
+                    putSettingFloat(data.readString(), data.readFloat());
+                    reply.writeNoException();
+                    return true;
+                case 37:
+                    data.enforceInterface(DESCRIPTOR);
+                    putSettingBoolean(data.readString(), data.readInt() != 0);
+                    reply.writeNoException();
+                    return true;
+                case 38:
+                    data.enforceInterface(DESCRIPTOR);
+                    commitSetting();
+                    reply.writeNoException();
+                    return true;
+                case 39:
+                    data.enforceInterface(DESCRIPTOR);
+                    appySetting();
+                    reply.writeNoException();
+                    return true;
+                case 40:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result19 = getSettingBoolean(data.readString(), data.readInt() != 0);
+                    reply.writeNoException();
+                    reply.writeInt(_result19 ? 1 : 0);
+                    return true;
+                case 41:
+                    data.enforceInterface(DESCRIPTOR);
+                    float _result20 = getSettingFloat(data.readString(), data.readFloat());
+                    reply.writeNoException();
+                    reply.writeFloat(_result20);
+                    return true;
+                case 42:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result21 = getSettingInt(data.readString(), data.readInt());
+                    reply.writeNoException();
+                    reply.writeInt(_result21);
+                    return true;
+                case 43:
+                    data.enforceInterface(DESCRIPTOR);
+                    long _result22 = getSettingLong(data.readString(), data.readLong());
+                    reply.writeNoException();
+                    reply.writeLong(_result22);
+                    return true;
+                case 44:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result23 = getSettingString(data.readString(), data.readString());
+                    reply.writeNoException();
+                    reply.writeString(_result23);
+                    return true;
+                case 45:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendTouchPos(data.readInt(), data.readInt(), data.readInt() != 0);
+                    reply.writeNoException();
+                    return true;
+                case 46:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result24 = getValidMode();
+                    reply.writeNoException();
+                    reply.writeInt(_result24);
+                    return true;
+                case 47:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendFactorySetToMCU(data.readByte(), data.readByte(), data.readByte(), data.readByte(), data.readByte(), data.readByte());
+                    reply.writeNoException();
+                    return true;
+                case 48:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result25 = getMainVolval();
+                    reply.writeNoException();
+                    reply.writeByte(_result25);
+                    return true;
+                case 49:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result26 = getBassVal();
+                    reply.writeNoException();
+                    reply.writeByte(_result26);
+                    return true;
+                case 50:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result27 = getTrebleVal();
+                    reply.writeNoException();
+                    reply.writeByte(_result27);
+                    return true;
+                case 51:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result28 = getMiddleVal();
+                    reply.writeNoException();
+                    reply.writeByte(_result28);
+                    return true;
+                case 52:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result29 = getBassFre();
+                    reply.writeNoException();
+                    reply.writeByte(_result29);
+                    return true;
+                case 53:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result30 = getMiddleFre();
+                    reply.writeNoException();
+                    reply.writeByte(_result30);
+                    return true;
+                case 54:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result31 = getTrebleFre();
+                    reply.writeNoException();
+                    reply.writeByte(_result31);
+                    return true;
+                case 55:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result32 = getBALVal();
+                    reply.writeNoException();
+                    reply.writeByte(_result32);
+                    return true;
+                case 56:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result33 = getFADVal();
+                    reply.writeNoException();
+                    reply.writeByte(_result33);
+                    return true;
+                case TRANSACTION_getEQMode /*57*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result34 = getEQMode();
+                    reply.writeNoException();
+                    reply.writeByte(_result34);
+                    return true;
+                case TRANSACTION_getUserBassVal /*58*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result35 = getUserBassVal();
+                    reply.writeNoException();
+                    reply.writeByte(_result35);
+                    return true;
+                case TRANSACTION_getUserTrebleVal /*59*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result36 = getUserTrebleVal();
+                    reply.writeNoException();
+                    reply.writeByte(_result36);
+                    return true;
+                case TRANSACTION_getUserMiddleVal /*60*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    byte _result37 = getUserMiddleVal();
+                    reply.writeNoException();
+                    reply.writeByte(_result37);
+                    return true;
+                case 61:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result38 = getMuteStatus();
+                    reply.writeNoException();
+                    reply.writeInt(_result38 ? 1 : 0);
+                    return true;
+                case 62:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result39 = getLoudStatus();
+                    reply.writeNoException();
+                    reply.writeInt(_result39 ? 1 : 0);
+                    return true;
+                case 63:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendAudioSetToMCU(data.readInt(), data.readInt(), data.readInt(), data.readInt(), data.readInt(), data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 64:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendWheelKey(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 65:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendSysRTCTimeMCU(data.readInt(), data.readInt(), data.readInt(), data.readInt(), data.readInt(), data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 66:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendDVRKey(data.readByte());
+                    reply.writeNoException();
+                    return true;
+                case 67:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendMainVol(data.readByte());
+                    reply.writeNoException();
+                    return true;
+                case 68:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendBLVal(data.readByte(), data.readByte());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_setTVCallback /*69*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    setTVCallback(ICallbackfn.Stub.asInterface(data.readStrongBinder()));
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_setAUXCallback /*70*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    setAUXCallback(ICallbackfn.Stub.asInterface(data.readStrongBinder()));
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_SendBALFADVal /*71*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendBALFADVal(data.readByte(), data.readByte());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_SendBlackState /*72*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendBlackState(data.readInt() != 0);
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_IsBrakeConneted /*73*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result40 = IsBrakeConneted();
+                    reply.writeNoException();
+                    reply.writeInt(_result40 ? 1 : 0);
+                    return true;
+                case TRANSACTION_IsMCUUpgradeWriteErr /*74*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result41 = IsMCUUpgradeWriteErr();
+                    reply.writeNoException();
+                    reply.writeInt(_result41 ? 1 : 0);
+                    return true;
+                case 75:
+                    data.enforceInterface(DESCRIPTOR);
+                    SetVideoCH(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_GetSignalStatus /*76*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result42 = GetSignalStatus();
+                    reply.writeNoException();
+                    reply.writeInt(_result42);
+                    return true;
+                case TRANSACTION_OpenVideo /*77*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    OpenVideo(data.readInt() != 0);
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_SetVideoSize /*78*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    SetVideoSize(data.readInt(), data.readInt(), data.readInt(), data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_IsMuteOn /*79*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result43 = IsMuteOn();
+                    reply.writeNoException();
+                    reply.writeInt(_result43 ? 1 : 0);
+                    return true;
+                case 80:
+                    data.enforceInterface(DESCRIPTOR);
+                    initRadioZone(data.readByte());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_sendCanbusData /*81*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendCanbusData(data.createByteArray());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_setValidModeInfor /*82*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    setValidModeInfor(data.readString(), data.readString(), data.readString(), data.readInt(), data.readInt(), data.readInt(), data.readInt(), data.readInt(), data.readInt(), data.readInt(), data.readInt(), data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_getValidModeTitleInfor /*83*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result44 = getValidModeTitleInfor();
+                    reply.writeNoException();
+                    reply.writeString(_result44);
+                    return true;
+                case TRANSACTION_getValidModeAblumInfor /*84*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result45 = getValidModeAblumInfor();
+                    reply.writeNoException();
+                    reply.writeString(_result45);
+                    return true;
+                case TRANSACTION_getValidModeArtistInfor /*85*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result46 = getValidModeArtistInfor();
+                    reply.writeNoException();
+                    reply.writeString(_result46);
+                    return true;
+                case TRANSACTION_getValidCurTrack /*86*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result47 = getValidCurTrack();
+                    reply.writeNoException();
+                    reply.writeInt(_result47);
+                    return true;
+                case TRANSACTION_getValidTotTrack /*87*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result48 = getValidTotTrack();
+                    reply.writeNoException();
+                    reply.writeInt(_result48);
+                    return true;
+                case TRANSACTION_getValidCurTime /*88*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result49 = getValidCurTime();
+                    reply.writeNoException();
+                    reply.writeInt(_result49);
+                    return true;
+                case TRANSACTION_getValidTotTime /*89*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result50 = getValidTotTime();
+                    reply.writeNoException();
+                    reply.writeInt(_result50);
+                    return true;
+                case TRANSACTION_getValidCurFolder /*90*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result51 = getValidCurFolder();
+                    reply.writeNoException();
+                    reply.writeInt(_result51);
+                    return true;
+                case TRANSACTION_getValidTotFolder /*91*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result52 = getValidTotFolder();
+                    reply.writeNoException();
+                    reply.writeInt(_result52);
+                    return true;
+                case TRANSACTION_getValidLoopMode /*92*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result53 = getValidLoopMode();
+                    reply.writeNoException();
+                    reply.writeInt(_result53);
+                    return true;
+                case TRANSACTION_getValidRepeatMode /*93*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result54 = getValidRepeatMode();
+                    reply.writeNoException();
+                    reply.writeInt(_result54);
+                    return true;
+                case TRANSACTION_getValidPlayStatus /*94*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result55 = getValidPlayStatus();
+                    reply.writeNoException();
+                    reply.writeInt(_result55);
+                    return true;
+                case TRANSACTION_SetDVDVideoCH /*95*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    SetDVDVideoCH(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_sendResetDVD /*96*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendResetDVD(data.readInt() != 0);
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_IsDiscConneted /*97*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result56 = IsDiscConneted();
+                    reply.writeNoException();
+                    reply.writeInt(_result56 ? 1 : 0);
+                    return true;
+                case TRANSACTION_setCarMediaCallback /*98*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    setCarMediaCallback(ICallbackfn.Stub.asInterface(data.readStrongBinder()));
+                    reply.writeNoException();
+                    return true;
+                case 99:
+                    data.enforceInterface(DESCRIPTOR);
+                    setMcuInitStatus(data.readInt() != 0);
+                    reply.writeNoException();
+                    return true;
+                case 100:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result57 = getMcuInitStatus();
+                    reply.writeNoException();
+                    reply.writeInt(_result57 ? 1 : 0);
+                    return true;
+                case 101:
+                    data.enforceInterface(DESCRIPTOR);
+                    enterUpgradeMode();
+                    reply.writeNoException();
+                    return true;
+                case 102:
+                    data.enforceInterface(DESCRIPTOR);
+                    exitUpgradeMode();
+                    reply.writeNoException();
+                    return true;
+                case 103:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result58 = sendMcuUpgradeMode(data.readInt() != 0);
+                    reply.writeNoException();
+                    reply.writeInt(_result58 ? 1 : 0);
+                    return true;
+                case 104:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result59 = sendMcuUpgradeData(data.readLong(), data.createByteArray(), data.readInt(), data.readInt(), data.readInt() != 0);
+                    reply.writeNoException();
+                    reply.writeInt(_result59 ? 1 : 0);
+                    return true;
+                case TRANSACTION_isUpgradeMode /*105*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result60 = isUpgradeMode();
+                    reply.writeNoException();
+                    reply.writeInt(_result60 ? 1 : 0);
+                    return true;
+                case TRANSACTION_SendGPSVolToMCU /*106*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendGPSVolToMCU(data.readByte());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_SendFactorySet /*107*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendFactorySet();
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_GetBTStatus /*108*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result61 = GetBTStatus();
+                    reply.writeNoException();
+                    reply.writeInt(_result61);
+                    return true;
+                case TRANSACTION_IsBackcarConnected /*109*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result62 = IsBackcarConnected();
+                    reply.writeNoException();
+                    reply.writeInt(_result62 ? 1 : 0);
+                    return true;
+                case TRANSACTION_LoadNLightVal /*110*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result63 = LoadNLightVal();
+                    reply.writeNoException();
+                    reply.writeInt(_result63);
+                    return true;
+                case TRANSACTION_SetCurrDim /*111*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    SetCurrDim(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 112:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result64 = GetCurrDim();
+                    reply.writeNoException();
+                    reply.writeInt(_result64);
+                    return true;
+                case 113:
+                    data.enforceInterface(DESCRIPTOR);
+                    String _result65 = getTFTVer();
+                    reply.writeNoException();
+                    reply.writeString(_result65);
+                    return true;
+                case 114:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result66 = Send8902McuUpgradeData(data.createByteArray(), data.readInt());
+                    reply.writeNoException();
+                    reply.writeInt(_result66 ? 1 : 0);
+                    return true;
+                case 115:
+                    data.enforceInterface(DESCRIPTOR);
+                    SendVol_KSW(data.readInt() != 0, data.readInt(), data.readInt(), data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_get_kesaiwei_chk_Video_Driving_Ban /*116*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result67 = get_kesaiwei_chk_Video_Driving_Ban();
+                    reply.writeNoException();
+                    reply.writeInt(_result67 ? 1 : 0);
+                    return true;
+                case TRANSACTION_get_kesaiwei_bPark /*117*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result68 = get_kesaiwei_bPark();
+                    reply.writeNoException();
+                    reply.writeInt(_result68 ? 1 : 0);
+                    return true;
+                case TRANSACTION_sendDvdDataToMcu /*118*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendDvdDataToMcu(data.createByteArray());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_sendMcuData_KSW /*119*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendMcuData_KSW(data.createByteArray());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_setDashBoardCallback /*120*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    setDashBoardCallback(ICallbackfn.Stub.asInterface(data.readStrongBinder()));
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_setGpsFocusCallback /*121*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    setGpsFocusCallback(ICallbackfn.Stub.asInterface(data.readStrongBinder()));
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_get_m_i_easyconn_state_KSW /*122*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result69 = get_m_i_easyconn_state_KSW();
+                    reply.writeNoException();
+                    reply.writeInt(_result69);
+                    return true;
+                case TRANSACTION_send_KSW_page2_vol_info /*123*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    send_KSW_page2_vol_info(data.readInt(), data.readInt(), data.readInt(), data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case TRANSACTION_getCameraOwner /*124*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    int _result70 = getCameraOwner();
+                    reply.writeNoException();
+                    reply.writeInt(_result70);
+                    return true;
+                case TRANSACTION_setCameraOwner /*125*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    setCameraOwner(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 126:
+                    data.enforceInterface(DESCRIPTOR);
+                    openTVout(data.readInt(), data.readInt() != 0);
+                    reply.writeNoException();
+                    return true;
+                case 127:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendToOSData();
+                    reply.writeNoException();
+                    return true;
+                case 128:
+                    data.enforceInterface(DESCRIPTOR);
+                    boolean _result71 = getmIsAddMouseView();
+                    reply.writeNoException();
+                    reply.writeInt(_result71 ? 1 : 0);
+                    return true;
+                case TRANSACTION_sendKeyDownUpSync /*129*/:
+                    data.enforceInterface(DESCRIPTOR);
+                    sendKeyDownUpSync(data.readInt());
+                    reply.writeNoException();
+                    return true;
+                case 1598968902:
+                    reply.writeString(DESCRIPTOR);
+                    return true;
+                default:
+                    return super.onTransact(code, data, reply, flags);
+            }
         }
 
         private static class Proxy implements IEventService {
@@ -1681,12 +1159,16 @@ public interface IEventService extends IInterface {
             }
 
             public void sendMode(int mode, boolean waitAck) throws RemoteException {
+                int i = 1;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeInt(mode);
-                    _data.writeInt(waitAck);
+                    if (!waitAck) {
+                        i = 0;
+                    }
+                    _data.writeInt(i);
                     this.mRemote.transact(1, _data, _reply, 0);
                     _reply.readException();
                 } finally {
@@ -1779,11 +1261,15 @@ public interface IEventService extends IInterface {
             }
 
             public void sendMuteState(boolean mute) throws RemoteException {
+                int i = 0;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    _data.writeInt(mute);
+                    if (mute) {
+                        i = 1;
+                    }
+                    _data.writeInt(i);
                     this.mRemote.transact(8, _data, _reply, 0);
                     _reply.readException();
                 } finally {
@@ -1793,11 +1279,15 @@ public interface IEventService extends IInterface {
             }
 
             public void sendPlayState(boolean play) throws RemoteException {
+                int i = 0;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    _data.writeInt(play);
+                    if (play) {
+                        i = 1;
+                    }
+                    _data.writeInt(i);
                     this.mRemote.transact(9, _data, _reply, 0);
                     _reply.readException();
                 } finally {
@@ -1892,11 +1382,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioRDSState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(16, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -1910,11 +1400,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioPTYState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(17, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -1956,11 +1446,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioAFState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(20, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -1974,11 +1464,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioTAState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(21, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -1992,11 +1482,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioSTMonoState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(22, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -2010,11 +1500,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioDXLOCState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(23, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -2028,11 +1518,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioAMSState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(24, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -2046,11 +1536,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioAPSState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(25, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -2064,11 +1554,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioSteroIconState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(26, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -2082,11 +1572,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioTPIconState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(27, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -2100,11 +1590,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getRadioTrafficState() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(28, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -2235,12 +1725,16 @@ public interface IEventService extends IInterface {
             }
 
             public void putSettingBoolean(String key, boolean value) throws RemoteException {
+                int i = 0;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeString(key);
-                    _data.writeInt(value);
+                    if (value) {
+                        i = 1;
+                    }
+                    _data.writeInt(i);
                     this.mRemote.transact(37, _data, _reply, 0);
                     _reply.readException();
                 } finally {
@@ -2276,17 +1770,23 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getSettingBoolean(String key, boolean defValue) throws RemoteException {
+                int i;
+                boolean _result = true;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeString(key);
-                    _data.writeInt(defValue);
-                    boolean _result = false;
+                    if (defValue) {
+                        i = 1;
+                    } else {
+                        i = 0;
+                    }
+                    _data.writeInt(i);
                     this.mRemote.transact(40, _data, _reply, 0);
                     _reply.readException();
-                    if (_reply.readInt() != 0) {
-                        _result = true;
+                    if (_reply.readInt() == 0) {
+                        _result = false;
                     }
                     return _result;
                 } finally {
@@ -2360,13 +1860,17 @@ public interface IEventService extends IInterface {
             }
 
             public void sendTouchPos(int x, int y, boolean down) throws RemoteException {
+                int i = 0;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeInt(x);
                     _data.writeInt(y);
-                    _data.writeInt(down);
+                    if (down) {
+                        i = 1;
+                    }
+                    _data.writeInt(i);
                     this.mRemote.transact(45, _data, _reply, 0);
                     _reply.readException();
                 } finally {
@@ -2539,7 +2043,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(57, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getEQMode, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readByte();
                 } finally {
@@ -2553,7 +2057,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(58, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getUserBassVal, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readByte();
                 } finally {
@@ -2567,7 +2071,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(59, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getUserTrebleVal, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readByte();
                 } finally {
@@ -2581,7 +2085,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(60, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getUserMiddleVal, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readByte();
                 } finally {
@@ -2591,11 +2095,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getMuteStatus() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(61, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -2609,11 +2113,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getLoudStatus() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(62, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -2727,7 +2231,7 @@ public interface IEventService extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeStrongBinder(cbfnTV != null ? cbfnTV.asBinder() : null);
-                    this.mRemote.transact(69, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_setTVCallback, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -2741,7 +2245,7 @@ public interface IEventService extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeStrongBinder(cbfnAUX != null ? cbfnAUX.asBinder() : null);
-                    this.mRemote.transact(70, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_setAUXCallback, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -2756,7 +2260,7 @@ public interface IEventService extends IInterface {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeByte(byBAL);
                     _data.writeByte(byFAD);
-                    this.mRemote.transact(71, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_SendBALFADVal, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -2765,12 +2269,16 @@ public interface IEventService extends IInterface {
             }
 
             public void SendBlackState(boolean bBlack) throws RemoteException {
+                int i = 0;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    _data.writeInt(bBlack);
-                    this.mRemote.transact(72, _data, _reply, 0);
+                    if (bBlack) {
+                        i = 1;
+                    }
+                    _data.writeInt(i);
+                    this.mRemote.transact(Stub.TRANSACTION_SendBlackState, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -2779,12 +2287,12 @@ public interface IEventService extends IInterface {
             }
 
             public boolean IsBrakeConneted() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
-                    this.mRemote.transact(73, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_IsBrakeConneted, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = true;
@@ -2797,12 +2305,12 @@ public interface IEventService extends IInterface {
             }
 
             public boolean IsMCUUpgradeWriteErr() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
-                    this.mRemote.transact(74, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_IsMCUUpgradeWriteErr, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = true;
@@ -2833,7 +2341,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(76, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_GetSignalStatus, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -2843,12 +2351,16 @@ public interface IEventService extends IInterface {
             }
 
             public void OpenVideo(boolean bOpen) throws RemoteException {
+                int i = 0;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    _data.writeInt(bOpen);
-                    this.mRemote.transact(77, _data, _reply, 0);
+                    if (bOpen) {
+                        i = 1;
+                    }
+                    _data.writeInt(i);
+                    this.mRemote.transact(Stub.TRANSACTION_OpenVideo, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -2865,7 +2377,7 @@ public interface IEventService extends IInterface {
                     _data.writeInt(y);
                     _data.writeInt(width);
                     _data.writeInt(height);
-                    this.mRemote.transact(78, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_SetVideoSize, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -2874,12 +2386,12 @@ public interface IEventService extends IInterface {
             }
 
             public boolean IsMuteOn() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
-                    this.mRemote.transact(79, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_IsMuteOn, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = true;
@@ -2911,7 +2423,7 @@ public interface IEventService extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeByteArray(byData);
-                    this.mRemote.transact(81, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_sendCanbusData, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -2926,157 +2438,21 @@ public interface IEventService extends IInterface {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeString(titleInfor);
                     _data.writeString(abluminfor);
-                    try {
-                        _data.writeString(artistinfor);
-                        try {
-                            _data.writeInt(iCurTrack);
-                        } catch (Throwable th) {
-                            th = th;
-                            int i = iTotTrack;
-                            int i2 = iCurFolder;
-                            int i3 = iTotFolder;
-                            int i4 = iCurTime;
-                            int i5 = iTotTime;
-                            int i6 = iLoopMode;
-                            int i7 = iRepeatMode;
-                            int i8 = iPlayStatus;
-                            _reply.recycle();
-                            _data.recycle();
-                            throw th;
-                        }
-                    } catch (Throwable th2) {
-                        th = th2;
-                        int i9 = iCurTrack;
-                        int i10 = iTotTrack;
-                        int i22 = iCurFolder;
-                        int i32 = iTotFolder;
-                        int i42 = iCurTime;
-                        int i52 = iTotTime;
-                        int i62 = iLoopMode;
-                        int i72 = iRepeatMode;
-                        int i82 = iPlayStatus;
-                        _reply.recycle();
-                        _data.recycle();
-                        throw th;
-                    }
-                    try {
-                        _data.writeInt(iTotTrack);
-                        try {
-                            _data.writeInt(iCurFolder);
-                            try {
-                                _data.writeInt(iTotFolder);
-                            } catch (Throwable th3) {
-                                th = th3;
-                                int i422 = iCurTime;
-                                int i522 = iTotTime;
-                                int i622 = iLoopMode;
-                                int i722 = iRepeatMode;
-                                int i822 = iPlayStatus;
-                                _reply.recycle();
-                                _data.recycle();
-                                throw th;
-                            }
-                        } catch (Throwable th4) {
-                            th = th4;
-                            int i322 = iTotFolder;
-                            int i4222 = iCurTime;
-                            int i5222 = iTotTime;
-                            int i6222 = iLoopMode;
-                            int i7222 = iRepeatMode;
-                            int i8222 = iPlayStatus;
-                            _reply.recycle();
-                            _data.recycle();
-                            throw th;
-                        }
-                    } catch (Throwable th5) {
-                        th = th5;
-                        int i222 = iCurFolder;
-                        int i3222 = iTotFolder;
-                        int i42222 = iCurTime;
-                        int i52222 = iTotTime;
-                        int i62222 = iLoopMode;
-                        int i72222 = iRepeatMode;
-                        int i82222 = iPlayStatus;
-                        _reply.recycle();
-                        _data.recycle();
-                        throw th;
-                    }
-                    try {
-                        _data.writeInt(iCurTime);
-                        try {
-                            _data.writeInt(iTotTime);
-                            try {
-                                _data.writeInt(iLoopMode);
-                            } catch (Throwable th6) {
-                                th = th6;
-                                int i722222 = iRepeatMode;
-                                int i822222 = iPlayStatus;
-                                _reply.recycle();
-                                _data.recycle();
-                                throw th;
-                            }
-                        } catch (Throwable th7) {
-                            th = th7;
-                            int i622222 = iLoopMode;
-                            int i7222222 = iRepeatMode;
-                            int i8222222 = iPlayStatus;
-                            _reply.recycle();
-                            _data.recycle();
-                            throw th;
-                        }
-                    } catch (Throwable th8) {
-                        th = th8;
-                        int i522222 = iTotTime;
-                        int i6222222 = iLoopMode;
-                        int i72222222 = iRepeatMode;
-                        int i82222222 = iPlayStatus;
-                        _reply.recycle();
-                        _data.recycle();
-                        throw th;
-                    }
-                    try {
-                        _data.writeInt(iRepeatMode);
-                        try {
-                            _data.writeInt(iPlayStatus);
-                            try {
-                                this.mRemote.transact(82, _data, _reply, 0);
-                                _reply.readException();
-                                _reply.recycle();
-                                _data.recycle();
-                            } catch (Throwable th9) {
-                                th = th9;
-                                _reply.recycle();
-                                _data.recycle();
-                                throw th;
-                            }
-                        } catch (Throwable th10) {
-                            th = th10;
-                            _reply.recycle();
-                            _data.recycle();
-                            throw th;
-                        }
-                    } catch (Throwable th11) {
-                        th = th11;
-                        int i822222222 = iPlayStatus;
-                        _reply.recycle();
-                        _data.recycle();
-                        throw th;
-                    }
-                } catch (Throwable th12) {
-                    th = th12;
-                    String str = artistinfor;
-                    int i92 = iCurTrack;
-                    int i102 = iTotTrack;
-                    int i2222 = iCurFolder;
-                    int i32222 = iTotFolder;
-                    int i422222 = iCurTime;
-                    int i5222222 = iTotTime;
-                    int i62222222 = iLoopMode;
-                    int i722222222 = iRepeatMode;
-                    int i8222222222 = iPlayStatus;
+                    _data.writeString(artistinfor);
+                    _data.writeInt(iCurTrack);
+                    _data.writeInt(iTotTrack);
+                    _data.writeInt(iCurFolder);
+                    _data.writeInt(iTotFolder);
+                    _data.writeInt(iCurTime);
+                    _data.writeInt(iTotTime);
+                    _data.writeInt(iLoopMode);
+                    _data.writeInt(iRepeatMode);
+                    _data.writeInt(iPlayStatus);
+                    this.mRemote.transact(Stub.TRANSACTION_setValidModeInfor, _data, _reply, 0);
+                    _reply.readException();
+                } finally {
                     _reply.recycle();
                     _data.recycle();
-                    throw th;
                 }
             }
 
@@ -3085,7 +2461,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(83, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidModeTitleInfor, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readString();
                 } finally {
@@ -3099,7 +2475,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(84, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidModeAblumInfor, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readString();
                 } finally {
@@ -3113,7 +2489,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(85, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidModeArtistInfor, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readString();
                 } finally {
@@ -3127,7 +2503,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(86, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidCurTrack, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3141,7 +2517,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(87, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidTotTrack, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3155,7 +2531,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(88, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidCurTime, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3169,7 +2545,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(89, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidTotTime, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3183,7 +2559,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(90, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidCurFolder, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3197,7 +2573,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(91, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidTotFolder, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3211,7 +2587,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(92, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidLoopMode, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3225,7 +2601,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(93, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidRepeatMode, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3239,7 +2615,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(94, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_getValidPlayStatus, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3254,7 +2630,7 @@ public interface IEventService extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeInt(iChID);
-                    this.mRemote.transact(95, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_SetDVDVideoCH, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3263,12 +2639,16 @@ public interface IEventService extends IInterface {
             }
 
             public void sendResetDVD(boolean bReset) throws RemoteException {
+                int i = 0;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    _data.writeInt(bReset);
-                    this.mRemote.transact(96, _data, _reply, 0);
+                    if (bReset) {
+                        i = 1;
+                    }
+                    _data.writeInt(i);
+                    this.mRemote.transact(Stub.TRANSACTION_sendResetDVD, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3277,12 +2657,12 @@ public interface IEventService extends IInterface {
             }
 
             public boolean IsDiscConneted() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
-                    this.mRemote.transact(97, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_IsDiscConneted, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = true;
@@ -3300,7 +2680,7 @@ public interface IEventService extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeStrongBinder(cbfnCarMedia != null ? cbfnCarMedia.asBinder() : null);
-                    this.mRemote.transact(98, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_setCarMediaCallback, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3309,11 +2689,15 @@ public interface IEventService extends IInterface {
             }
 
             public void setMcuInitStatus(boolean bInitMcu) throws RemoteException {
+                int i = 0;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    _data.writeInt(bInitMcu);
+                    if (bInitMcu) {
+                        i = 1;
+                    }
+                    _data.writeInt(i);
                     this.mRemote.transact(99, _data, _reply, 0);
                     _reply.readException();
                 } finally {
@@ -3323,11 +2707,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getMcuInitStatus() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(100, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -3367,16 +2751,22 @@ public interface IEventService extends IInterface {
             }
 
             public boolean sendMcuUpgradeMode(boolean rl78McuMode) throws RemoteException {
+                int i;
+                boolean _result = true;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    _data.writeInt(rl78McuMode);
-                    boolean _result = false;
+                    if (rl78McuMode) {
+                        i = 1;
+                    } else {
+                        i = 0;
+                    }
+                    _data.writeInt(i);
                     this.mRemote.transact(103, _data, _reply, 0);
                     _reply.readException();
-                    if (_reply.readInt() != 0) {
-                        _result = true;
+                    if (_reply.readInt() == 0) {
+                        _result = false;
                     }
                     return _result;
                 } finally {
@@ -3386,6 +2776,8 @@ public interface IEventService extends IInterface {
             }
 
             public boolean sendMcuUpgradeData(long dataStartAddr, byte[] bydata, int startPos, int len, boolean lastFrame) throws RemoteException {
+                int i;
+                boolean _result = true;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
@@ -3394,12 +2786,16 @@ public interface IEventService extends IInterface {
                     _data.writeByteArray(bydata);
                     _data.writeInt(startPos);
                     _data.writeInt(len);
-                    _data.writeInt(lastFrame);
-                    boolean _result = false;
+                    if (lastFrame) {
+                        i = 1;
+                    } else {
+                        i = 0;
+                    }
+                    _data.writeInt(i);
                     this.mRemote.transact(104, _data, _reply, 0);
                     _reply.readException();
-                    if (_reply.readInt() != 0) {
-                        _result = true;
+                    if (_reply.readInt() == 0) {
+                        _result = false;
                     }
                     return _result;
                 } finally {
@@ -3409,12 +2805,12 @@ public interface IEventService extends IInterface {
             }
 
             public boolean isUpgradeMode() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
-                    this.mRemote.transact(105, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_isUpgradeMode, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = true;
@@ -3432,7 +2828,7 @@ public interface IEventService extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeByte(iGPSVol);
-                    this.mRemote.transact(106, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_SendGPSVolToMCU, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3445,7 +2841,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(107, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_SendFactorySet, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3458,7 +2854,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(108, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_GetBTStatus, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3468,12 +2864,12 @@ public interface IEventService extends IInterface {
             }
 
             public boolean IsBackcarConnected() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
-                    this.mRemote.transact(109, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_IsBackcarConnected, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = true;
@@ -3490,7 +2886,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(110, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_LoadNLightVal, _data, _reply, 0);
                     _reply.readException();
                     return _reply.readInt();
                 } finally {
@@ -3505,7 +2901,7 @@ public interface IEventService extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeInt(iCurrDim);
-                    this.mRemote.transact(111, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_SetCurrDim, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3542,13 +2938,13 @@ public interface IEventService extends IInterface {
             }
 
             public boolean Send8902McuUpgradeData(byte[] bydata, int len) throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeByteArray(bydata);
                     _data.writeInt(len);
-                    boolean _result = false;
                     this.mRemote.transact(114, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
@@ -3562,11 +2958,15 @@ public interface IEventService extends IInterface {
             }
 
             public void SendVol_KSW(boolean bMute, int iMode, int iVolType, int iVolVal) throws RemoteException {
+                int i = 0;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    _data.writeInt(bMute);
+                    if (bMute) {
+                        i = 1;
+                    }
+                    _data.writeInt(i);
                     _data.writeInt(iMode);
                     _data.writeInt(iVolType);
                     _data.writeInt(iVolVal);
@@ -3579,12 +2979,12 @@ public interface IEventService extends IInterface {
             }
 
             public boolean get_kesaiwei_chk_Video_Driving_Ban() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
-                    this.mRemote.transact(116, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_get_kesaiwei_chk_Video_Driving_Ban, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = true;
@@ -3597,12 +2997,12 @@ public interface IEventService extends IInterface {
             }
 
             public boolean get_kesaiwei_bPark() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
-                    this.mRemote.transact(117, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_get_kesaiwei_bPark, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {
                         _result = true;
@@ -3620,7 +3020,7 @@ public interface IEventService extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeByteArray(byData);
-                    this.mRemote.transact(118, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_sendDvdDataToMcu, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3634,7 +3034,7 @@ public interface IEventService extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeByteArray(byData);
-                    this.mRemote.transact(119, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_sendMcuData_KSW, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3648,7 +3048,7 @@ public interface IEventService extends IInterface {
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeStrongBinder(cbfnDashBoard != null ? cbfnDashBoard.asBinder() : null);
-                    this.mRemote.transact(120, _data, _reply, 0);
+                    this.mRemote.transact(Stub.TRANSACTION_setDashBoardCallback, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3730,13 +3130,17 @@ public interface IEventService extends IInterface {
             }
 
             public void openTVout(int controller, boolean open) throws RemoteException {
+                int i = 0;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
                     _data.writeInt(controller);
-                    _data.writeInt(open);
-                    this.mRemote.transact(Stub.TRANSACTION_openTVout, _data, _reply, 0);
+                    if (open) {
+                        i = 1;
+                    }
+                    _data.writeInt(i);
+                    this.mRemote.transact(126, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3749,7 +3153,7 @@ public interface IEventService extends IInterface {
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    this.mRemote.transact(Stub.TRANSACTION_sendToOSData, _data, _reply, 0);
+                    this.mRemote.transact(127, _data, _reply, 0);
                     _reply.readException();
                 } finally {
                     _reply.recycle();
@@ -3758,11 +3162,11 @@ public interface IEventService extends IInterface {
             }
 
             public boolean getmIsAddMouseView() throws RemoteException {
+                boolean _result = false;
                 Parcel _data = Parcel.obtain();
                 Parcel _reply = Parcel.obtain();
                 try {
                     _data.writeInterfaceToken(Stub.DESCRIPTOR);
-                    boolean _result = false;
                     this.mRemote.transact(128, _data, _reply, 0);
                     _reply.readException();
                     if (_reply.readInt() != 0) {

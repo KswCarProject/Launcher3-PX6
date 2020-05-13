@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res-auto" android:id="@+id/LytLstItemRoot" android:background="@null" android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView android:id="@+id/item_image_bk" android:background="@null" android:layout_width="400px" android:layout_height="480px" android:scaleType="fitXY"/>
+    <ImageView android:id="@+id/item_image" android:background="@null" android:layout_width="250px" android:layout_height="280px" android:layout_marginLeft="70px" android:layout_marginTop="20px"/>
+    <ImageView android:id="@+id/itemTongying" android:background="@drawable/keshang_1280x480_tongying" android:visibility="gone" android:layout_width="600px" android:layout_height="45px" android:layout_marginTop="10px" android:scaleType="fitXY" android:layout_below="@+id/item_image_bk" android:layout_alignLeft="@+id/item_image_bk"/>
+    <TextView android:textSize="52px" android:textColor="#ffffff" android:gravity="center" android:id="@+id/item_text" android:layout_width="400px" android:layout_height="100px" android:text="" android:layout_below="@+id/item_image"/>
+</RelativeLayout>

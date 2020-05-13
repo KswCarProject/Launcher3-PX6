@@ -12,7 +12,7 @@ class PathInterpolatorApi14 implements Interpolator {
     PathInterpolatorApi14(Path path) {
         PathMeasure pathMeasure = new PathMeasure(path, false);
         float pathLength = pathMeasure.getLength();
-        int numPoints = ((int) (pathLength / 0.002f)) + 1;
+        int numPoints = ((int) (pathLength / PRECISION)) + 1;
         this.mX = new float[numPoints];
         this.mY = new float[numPoints];
         float[] position = new float[2];

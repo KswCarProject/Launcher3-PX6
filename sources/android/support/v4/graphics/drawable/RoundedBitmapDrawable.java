@@ -11,10 +11,10 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
 
+@RequiresApi(9)
 public abstract class RoundedBitmapDrawable extends Drawable {
     private static final int DEFAULT_PAINT_FLAGS = 3;
     private boolean mApplyGravity = true;
@@ -31,12 +31,10 @@ public abstract class RoundedBitmapDrawable extends Drawable {
     private final Matrix mShaderMatrix = new Matrix();
     private int mTargetDensity = 160;
 
-    @NonNull
     public final Paint getPaint() {
         return this.mPaint;
     }
 
-    @Nullable
     public final Bitmap getBitmap() {
         return this.mBitmap;
     }
@@ -46,17 +44,20 @@ public abstract class RoundedBitmapDrawable extends Drawable {
         this.mBitmapHeight = this.mBitmap.getScaledHeight(this.mTargetDensity);
     }
 
-    public void setTargetDensity(@NonNull Canvas canvas) {
+    public void setTargetDensity(Canvas canvas) {
         setTargetDensity(canvas.getDensity());
     }
 
-    public void setTargetDensity(@NonNull DisplayMetrics metrics) {
+    public void setTargetDensity(DisplayMetrics metrics) {
         setTargetDensity(metrics.densityDpi);
     }
 
     public void setTargetDensity(int density) {
         if (this.mTargetDensity != density) {
-            this.mTargetDensity = density == 0 ? 160 : density;
+            if (density == 0) {
+                density = 160;
+            }
+            this.mTargetDensity = density;
             if (this.mBitmap != null) {
                 computeBitmapSize();
             }
@@ -116,7 +117,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
                 gravityCompatApply(this.mGravity, minDimen, minDimen, getBounds(), this.mDstRect);
                 int minDrawDimen = Math.min(this.mDstRect.width(), this.mDstRect.height());
                 this.mDstRect.inset(Math.max(0, (this.mDstRect.width() - minDrawDimen) / 2), Math.max(0, (this.mDstRect.height() - minDrawDimen) / 2));
-                this.mCornerRadius = ((float) minDrawDimen) * 0.5f;
+                this.mCornerRadius = 0.5f * ((float) minDrawDimen);
             } else {
                 gravityCompatApply(this.mGravity, this.mBitmapWidth, this.mBitmapHeight, getBounds(), this.mDstRect);
             }
@@ -131,7 +132,7 @@ public abstract class RoundedBitmapDrawable extends Drawable {
         }
     }
 
-    public void draw(@NonNull Canvas canvas) {
+    public void draw(Canvas canvas) {
         Bitmap bitmap = this.mBitmap;
         if (bitmap != null) {
             updateDstRect();

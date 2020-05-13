@@ -1,19 +1,14 @@
 package android.support.v4.util;
 
-import android.support.annotation.Nullable;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 abstract class MapCollections<K, V> {
-    @Nullable
     MapCollections<K, V>.EntrySet mEntrySet;
-    @Nullable
     MapCollections<K, V>.KeySet mKeySet;
-    @Nullable
     MapCollections<K, V>.ValuesCollection mValues;
 
     /* access modifiers changed from: protected */
@@ -62,24 +57,20 @@ abstract class MapCollections<K, V> {
         }
 
         public T next() {
-            if (hasNext()) {
-                Object res = MapCollections.this.colGetEntry(this.mIndex, this.mOffset);
-                this.mIndex++;
-                this.mCanRemove = true;
-                return res;
-            }
-            throw new NoSuchElementException();
+            Object res = MapCollections.this.colGetEntry(this.mIndex, this.mOffset);
+            this.mIndex++;
+            this.mCanRemove = true;
+            return res;
         }
 
         public void remove() {
-            if (this.mCanRemove) {
-                this.mIndex--;
-                this.mSize--;
-                this.mCanRemove = false;
-                MapCollections.this.colRemoveAt(this.mIndex);
-                return;
+            if (!this.mCanRemove) {
+                throw new IllegalStateException();
             }
-            throw new IllegalStateException();
+            this.mIndex--;
+            this.mSize--;
+            this.mCanRemove = false;
+            MapCollections.this.colRemoveAt(this.mIndex);
         }
     }
 
@@ -98,23 +89,19 @@ abstract class MapCollections<K, V> {
         }
 
         public Map.Entry<K, V> next() {
-            if (hasNext()) {
-                this.mIndex++;
-                this.mEntryValid = true;
-                return this;
-            }
-            throw new NoSuchElementException();
+            this.mIndex++;
+            this.mEntryValid = true;
+            return this;
         }
 
         public void remove() {
-            if (this.mEntryValid) {
-                MapCollections.this.colRemoveAt(this.mIndex);
-                this.mIndex--;
-                this.mEnd--;
-                this.mEntryValid = false;
-                return;
+            if (!this.mEntryValid) {
+                throw new IllegalStateException();
             }
-            throw new IllegalStateException();
+            MapCollections.this.colRemoveAt(this.mIndex);
+            this.mIndex--;
+            this.mEnd--;
+            this.mEntryValid = false;
         }
 
         public K getKey() {
@@ -138,7 +125,8 @@ abstract class MapCollections<K, V> {
             throw new IllegalStateException("This container does not support retaining Map.Entry objects");
         }
 
-        public boolean equals(Object o) {
+        public final boolean equals(Object o) {
+            boolean z = true;
             if (!this.mEntryValid) {
                 throw new IllegalStateException("This container does not support retaining Map.Entry objects");
             } else if (!(o instanceof Map.Entry)) {
@@ -146,27 +134,27 @@ abstract class MapCollections<K, V> {
             } else {
                 Map.Entry<?, ?> e = (Map.Entry) o;
                 if (!ContainerHelpers.equal(e.getKey(), MapCollections.this.colGetEntry(this.mIndex, 0)) || !ContainerHelpers.equal(e.getValue(), MapCollections.this.colGetEntry(this.mIndex, 1))) {
-                    return false;
+                    z = false;
                 }
-                return true;
+                return z;
             }
         }
 
-        public int hashCode() {
-            if (this.mEntryValid) {
-                int i = 0;
-                Object key = MapCollections.this.colGetEntry(this.mIndex, 0);
-                Object value = MapCollections.this.colGetEntry(this.mIndex, 1);
-                int hashCode = key == null ? 0 : key.hashCode();
-                if (value != null) {
-                    i = value.hashCode();
-                }
-                return i ^ hashCode;
+        public final int hashCode() {
+            int i = 0;
+            if (!this.mEntryValid) {
+                throw new IllegalStateException("This container does not support retaining Map.Entry objects");
             }
-            throw new IllegalStateException("This container does not support retaining Map.Entry objects");
+            Object key = MapCollections.this.colGetEntry(this.mIndex, 0);
+            Object value = MapCollections.this.colGetEntry(this.mIndex, 1);
+            int hashCode = key == null ? 0 : key.hashCode();
+            if (value != null) {
+                i = value.hashCode();
+            }
+            return i ^ hashCode;
         }
 
-        public String toString() {
+        public final String toString() {
             return getKey() + "=" + getValue();
         }
     }
@@ -197,10 +185,10 @@ abstract class MapCollections<K, V> {
             }
             Map.Entry<?, ?> e = (Map.Entry) o;
             int index = MapCollections.this.colIndexOfKey(e.getKey());
-            if (index < 0) {
-                return false;
+            if (index >= 0) {
+                return ContainerHelpers.equal(MapCollections.this.colGetEntry(index, 1), e.getValue());
             }
-            return ContainerHelpers.equal(MapCollections.this.colGetEntry(index, 1), e.getValue());
+            return false;
         }
 
         public boolean containsAll(Collection<?> collection) {
@@ -249,16 +237,18 @@ abstract class MapCollections<K, V> {
         }
 
         public int hashCode() {
+            int hashCode;
             int result = 0;
             for (int i = MapCollections.this.colGetSize() - 1; i >= 0; i--) {
-                int i2 = 0;
                 Object key = MapCollections.this.colGetEntry(i, 0);
                 Object value = MapCollections.this.colGetEntry(i, 1);
-                int hashCode = key == null ? 0 : key.hashCode();
-                if (value != null) {
-                    i2 = value.hashCode();
+                int hashCode2 = key == null ? 0 : key.hashCode();
+                if (value == null) {
+                    hashCode = 0;
+                } else {
+                    hashCode = value.hashCode();
                 }
-                result += i2 ^ hashCode;
+                result += hashCode ^ hashCode2;
             }
             return result;
         }
@@ -332,12 +322,8 @@ abstract class MapCollections<K, V> {
         public int hashCode() {
             int result = 0;
             for (int i = MapCollections.this.colGetSize() - 1; i >= 0; i--) {
-                int i2 = 0;
                 Object obj = MapCollections.this.colGetEntry(i, 0);
-                if (obj != null) {
-                    i2 = obj.hashCode();
-                }
-                result += i2;
+                result += obj == null ? 0 : obj.hashCode();
             }
             return result;
         }
@@ -474,7 +460,7 @@ abstract class MapCollections<K, V> {
     public <T> T[] toArrayHelper(T[] array, int offset) {
         int N = colGetSize();
         if (array.length < N) {
-            array = (Object[]) Array.newInstance(array.getClass().getComponentType(), N);
+            array = (Object[]) ((Object[]) Array.newInstance(array.getClass().getComponentType(), N));
         }
         for (int i = 0; i < N; i++) {
             array[i] = colGetEntry(i, offset);
@@ -486,6 +472,7 @@ abstract class MapCollections<K, V> {
     }
 
     public static <T> boolean equalsSetHelper(Set<T> set, Object object) {
+        boolean z = true;
         if (set == object) {
             return true;
         }
@@ -495,12 +482,10 @@ abstract class MapCollections<K, V> {
         Set<?> s = (Set) object;
         try {
             if (set.size() != s.size() || !set.containsAll(s)) {
-                return false;
+                z = false;
             }
-            return true;
-        } catch (NullPointerException e) {
-            return false;
-        } catch (ClassCastException e2) {
+            return z;
+        } catch (ClassCastException | NullPointerException e) {
             return false;
         }
     }

@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:gravity="right|center_vertical|center_horizontal|center|end" android:orientation="horizontal" android:id="@+id/system_shortcut_icons" android:background="?attr/popupColorSecondary" android:clipToPadding="true" android:layout_width="match_parent" android:layout_height="@dimen/system_shortcut_header_height"/>

@@ -1,6 +1,5 @@
 package android.support.v4.media;
 
-import android.media.Rating;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -48,18 +47,14 @@ public final class RatingCompat implements Parcelable {
     }
 
     public String toString() {
-        String str;
-        StringBuilder sb = new StringBuilder();
-        sb.append("Rating:style=");
-        sb.append(this.mRatingStyle);
-        sb.append(" rating=");
+        String valueOf;
+        StringBuilder append = new StringBuilder().append("Rating:style=").append(this.mRatingStyle).append(" rating=");
         if (this.mRatingValue < 0.0f) {
-            str = "unrated";
+            valueOf = "unrated";
         } else {
-            str = String.valueOf(this.mRatingValue);
+            valueOf = String.valueOf(this.mRatingValue);
         }
-        sb.append(str);
-        return sb.toString();
+        return append.append(valueOf).toString();
     }
 
     public int describeContents() {
@@ -133,10 +128,14 @@ public final class RatingCompat implements Parcelable {
     }
 
     public boolean hasHeart() {
-        if (this.mRatingStyle == 1 && this.mRatingValue == 1.0f) {
-            return true;
+        boolean z = true;
+        if (this.mRatingStyle != 1) {
+            return false;
         }
-        return false;
+        if (this.mRatingValue != 1.0f) {
+            z = false;
+        }
+        return z;
     }
 
     public boolean isThumbUp() {
@@ -154,10 +153,9 @@ public final class RatingCompat implements Parcelable {
                 if (isRated()) {
                     return this.mRatingValue;
                 }
-                return RATING_NOT_RATED;
-            default:
-                return RATING_NOT_RATED;
+                break;
         }
+        return RATING_NOT_RATED;
     }
 
     public float getPercentRating() {
@@ -168,62 +166,95 @@ public final class RatingCompat implements Parcelable {
     }
 
     public static RatingCompat fromRating(Object ratingObj) {
-        RatingCompat rating;
-        if (ratingObj == null || Build.VERSION.SDK_INT < 19) {
-            return null;
-        }
-        int ratingStyle = ((Rating) ratingObj).getRatingStyle();
-        if (((Rating) ratingObj).isRated()) {
-            switch (ratingStyle) {
-                case 1:
-                    rating = newHeartRating(((Rating) ratingObj).hasHeart());
-                    break;
-                case 2:
-                    rating = newThumbRating(((Rating) ratingObj).isThumbUp());
-                    break;
-                case 3:
-                case 4:
-                case 5:
-                    rating = newStarRating(ratingStyle, ((Rating) ratingObj).getStarRating());
-                    break;
-                case 6:
-                    rating = newPercentageRating(((Rating) ratingObj).getPercentRating());
-                    break;
-                default:
-                    return null;
-            }
-        } else {
-            rating = newUnratedRating(ratingStyle);
-        }
-        rating.mRatingObj = ratingObj;
-        return rating;
-    }
-
-    public Object getRating() {
-        if (this.mRatingObj == null && Build.VERSION.SDK_INT >= 19) {
-            if (isRated()) {
-                switch (this.mRatingStyle) {
+        RatingCompat rating = null;
+        if (ratingObj != null && Build.VERSION.SDK_INT >= 19) {
+            int ratingStyle = RatingCompatKitkat.getRatingStyle(ratingObj);
+            if (RatingCompatKitkat.isRated(ratingObj)) {
+                switch (ratingStyle) {
                     case 1:
-                        this.mRatingObj = Rating.newHeartRating(hasHeart());
+                        rating = newHeartRating(RatingCompatKitkat.hasHeart(ratingObj));
                         break;
                     case 2:
-                        this.mRatingObj = Rating.newThumbRating(isThumbUp());
+                        rating = newThumbRating(RatingCompatKitkat.isThumbUp(ratingObj));
                         break;
                     case 3:
                     case 4:
                     case 5:
-                        this.mRatingObj = Rating.newStarRating(this.mRatingStyle, getStarRating());
+                        rating = newStarRating(ratingStyle, RatingCompatKitkat.getStarRating(ratingObj));
                         break;
                     case 6:
-                        this.mRatingObj = Rating.newPercentageRating(getPercentRating());
+                        rating = newPercentageRating(RatingCompatKitkat.getPercentRating(ratingObj));
                         break;
-                    default:
-                        return null;
                 }
             } else {
-                this.mRatingObj = Rating.newUnratedRating(this.mRatingStyle);
+                rating = newUnratedRating(ratingStyle);
             }
+            rating.mRatingObj = ratingObj;
         }
-        return this.mRatingObj;
+        return rating;
+    }
+
+    /* JADX WARNING: Code restructure failed: missing block: B:9:0x0018, code lost:
+        return null;
+     */
+    /* Code decompiled incorrectly, please refer to instructions dump. */
+    public java.lang.Object getRating() {
+        /*
+            r2 = this;
+            java.lang.Object r0 = r2.mRatingObj
+            if (r0 != 0) goto L_0x000a
+            int r0 = android.os.Build.VERSION.SDK_INT
+            r1 = 19
+            if (r0 >= r1) goto L_0x000d
+        L_0x000a:
+            java.lang.Object r0 = r2.mRatingObj
+        L_0x000c:
+            return r0
+        L_0x000d:
+            boolean r0 = r2.isRated()
+            if (r0 == 0) goto L_0x004a
+            int r0 = r2.mRatingStyle
+            switch(r0) {
+                case 1: goto L_0x001a;
+                case 2: goto L_0x0027;
+                case 3: goto L_0x0032;
+                case 4: goto L_0x0032;
+                case 5: goto L_0x0032;
+                case 6: goto L_0x003f;
+                default: goto L_0x0018;
+            }
+        L_0x0018:
+            r0 = 0
+            goto L_0x000c
+        L_0x001a:
+            boolean r0 = r2.hasHeart()
+            java.lang.Object r0 = android.support.v4.media.RatingCompatKitkat.newHeartRating(r0)
+            r2.mRatingObj = r0
+        L_0x0024:
+            java.lang.Object r0 = r2.mRatingObj
+            goto L_0x000c
+        L_0x0027:
+            boolean r0 = r2.isThumbUp()
+            java.lang.Object r0 = android.support.v4.media.RatingCompatKitkat.newThumbRating(r0)
+            r2.mRatingObj = r0
+            goto L_0x0024
+        L_0x0032:
+            int r0 = r2.mRatingStyle
+            float r1 = r2.getStarRating()
+            java.lang.Object r0 = android.support.v4.media.RatingCompatKitkat.newStarRating(r0, r1)
+            r2.mRatingObj = r0
+            goto L_0x0024
+        L_0x003f:
+            float r0 = r2.getPercentRating()
+            java.lang.Object r0 = android.support.v4.media.RatingCompatKitkat.newPercentageRating(r0)
+            r2.mRatingObj = r0
+            goto L_0x0018
+        L_0x004a:
+            int r0 = r2.mRatingStyle
+            java.lang.Object r0 = android.support.v4.media.RatingCompatKitkat.newUnratedRating(r0)
+            r2.mRatingObj = r0
+            goto L_0x0024
+        */
+        throw new UnsupportedOperationException("Method not decompiled: android.support.v4.media.RatingCompat.getRating():java.lang.Object");
     }
 }

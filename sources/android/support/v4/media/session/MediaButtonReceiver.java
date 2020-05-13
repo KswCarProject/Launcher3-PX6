@@ -7,11 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.RemoteException;
-import android.support.annotation.RestrictTo;
-import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,66 +16,22 @@ public class MediaButtonReceiver extends BroadcastReceiver {
     private static final String TAG = "MediaButtonReceiver";
 
     public void onReceive(Context context, Intent intent) {
-        if (intent == null || !"android.intent.action.MEDIA_BUTTON".equals(intent.getAction()) || !intent.hasExtra("android.intent.extra.KEY_EVENT")) {
-            Log.d(TAG, "Ignore unsupported intent: " + intent);
-            return;
+        Intent queryIntent = new Intent("android.intent.action.MEDIA_BUTTON");
+        queryIntent.setPackage(context.getPackageName());
+        PackageManager pm = context.getPackageManager();
+        List<ResolveInfo> resolveInfos = pm.queryIntentServices(queryIntent, 0);
+        if (resolveInfos.isEmpty()) {
+            queryIntent.setAction(MediaBrowserServiceCompat.SERVICE_INTERFACE);
+            resolveInfos = pm.queryIntentServices(queryIntent, 0);
         }
-        ComponentName mediaButtonServiceComponentName = getServiceComponentByAction(context, "android.intent.action.MEDIA_BUTTON");
-        if (mediaButtonServiceComponentName != null) {
-            intent.setComponent(mediaButtonServiceComponentName);
-            startForegroundService(context, intent);
-            return;
-        }
-        ComponentName mediaBrowserServiceComponentName = getServiceComponentByAction(context, MediaBrowserServiceCompat.SERVICE_INTERFACE);
-        if (mediaBrowserServiceComponentName != null) {
-            BroadcastReceiver.PendingResult pendingResult = goAsync();
-            Context applicationContext = context.getApplicationContext();
-            MediaButtonConnectionCallback connectionCallback = new MediaButtonConnectionCallback(applicationContext, intent, pendingResult);
-            MediaBrowserCompat mediaBrowser = new MediaBrowserCompat(applicationContext, mediaBrowserServiceComponentName, connectionCallback, (Bundle) null);
-            connectionCallback.setMediaBrowser(mediaBrowser);
-            mediaBrowser.connect();
-            return;
-        }
-        throw new IllegalStateException("Could not find any Service that handles android.intent.action.MEDIA_BUTTON or implements a media browser service.");
-    }
-
-    private static class MediaButtonConnectionCallback extends MediaBrowserCompat.ConnectionCallback {
-        private final Context mContext;
-        private final Intent mIntent;
-        private MediaBrowserCompat mMediaBrowser;
-        private final BroadcastReceiver.PendingResult mPendingResult;
-
-        MediaButtonConnectionCallback(Context context, Intent intent, BroadcastReceiver.PendingResult pendingResult) {
-            this.mContext = context;
-            this.mIntent = intent;
-            this.mPendingResult = pendingResult;
-        }
-
-        /* access modifiers changed from: package-private */
-        public void setMediaBrowser(MediaBrowserCompat mediaBrowser) {
-            this.mMediaBrowser = mediaBrowser;
-        }
-
-        public void onConnected() {
-            try {
-                new MediaControllerCompat(this.mContext, this.mMediaBrowser.getSessionToken()).dispatchMediaButtonEvent((KeyEvent) this.mIntent.getParcelableExtra("android.intent.extra.KEY_EVENT"));
-            } catch (RemoteException e) {
-                Log.e(MediaButtonReceiver.TAG, "Failed to create a media controller", e);
-            }
-            finish();
-        }
-
-        public void onConnectionSuspended() {
-            finish();
-        }
-
-        public void onConnectionFailed() {
-            finish();
-        }
-
-        private void finish() {
-            this.mMediaBrowser.disconnect();
-            this.mPendingResult.finish();
+        if (resolveInfos.isEmpty()) {
+            throw new IllegalStateException("Could not find any Service that handles android.intent.action.MEDIA_BUTTON or a media browser service implementation");
+        } else if (resolveInfos.size() != 1) {
+            throw new IllegalStateException("Expected 1 Service that handles " + queryIntent.getAction() + ", found " + resolveInfos.size());
+        } else {
+            ResolveInfo resolveInfo = resolveInfos.get(0);
+            intent.setComponent(new ComponentName(resolveInfo.serviceInfo.packageName, resolveInfo.serviceInfo.name));
+            context.startService(intent);
         }
     }
 
@@ -118,42 +69,17 @@ public class MediaButtonReceiver extends BroadcastReceiver {
         return PendingIntent.getBroadcast(context, keyCode, intent, 0);
     }
 
-    @RestrictTo({RestrictTo.Scope.LIBRARY})
-    public static ComponentName getMediaButtonReceiverComponent(Context context) {
+    static ComponentName getMediaButtonReceiverComponent(Context context) {
         Intent queryIntent = new Intent("android.intent.action.MEDIA_BUTTON");
         queryIntent.setPackage(context.getPackageName());
         List<ResolveInfo> resolveInfos = context.getPackageManager().queryBroadcastReceivers(queryIntent, 0);
         if (resolveInfos.size() == 1) {
             ResolveInfo resolveInfo = resolveInfos.get(0);
             return new ComponentName(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name);
-        } else if (resolveInfos.size() <= 1) {
-            return null;
-        } else {
+        }
+        if (resolveInfos.size() > 1) {
             Log.w(TAG, "More than one BroadcastReceiver that handles android.intent.action.MEDIA_BUTTON was found, returning null.");
-            return null;
         }
-    }
-
-    private static void startForegroundService(Context context, Intent intent) {
-        if (Build.VERSION.SDK_INT >= 26) {
-            context.startForegroundService(intent);
-        } else {
-            context.startService(intent);
-        }
-    }
-
-    private static ComponentName getServiceComponentByAction(Context context, String action) {
-        PackageManager pm = context.getPackageManager();
-        Intent queryIntent = new Intent(action);
-        queryIntent.setPackage(context.getPackageName());
-        List<ResolveInfo> resolveInfos = pm.queryIntentServices(queryIntent, 0);
-        if (resolveInfos.size() == 1) {
-            ResolveInfo resolveInfo = resolveInfos.get(0);
-            return new ComponentName(resolveInfo.serviceInfo.packageName, resolveInfo.serviceInfo.name);
-        } else if (resolveInfos.isEmpty()) {
-            return null;
-        } else {
-            throw new IllegalStateException("Expected 1 service that handles " + action + ", found " + resolveInfos.size());
-        }
+        return null;
     }
 }

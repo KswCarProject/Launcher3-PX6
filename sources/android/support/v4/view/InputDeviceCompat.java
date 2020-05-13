@@ -15,7 +15,6 @@ public final class InputDeviceCompat {
     public static final int SOURCE_JOYSTICK = 16777232;
     public static final int SOURCE_KEYBOARD = 257;
     public static final int SOURCE_MOUSE = 8194;
-    public static final int SOURCE_ROTARY_ENCODER = 4194304;
     public static final int SOURCE_STYLUS = 16386;
     public static final int SOURCE_TOUCHPAD = 1048584;
     public static final int SOURCE_TOUCHSCREEN = 4098;

@@ -46,7 +46,7 @@ public abstract class VolumeProviderCompat {
     public final void setCurrentVolume(int currentVolume) {
         this.mCurrentVolume = currentVolume;
         Object volumeProviderObj = getVolumeProvider();
-        if (volumeProviderObj != null && Build.VERSION.SDK_INT >= 21) {
+        if (volumeProviderObj != null) {
             VolumeProviderCompatApi21.setCurrentVolume(volumeProviderObj, currentVolume);
         }
         if (this.mCallback != null) {
@@ -65,17 +65,18 @@ public abstract class VolumeProviderCompat {
     }
 
     public Object getVolumeProvider() {
-        if (this.mVolumeProviderObj == null && Build.VERSION.SDK_INT >= 21) {
-            this.mVolumeProviderObj = VolumeProviderCompatApi21.createVolumeProvider(this.mControlType, this.mMaxVolume, this.mCurrentVolume, new VolumeProviderCompatApi21.Delegate() {
-                public void onSetVolumeTo(int volume) {
-                    VolumeProviderCompat.this.onSetVolumeTo(volume);
-                }
-
-                public void onAdjustVolume(int direction) {
-                    VolumeProviderCompat.this.onAdjustVolume(direction);
-                }
-            });
+        if (this.mVolumeProviderObj != null || Build.VERSION.SDK_INT < 21) {
+            return this.mVolumeProviderObj;
         }
+        this.mVolumeProviderObj = VolumeProviderCompatApi21.createVolumeProvider(this.mControlType, this.mMaxVolume, this.mCurrentVolume, new VolumeProviderCompatApi21.Delegate() {
+            public void onSetVolumeTo(int volume) {
+                VolumeProviderCompat.this.onSetVolumeTo(volume);
+            }
+
+            public void onAdjustVolume(int direction) {
+                VolumeProviderCompat.this.onAdjustVolume(direction);
+            }
+        });
         return this.mVolumeProviderObj;
     }
 }

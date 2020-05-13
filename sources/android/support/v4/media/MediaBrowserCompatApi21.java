@@ -26,6 +26,9 @@ class MediaBrowserCompatApi21 {
         void onError(@NonNull String str);
     }
 
+    MediaBrowserCompatApi21() {
+    }
+
     public static Object createConnectionCallback(ConnectionCallback callback) {
         return new ConnectionCallbackProxy(callback);
     }
@@ -111,6 +114,9 @@ class MediaBrowserCompatApi21 {
     }
 
     static class MediaItem {
+        MediaItem() {
+        }
+
         public static int getFlags(Object itemObj) {
             return ((MediaBrowser.MediaItem) itemObj).getFlags();
         }
@@ -118,11 +124,5 @@ class MediaBrowserCompatApi21 {
         public static Object getDescription(Object itemObj) {
             return ((MediaBrowser.MediaItem) itemObj).getDescription();
         }
-
-        private MediaItem() {
-        }
-    }
-
-    private MediaBrowserCompatApi21() {
     }
 }

@@ -1,28 +1,73 @@
 package android.support.v4.graphics;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.support.annotation.NonNull;
 
 public final class BitmapCompat {
-    public static boolean hasMipMap(@NonNull Bitmap bitmap) {
-        if (Build.VERSION.SDK_INT >= 18) {
-            return bitmap.hasMipMap();
+    static final BitmapCompatBaseImpl IMPL;
+
+    static class BitmapCompatBaseImpl {
+        BitmapCompatBaseImpl() {
         }
-        return false;
+
+        public boolean hasMipMap(Bitmap bitmap) {
+            return false;
+        }
+
+        public void setHasMipMap(Bitmap bitmap, boolean hasMipMap) {
+        }
+
+        public int getAllocationByteCount(Bitmap bitmap) {
+            return bitmap.getByteCount();
+        }
     }
 
-    public static void setHasMipMap(@NonNull Bitmap bitmap, boolean hasMipMap) {
-        if (Build.VERSION.SDK_INT >= 18) {
+    @TargetApi(18)
+    static class BitmapCompatApi18Impl extends BitmapCompatBaseImpl {
+        BitmapCompatApi18Impl() {
+        }
+
+        public boolean hasMipMap(Bitmap bitmap) {
+            return bitmap.hasMipMap();
+        }
+
+        public void setHasMipMap(Bitmap bitmap, boolean hasMipMap) {
             bitmap.setHasMipMap(hasMipMap);
         }
     }
 
-    public static int getAllocationByteCount(@NonNull Bitmap bitmap) {
-        if (Build.VERSION.SDK_INT >= 19) {
+    @TargetApi(19)
+    static class BitmapCompatApi19Impl extends BitmapCompatApi18Impl {
+        BitmapCompatApi19Impl() {
+        }
+
+        public int getAllocationByteCount(Bitmap bitmap) {
             return bitmap.getAllocationByteCount();
         }
-        return bitmap.getByteCount();
+    }
+
+    static {
+        int version = Build.VERSION.SDK_INT;
+        if (version >= 19) {
+            IMPL = new BitmapCompatApi19Impl();
+        } else if (version >= 18) {
+            IMPL = new BitmapCompatApi18Impl();
+        } else {
+            IMPL = new BitmapCompatBaseImpl();
+        }
+    }
+
+    public static boolean hasMipMap(Bitmap bitmap) {
+        return IMPL.hasMipMap(bitmap);
+    }
+
+    public static void setHasMipMap(Bitmap bitmap, boolean hasMipMap) {
+        IMPL.setHasMipMap(bitmap, hasMipMap);
+    }
+
+    public static int getAllocationByteCount(Bitmap bitmap) {
+        return IMPL.getAllocationByteCount(bitmap);
     }
 
     private BitmapCompat() {

@@ -3,8 +3,6 @@ package android.support.v4.content;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.support.v4.os.CancellationSignal;
 import android.support.v4.os.OperationCanceledException;
@@ -25,11 +23,10 @@ public class CursorLoader extends AsyncTaskLoader<Cursor> {
     public Cursor loadInBackground() {
         Cursor cursor;
         synchronized (this) {
-            if (!isLoadInBackgroundCanceled()) {
-                this.mCancellationSignal = new CancellationSignal();
-            } else {
+            if (isLoadInBackgroundCanceled()) {
                 throw new OperationCanceledException();
             }
+            this.mCancellationSignal = new CancellationSignal();
         }
         try {
             cursor = ContentResolverCompat.query(getContext().getContentResolver(), this.mUri, this.mProjection, this.mSelection, this.mSelectionArgs, this.mSortOrder, this.mCancellationSignal);
@@ -76,11 +73,11 @@ public class CursorLoader extends AsyncTaskLoader<Cursor> {
         }
     }
 
-    public CursorLoader(@NonNull Context context) {
+    public CursorLoader(Context context) {
         super(context);
     }
 
-    public CursorLoader(@NonNull Context context, @NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+    public CursorLoader(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         super(context);
         this.mUri = uri;
         this.mProjection = projection;
@@ -120,52 +117,46 @@ public class CursorLoader extends AsyncTaskLoader<Cursor> {
         this.mCursor = null;
     }
 
-    @NonNull
     public Uri getUri() {
         return this.mUri;
     }
 
-    public void setUri(@NonNull Uri uri) {
+    public void setUri(Uri uri) {
         this.mUri = uri;
     }
 
-    @Nullable
     public String[] getProjection() {
         return this.mProjection;
     }
 
-    public void setProjection(@Nullable String[] projection) {
+    public void setProjection(String[] projection) {
         this.mProjection = projection;
     }
 
-    @Nullable
     public String getSelection() {
         return this.mSelection;
     }
 
-    public void setSelection(@Nullable String selection) {
+    public void setSelection(String selection) {
         this.mSelection = selection;
     }
 
-    @Nullable
     public String[] getSelectionArgs() {
         return this.mSelectionArgs;
     }
 
-    public void setSelectionArgs(@Nullable String[] selectionArgs) {
+    public void setSelectionArgs(String[] selectionArgs) {
         this.mSelectionArgs = selectionArgs;
     }
 
-    @Nullable
     public String getSortOrder() {
         return this.mSortOrder;
     }
 
-    public void setSortOrder(@Nullable String sortOrder) {
+    public void setSortOrder(String sortOrder) {
         this.mSortOrder = sortOrder;
     }
 
-    @Deprecated
     public void dump(String prefix, FileDescriptor fd, PrintWriter writer, String[] args) {
         super.dump(prefix, fd, writer, args);
         writer.print(prefix);

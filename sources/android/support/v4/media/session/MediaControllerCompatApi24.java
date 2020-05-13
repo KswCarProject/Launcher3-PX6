@@ -4,11 +4,14 @@ import android.media.session.MediaController;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.media.session.MediaControllerCompatApi23;
 
 @RequiresApi(24)
 class MediaControllerCompatApi24 {
+    MediaControllerCompatApi24() {
+    }
 
-    public static class TransportControls {
+    public static class TransportControls extends MediaControllerCompatApi23.TransportControls {
         public static void prepare(Object controlsObj) {
             ((MediaController.TransportControls) controlsObj).prepare();
         }
@@ -24,11 +27,5 @@ class MediaControllerCompatApi24 {
         public static void prepareFromUri(Object controlsObj, Uri uri, Bundle extras) {
             ((MediaController.TransportControls) controlsObj).prepareFromUri(uri, extras);
         }
-
-        private TransportControls() {
-        }
-    }
-
-    private MediaControllerCompatApi24() {
     }
 }

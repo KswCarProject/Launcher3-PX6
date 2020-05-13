@@ -17,7 +17,6 @@ final class FragmentManagerState implements Parcelable {
     FragmentState[] mActive;
     int[] mAdded;
     BackStackState[] mBackStack;
-    int mNextFragmentIndex;
     int mPrimaryNavActiveIndex = -1;
 
     public FragmentManagerState() {
@@ -28,7 +27,6 @@ final class FragmentManagerState implements Parcelable {
         this.mAdded = in.createIntArray();
         this.mBackStack = (BackStackState[]) in.createTypedArray(BackStackState.CREATOR);
         this.mPrimaryNavActiveIndex = in.readInt();
-        this.mNextFragmentIndex = in.readInt();
     }
 
     public int describeContents() {
@@ -40,6 +38,5 @@ final class FragmentManagerState implements Parcelable {
         dest.writeIntArray(this.mAdded);
         dest.writeTypedArray(this.mBackStack, flags);
         dest.writeInt(this.mPrimaryNavActiveIndex);
-        dest.writeInt(this.mNextFragmentIndex);
     }
 }

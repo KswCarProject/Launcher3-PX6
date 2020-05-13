@@ -12,6 +12,9 @@ class VolumeProviderCompatApi21 {
         void onSetVolumeTo(int i);
     }
 
+    VolumeProviderCompatApi21() {
+    }
+
     public static Object createVolumeProvider(int volumeControl, int maxVolume, int currentVolume, final Delegate delegate) {
         return new VolumeProvider(volumeControl, maxVolume, currentVolume) {
             public void onSetVolumeTo(int volume) {
@@ -26,8 +29,5 @@ class VolumeProviderCompatApi21 {
 
     public static void setCurrentVolume(Object volumeProviderObj, int currentVolume) {
         ((VolumeProvider) volumeProviderObj).setCurrentVolume(currentVolume);
-    }
-
-    private VolumeProviderCompatApi21() {
     }
 }

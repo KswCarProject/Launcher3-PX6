@@ -4,33 +4,62 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.os.OperationCanceledException;
 import android.support.v4.os.CancellationSignal;
+import android.support.v4.os.OperationCanceledException;
 
 public final class ContentResolverCompat {
-    private ContentResolverCompat() {
+    private static final ContentResolverCompatImpl IMPL;
+
+    interface ContentResolverCompatImpl {
+        Cursor query(ContentResolver contentResolver, Uri uri, String[] strArr, String str, String[] strArr2, String str2, CancellationSignal cancellationSignal);
     }
 
-    public static Cursor query(ContentResolver resolver, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal) {
-        Object obj;
-        if (Build.VERSION.SDK_INT >= 16) {
+    static class ContentResolverCompatImplBase implements ContentResolverCompatImpl {
+        ContentResolverCompatImplBase() {
+        }
+
+        public Cursor query(ContentResolver resolver, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal) {
+            if (cancellationSignal != null) {
+                cancellationSignal.throwIfCanceled();
+            }
+            return resolver.query(uri, projection, selection, selectionArgs, sortOrder);
+        }
+    }
+
+    static class ContentResolverCompatImplJB extends ContentResolverCompatImplBase {
+        ContentResolverCompatImplJB() {
+        }
+
+        public Cursor query(ContentResolver resolver, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal) {
+            Object obj;
             if (cancellationSignal != null) {
                 try {
                     obj = cancellationSignal.getCancellationSignalObject();
                 } catch (Exception e) {
-                    if (e instanceof OperationCanceledException) {
-                        throw new android.support.v4.os.OperationCanceledException();
+                    if (ContentResolverCompatJellybean.isFrameworkOperationCanceledException(e)) {
+                        throw new OperationCanceledException();
                     }
                     throw e;
                 }
             } else {
                 obj = null;
             }
-            return resolver.query(uri, projection, selection, selectionArgs, sortOrder, (android.os.CancellationSignal) obj);
+            return ContentResolverCompatJellybean.query(resolver, uri, projection, selection, selectionArgs, sortOrder, obj);
         }
-        if (cancellationSignal != null) {
-            cancellationSignal.throwIfCanceled();
+    }
+
+    static {
+        if (Build.VERSION.SDK_INT >= 16) {
+            IMPL = new ContentResolverCompatImplJB();
+        } else {
+            IMPL = new ContentResolverCompatImplBase();
         }
-        return resolver.query(uri, projection, selection, selectionArgs, sortOrder);
+    }
+
+    private ContentResolverCompat() {
+    }
+
+    public static Cursor query(ContentResolver resolver, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder, CancellationSignal cancellationSignal) {
+        return IMPL.query(resolver, uri, projection, selection, selectionArgs, sortOrder, cancellationSignal);
     }
 }

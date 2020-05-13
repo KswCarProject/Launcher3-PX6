@@ -5,10 +5,10 @@ import android.support.annotation.RequiresApi;
 
 @RequiresApi(22)
 class MediaSessionCompatApi22 {
-    public static void setRatingType(Object sessionObj, int type) {
-        ((MediaSession) sessionObj).setRatingType(type);
+    MediaSessionCompatApi22() {
     }
 
-    private MediaSessionCompatApi22() {
+    public static void setRatingType(Object sessionObj, int type) {
+        ((MediaSession) sessionObj).setRatingType(type);
     }
 }

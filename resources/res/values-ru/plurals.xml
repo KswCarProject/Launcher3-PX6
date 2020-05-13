@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <plurals name="badged_app_label">
-        <item quantity="one">В приложении &quot;%1$s&quot; %2$d уведомление</item>
-        <item quantity="few">В приложении &quot;%1$s&quot; %2$d уведомления</item>
-        <item quantity="many">В приложении &quot;%1$s&quot; %2$d уведомлений</item>
-        <item quantity="other">В приложении &quot;%1$s&quot; %2$d уведомления</item>
-    </plurals>
-</resources>
